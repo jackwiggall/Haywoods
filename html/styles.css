@@ -23,3 +23,7 @@
 .c-width {
   width: 16rem;
 }
+
+a {
+  text-decoration: none; 
+}
