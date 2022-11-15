@@ -14,10 +14,10 @@
 
     <?php
 
-     $dbhost = "localhost";
-     $dbuser = "admin";
-     $dbpass = "securepass";
-     $dbname = "store";
+     $dbhost = "-h silva.computing.dundee.ac.uk";
+     $dbuser = "22ac3u03";
+     $dbpass = "ac31b2";
+     $dbname = "22ac3d03";
 
      // Create connection
      $conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
