@@ -113,6 +113,18 @@ CREATE TABLE Review (
 );
 
 
+CREATE TABLE StockLevel (
+	`stockLevel_id` INT AUTO_INCREMENT,
+	`sku_code` INT UNIQUE,
+	`store_id` INT,
+
+	`count` INT,
+	
+	PRIMARY KEY (`stockLevel_id`),
+	FOREIGN KEY (`sku_code`) REFERENCES Product(`sku_code`),
+	FOREIGN KEY (`store_id`) REFERENCES Store(`store_id`)	
+);
+
 CREATE TABLE CashPayment (
 	`cashPayment_id` INT AUTO_INCREMENT,
 	`sale_id` INT,
@@ -127,7 +139,6 @@ CREATE TABLE CardPayment (
 	`cardPayment_id` INT AUTO_INCREMENT,
 	`sale_id` INT,
 	`last4Digits` INT,
-	
 	
 	PRIMARY KEY (`cardPayment_id`),
 	FOREIGN KEY (`sale_id`) REFERENCES Sale(`sale_id`) 
