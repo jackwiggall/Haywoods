@@ -354,7 +354,7 @@ VALUES
 );
 
 -- Staff
-INSERT INTO Staff (store_id, accessLevel_id, firstname, lastname, pay, address, contactNumber, contractedHours)
+INSERT INTO Staff (store_id, accessLevel_id, firstname, lastname, pay, address, contactNumber, contractedHours, login_username, login_password)
 VALUES
 (
     1,
@@ -364,7 +364,9 @@ VALUES
     6.83,
     '69 Matthews Avenue Perth',
     '07541335195',
-    16
+    16,
+    'micms',
+    '11111'
 ),
 (
     1,
@@ -374,7 +376,9 @@ VALUES
     8.45,
     '12 Matthews Road Montrose',
     '079876432143',
-    20
+    20,
+    'ellst',
+    'l'
 ),
 (
     1,
@@ -384,7 +388,9 @@ VALUES
     11.24,
     '18 Barnes Street Aberdeen',
     '07554125685',
-    30
+    30,
+    'bendd',
+    'anime'
 ),
 (
     1,
@@ -394,7 +400,9 @@ VALUES
     10.25,
     '2 Cecil Street Stirling',
     '07754121873',
-    26
+    26,
+    'chroy',
+    'password123'
 ),
 (
     1,
@@ -404,7 +412,9 @@ VALUES
     11.24,
     '17 Andrews Crescent Perth',
     '07748156684',
-    38
+    38,
+    'nicjn',
+    'makeup'
 ),
 (
     1,
@@ -414,7 +424,9 @@ VALUES
     10.25,
     '7 Craigstown Road Dunfermline',
     '07845125463',
-    16
+    16,
+    'jacwl',
+    'lol'
 ),
 (
     1,
@@ -424,7 +436,9 @@ VALUES
     6.83,
     '54 Perth Road Dundee',
     '07451365259',
-    12
+    12,
+    'jondr',
+    'horse'
 ),
 (
     1,
@@ -434,7 +448,9 @@ VALUES
     6.83,
     '4B Allan Park Falkirk',
     '07956263415',
-    32
+    32,
+    'loure',
+    'yanny'
 ),
 (
     1,
@@ -444,7 +460,9 @@ VALUES
     11.24,
     '35 Manse Place Cowdenbeath',
     '07852354179',
-    40
+    40,
+    'grels',
+    '12345'
 ),
 (
     1,
@@ -454,7 +472,9 @@ VALUES
     6.83,
     '52 Fernbank Grangemouth',
     '07343116626',
-    12
+    12,
+    'robcn',
+    'password'
 );
 
 

@@ -1,15 +1,11 @@
 <?php
-// database login details
-$dbhost = "127.0.0.1"; // change to silvia.computing.dundee.ac.uk
-$dbuser = "22ac3u03";
-$dbpass = "ac31b2";
-$dbname = "22ac3d03";
+require "database_connection.php";
 
 // Create connection
-$conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+$conn = getDatabaseConn();
 
 // connection failed
-if ($conn->connect_error) {
+if ($conn == null) {
   // dont render html page, just display error message
   die("database error");
   // no code after here is executed
@@ -42,6 +38,8 @@ $average_rating = $res->fetch_row()[0];
 $res = $conn -> query("SELECT rating,title,content,review_date FROM Review WHERE Review.sku_code = $product_sku ORDER BY review_date ASC");
 $reviews = $res->fetch_all(); // get all reviews
 
+// close database connection
+$conn->close();
 ?>
 
 

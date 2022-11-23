@@ -25,6 +25,8 @@ CREATE TABLE Staff (
 	`address` VARCHAR(255) NOT NULL,
 	`contactNumber` VARCHAR(14) NOT NULL,
 	`contractedHours` DOUBLE NOT NULL,
+	`login_username` VARCHAR(80) NOT NULL UNIQUE,
+	`login_password` VARCHAR(80) NOT NULL,
 
 	PRIMARY KEY (`staff_id`),
 	FOREIGN KEY (`store_id`) REFERENCES Store(`store_id`),
