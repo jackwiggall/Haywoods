@@ -17,7 +17,7 @@ if ($conn == null) {
 // and escape it to prevent naughty sql injection attacks
 $product_sku = $conn->real_escape_string($_GET['sku']);
 try {
-  $res = $conn -> query("SELECT name,description,price FROM Product WHERE sku_code = $product_sku");
+  $res = $conn -> query("SELECT name,description,price FROM Product WHERE sku_code = '$product_sku'");
 } catch (mysqli_sql_exception $e) {
   // query failed, item not found
   die("product not found return to homepage TODO");

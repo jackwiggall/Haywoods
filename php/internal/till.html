@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <title>Till</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="text-center bg-primary text-light border border-dark p-2 mt-2">Till</h1>
+
+      <div class="container border border-dark bg-info p-2 mb-2">
+        <div class="row p-2">
+          <div class="col"> <!--Table-->
+          <table class="table table-bordered border-dark bg-light it-pr">
+            <tr>
+              <th style="width:75%">Item</th>
+              <th>Price</th>
+            </tr>
+            <tr>
+              <td>Table</td>
+              <td>£40</td>
+            </tr>
+            <tr>
+              <td>Seat</td>
+              <td>£50</td>
+            </tr>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </table>
+          <input type="text" class="bg-light p-2" name="sku" placeholder="SKU Code" style="bottom:0">
+          <input type="submit" value="Scan" class="btn btn-primary p-2 border border-dark w110" style="bottom:0">
+          </div>
+        <div class="col"> <!--Buttons-->
+          <h3 class="p-3 border border-dark bg-light w300">Total £90</h3>
+          <input type="submit" value="Reset Trans" class="btn btn-primary mt-1 border border-dark w300" action="">
+          <input type="submit" value="Pay Card" class="btn btn-primary mt-1 border border-dark w300" action="">
+          <input type="submit" value="Pay Cash" class="btn btn-primary mt-1 border border-dark w300" action="">
+          <button class="btn btn-success mt-1 border border-dark w300 h100" action="">CONFIRM<br/>Received<br/>Money</button><!--change shade/tone-->
+
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

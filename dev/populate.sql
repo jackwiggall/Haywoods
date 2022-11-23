@@ -1,8 +1,6 @@
 USE 22ac3d03;
 
 
-
-
 -- Product
 INSERT INTO Product (sku_code, name, description, price, image_count)
 VALUES
@@ -312,24 +310,25 @@ VALUES
     '2022/12/09 20:37:18'
 );
 
+
 -- AccessLevel
 INSERT INTO AccessLevel(accessLevel_id, name)
 VALUES
 (
     1,
-    "Management"
+    'Management'
 ),
 (
     2,
-    "Supervisor"
+    'Supervisor'
 ),
 (
     3,
-    "Employee"
+    'Employee'
 ),
 (
     4,
-    "Trainee"
+    'Trainee'
 );
 
 
@@ -352,6 +351,7 @@ VALUES
     4,
     '3 Kinning Park Industrial Estate Glasgow'
 );
+
 
 -- Staff
 INSERT INTO Staff (store_id, accessLevel_id, firstname, lastname, pay, address, contactNumber, contractedHours, login_username, login_password)
@@ -476,5 +476,3 @@ VALUES
     'robcn',
     'password'
 );
-
-

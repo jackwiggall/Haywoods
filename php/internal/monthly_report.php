@@ -1,6 +1,21 @@
+<?php
+session_start();
+
+require 'check_login.php';
+
+$session_username = $_SESSION['username'];
+$session_password = $_SESSION['password'];
+if (!isset($session_password) || !isset($session_username)) {
+  header('location: /internal/login.php?redirect=/internal/monthly_report.php');
+  die();
+}
+getLoginAccessLevel($session_username, $session_password)
+
+?>
+
 <!DOCTYPE html>
 <html>
-
+  <?php require './login_banner.php'; ?>
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
