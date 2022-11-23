@@ -12,6 +12,21 @@
   padding: 10px;
 }
 
+.w110 {
+  width: 110px;
+  display: inline-block;
+  margin: 0;
+  padding: 10px;
+}
+
+.h100 {
+  height: 100px;
+}
+
+.it-pr td {
+  height: 50px;
+}
+
 .f-r {
   float: right;
 }
@@ -25,5 +40,5 @@
 }
 
 a {
-  text-decoration: none; 
+  text-decoration: none;
 }
