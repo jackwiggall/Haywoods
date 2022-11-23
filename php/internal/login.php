@@ -18,6 +18,7 @@ function performRedirection() {
 
 
 // logout request
+echo $_GET['logout'];
 if ($_GET['logout'] == "true") {
   session_destroy(); // clear login cookies
   performRedirection();
@@ -55,7 +56,7 @@ if (isset($username) && isset($password)) {
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <title>Login</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="/styles.css">
   </head>
 
   <body>
