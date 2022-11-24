@@ -2,17 +2,20 @@
 require "database.php";
 
 
+$product_sku = $_GET['sku'];
+if (!isset($product_sku)) {
+  die("invalid sku, TODO pretty");
+}
+
 /*** Get product name,description and price ***/
 // get product sku code from url http://localhost/product_details.php?sku=XXXXXX
 // and escape it to prevent naughty sql injection attacks
-$product_sku = $conn->real_escape_string($_GET['sku']);
-try {
-  $res = $conn -> query("SELECT name,description,price FROM Product WHERE sku_code = '$product_sku'");
-} catch (mysqli_sql_exception $e) {
-  // query failed, item not found
-  die("product not found return to homepage TODO");
-}
-$item_row = $res->fetch_row(); // read sql response from query
+
+$stmt = $conn->prepare("SELECT name,description,price FROM Product WHERE sku_code = :sku");
+$stmt->bindParam("sku", $product_sku);
+$stmt->execute();
+
+$item_row = $stmt->fetch(); // read sql response from query
 // the $item_row variable is an array of name,description,price
 // extract values from array and put them in seperate varaibles to be inlined
 // with the html code below
@@ -22,16 +25,18 @@ $product_price = $item_row[2];
 
 /*** Get product reviews ***/
 // get average rating
-$res = $conn -> query("SELECT AVG(rating) AS AverageRating FROM Review WHERE Review.sku_code = $product_sku");
-$average_rating = $res->fetch_row()[0];
+$stmt = $conn->prepare("SELECT AVG(rating) AS AverageRating FROM Review WHERE Review.sku_code = :sku");
+$stmt->bindParam("sku", $product_sku);
+$stmt->execute();
 
-$res = $conn -> query("SELECT rating,title,content,review_date FROM Review WHERE Review.sku_code = $product_sku ORDER BY review_date ASC");
-$reviews = $res->fetch_all(); // get all reviews
+$average_rating = $stmt->fetch()[0];
 
-// close database connection
-$conn->close();
+$stmt = $conn->prepare("SELECT rating,title,content,review_date FROM Review WHERE Review.sku_code = :sku ORDER BY review_date ASC");
+$stmt->bindParam("sku", $product_sku);
+$stmt->execute();
+$reviews = $stmt->fetchAll(); // get all reviews
+
 ?>
-
 
 <!DOCTYPE html>
 <html>
