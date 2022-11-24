@@ -6,17 +6,43 @@
 // ensure session is started
 if (session_status() == PHP_SESSION_NONE) session_start();
 
-if (isset($_POST["sku"])) {
-  $scanned_sku = $_POST["sku"];
+require './access_level.php';
+requireAccessLevel(4);
 
+
+require '../database.php';
+
+$invalidScan = false;
+if (isset($_POST["scanned"])) {
+  $scanned_sku = $_POST["scanned"];
+
+  // initialize cookie
   if (!isset($_SESSION["scanned_items"])) {
     $_SESSION["scanned_items"] = "[]";
   }
-  $scanned_items = json_decode($_SESSION["scanned_items"]);
+  $scannedItems = json_decode($_SESSION["scanned_items"]);
 
-  // add to array
-  $scanned_items[] = $scanned_sku;
+  // get product info from db
+  $stmt = $conn->prepare("SELECT sku_code,name,price FROM Product WHERE sku_code = :sku");
+  $stmt->bindParam("sku", $scanned_sku);
+  $stmt->execute();
 
+  $row = $stmt->fetch();
+  
+  if ($row == null) {
+    $invalidScan = true;
+  } else {
+    // add to array
+    $scannedItems[] = json_encode($row);
+  
+    // update cookie
+    $_SESSION["scanned_items"] = json_encode($scannedItems);
+  }
+
+}
+
+if (isset($_POST["reset"])) {
+  $_SESSION["scanned_items"] = "[]";
 }
 
 
@@ -40,35 +66,45 @@ if (isset($_POST["sku"])) {
       <div class="container border border-dark bg-info p-2 mb-2">
         <div class="row p-2">
           <div class="col"> <!--Table-->
-            <h3 class="p-3 border border-dark bg-light">Scanning Area</h3>
+            <h3 class="p-3 border border-dark bg-light">Scanned Items</h3>
             <table class="table table-bordered border-dark bg-light it-pr">
               <tr>
                 <th>SKU Code</th>
                 <th>Description</th>
                 <th>Price</th>
               </tr>
-              <tr>
-                <td>Table</td>
-                <td>...</td>
-                <td>£40</td>
-              </tr>
-              <tr>
-                <td>Seat</td>
-                <td>...</td>
-                <td>£50</td>
-              </tr>
+              <?php
+                $totalPrice = 0;
+                if (isset($scannedItems)) {
+                  foreach ($scannedItems as $scannedItem) {
+                    $scannedItem = json_decode($scannedItem);
+                    echo "<tr>";
+                    echo "<th>".$scannedItem->{"sku_code"}."</th>";
+                    echo "<th>".$scannedItem->{"name"}."</th>";
+                    echo "<th>".$scannedItem->{"price"}."</th>";
+                    echo "</tr>";
+                    $totalPrice += $scannedItem->{"price"};
+                  }
+                }
+              ?>
             </table>
             <form action="" method="POST">
-              <input type="number" class="bg-light p-2" name="sku" placeholder="SKU Code">
+              <input type="number" class="bg-light p-2" name="scanned" placeholder="SKU Code">
               <input type="submit" value="Scan" class="btn btn-primary p-2 border border-dark w110">
             </form>
           </div>
         <div class="col"> <!--Buttons-->
-          <h3 class="p-3 border border-dark bg-light w300">Total £90</h3><br>
-          <input type="submit" value="Reset Trans" class="btn btn-primary mt-1 border border-dark w300 center" action=""><br>
-          <input type="submit" value="Pay Card" class="btn btn-primary mt-1 border border-dark w300 center" action=""><br>
-          <input type="submit" value="Pay Cash" class="btn btn-primary mt-1 border border-dark w300 center" action=""><br>
-          <button class="btn btn-success mt-1 border border-dark w300 h100 center" action="">CONFIRM<br/>Received<br/>Money</button><!--change shade/tone-->
+          <h3 class="p-3 border border-dark bg-light w300">Total £<?php echo $totalPrice; ?></h3><br>
+          <form action="" method="POST">
+            <input type="submit" value="Reset transaction" name="reset" class="btn btn-warning mt-1 border border-dark w300 center" action="">
+          </form>
+          <form action="" method="POST">
+            <input type="submit" value="Pay Card" name="pay-card" class="btn btn-primary mt-1 border border-dark w300 center" action="">
+          </form>
+          <form action="" method="post">
+            <input type="submit" value="Pay Cash" name="pay-cash" class="btn btn-primary mt-1 border border-dark w300 center" action="">
+          </form>
+          <!-- <button class="btn btn-success mt-1 border border-dark w300 h100 center" action="">CONFIRM<br/>Received<br/>Money</button> -->
         </div>
       </div>
     </div>
