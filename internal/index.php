@@ -1,13 +1,12 @@
 <?php
 session_start();
 
-
-require 'check_login.php';
+require 'access_level.php';
 
 $accessLevel = -1;
 if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
   $username = $_SESSION['username'];
-  $accessLevel = getLoginAccessLevel($_SESSION['username'], $_SESSION['password']);
+  $accessLevel = getAccessLevel($_SESSION['username'], $_SESSION['password']);
 }
 
 ?>
@@ -36,9 +35,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
       ?>
     </h3>
 
-    <div class="container border border-dark bg-info p-2 mb-2">
-    <div class="row">
-      <?php
+    <?php
+      if ($accessLevel != -1) {
+        echo '<div class="container border border-dark bg-info p-2 mb-2">';
+        echo '<div class="row">';
         if ($accessLevel <= 4) { // trainee
           echo '<div class="col bg-light border border-dark m-2 p-2 text-center"><a href="./till.php">Till</a></div>';
         }
@@ -51,9 +51,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
         if ($accessLevel == 1) { // management
           echo '<div class="col bg-light border border-dark m-2 p-2 text-center"><a href="./monthly_report.php">Monthly Report</a></div>';
         }
-      ?>
-    </div>
-  </div>
+        echo '</div>';
+        echo '</div>';
+      }
+    ?>
   </div>
 </body>
 </html>

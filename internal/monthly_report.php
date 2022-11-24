@@ -1,15 +1,7 @@
 <?php
-session_start();
 
-require 'check_login.php';
-
-$session_username = $_SESSION['username'];
-$session_password = $_SESSION['password'];
-if (!isset($session_password) || !isset($session_username)) {
-  header('location: /internal/login.php?redirect=/internal/monthly_report.php');
-  die();
-}
-getLoginAccessLevel($session_username, $session_password)
+require './access_level.php';
+requireAccessLevel(1);
 
 ?>
 

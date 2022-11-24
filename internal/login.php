@@ -2,7 +2,7 @@
 session_start();
 
 
-require './check_login.php';
+require './access_level.php';
 
 
 function performRedirection() {
@@ -28,7 +28,7 @@ $invalidLogin = false;
 if (isset($_POST['username']) && isset($_POST['password'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
-  $access_level = getLoginAccessLevel($username, $password);
+  $access_level = getAccessLevel($username, $password);
   // user not found on system
   // echo "<br>access level $access_level for $username: $password<br>";
   if ($access_level == -1) {
