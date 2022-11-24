@@ -3,7 +3,8 @@
 // add to cookie
 // parse cookie in table
 
-session_start();
+// ensure session is started
+if (session_status() == PHP_SESSION_NONE) session_start();
 
 if (isset($_POST["sku"])) {
   $scanned_sku = $_POST["sku"];

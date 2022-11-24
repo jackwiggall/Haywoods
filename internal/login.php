@@ -1,5 +1,6 @@
 <?php
-session_start();
+// ensure session is started
+if (session_status() == PHP_SESSION_NONE) session_start();
 
 
 require './access_level.php';

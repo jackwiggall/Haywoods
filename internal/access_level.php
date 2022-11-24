@@ -1,5 +1,6 @@
 <?php
-
+// ensure session is started
+if (session_status() == PHP_SESSION_NONE) session_start();
 
 require '../database.php';
 
@@ -33,7 +34,6 @@ function getAccessLevel($username, $password) {
 
 
 function requireAccessLevel($minLevel) {
-  session_start();
   $accessLevel = getAccessLevel($_SESSION['username'], $_SESSION['password']);
   // user not loggged in
   if ($accessLevel == -1) {
