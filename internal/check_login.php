@@ -9,19 +9,14 @@ function getLoginAccessLevel($username, $password) {
     return -1;
   }
 
-  $conn = getDatabaseConn();
+  require '../database.php';
   
   // get password associated with username
-  $username_escaped = $conn->real_escape_string($username);
-  try {
-    $res = $conn->query("SELECT login_password, accessLevel_id FROM Staff WHERE login_username = '$username_escaped'");
-  } catch (mysqli_sql_exception $e) {
-    // user not found
-    return -1;
-  }
+  $stmt = $conn->prepare("SELECT login_password, accessLevel_id FROM Staff WHERE login_username = :username");
+  $stmt->bindParam("username", $username);
+  $stmt->execute();
 
-  $row = $res->fetch_row();
-  $conn->close(); // close database connection
+  $row = $stmt->fetch();
 
   $actualPassword = $row[0]; // password for user
   $accessLevel = $row[1]; // access level associated with user

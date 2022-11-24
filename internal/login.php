@@ -11,27 +11,23 @@ function performRedirection() {
     header("location: $redirection");
     die();
   } else {
-    header('location: ./index.php');
+    header('location: /Haywoods/internal/index.php');
     die();
   }
 }
 
 
 // logout request
-echo $_GET['logout'];
-if ($_GET['logout'] == "true") {
+if (isset($_GET['logout']) && $_GET['logout'] == "true") {
   session_destroy(); // clear login cookies
   performRedirection();
 }
 
-
-$username = $_POST['username'];
-$password = $_POST['password'];
-
-
 $invalidLogin = false;
 
-if (isset($username) && isset($password)) {
+if (isset($_POST['username']) && isset($_POST['password'])) {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
   $access_level = getLoginAccessLevel($username, $password);
   // user not found on system
   // echo "<br>access level $access_level for $username: $password<br>";
@@ -51,7 +47,6 @@ if (isset($username) && isset($password)) {
 
 <!DOCTYPE html>
 <html>
-
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
