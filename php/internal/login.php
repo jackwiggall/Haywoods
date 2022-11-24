@@ -11,7 +11,7 @@ function performRedirection() {
     header("location: $redirection");
     die();
   } else {
-    header('location: /internal/index.php');
+    header('location: ./index.php');
     die();
   }
 }

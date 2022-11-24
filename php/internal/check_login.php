@@ -1,5 +1,5 @@
 <?php
-require '../database_connection.php';
+require '../database.php';
 
 // access level assiciated with user,pass
 // -1 if invalid login

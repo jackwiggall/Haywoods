@@ -1,15 +1,5 @@
 <?php
-require "database_connection.php";
-
-// Create connection
-$conn = getDatabaseConn();
-
-// connection failed
-if ($conn == null) {
-  // dont render html page, just display error message
-  die("database error");
-  // no code after here is executed
-}
+require "database.php";
 
 
 /*** Get product name,description and price ***/
