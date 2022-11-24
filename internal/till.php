@@ -38,13 +38,68 @@ if (isset($_POST["scanned"])) {
     // update cookie
     $_SESSION["scanned_items"] = json_encode($scannedItems);
   }
-
 }
-
 if (isset($_POST["reset"])) {
   $_SESSION["scanned_items"] = "[]";
 }
 
+if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
+  $totalCost = 0;
+  $sku_codes = array();
+  foreach (json_decode($_SESSION["scanned_items"]) as $scannedItem) {
+    $scannedItem = json_decode($scannedItem);
+    $totalCost += $scannedItem->{"price"};
+    $sku_codes[] = $scannedItem->{"sku_code"};
+  }
+
+  // not an empty transaction
+  if (!empty($sku_codes)) {
+    // get staff id by querying using session username
+    // put sale through first, get sale_id, then make other tables
+    // sotre_id from staff
+  
+    $stmt = $conn->prepare("SELECT staff_id, store_id FROM Staff WHERE login_username = :username");
+    $stmt->bindParam("username", $_SESSION["username"]);
+    $stmt->execute();
+  
+    $row = $stmt->fetch();
+    $staff_id = $row[0];
+    $store_id = $row[1];
+  
+  
+    $stmt = $conn->prepare("INSERT INTO Sale (store_id, totalCost, staff_id) VALUES (:store_id, :totalCost, :staff_id)");
+    $stmt->bindParam("store_id", $store_id);
+    $stmt->bindParam("totalCost", $totalCost);
+    $stmt->bindParam("staff_id", $staff_id);
+    $stmt->execute();
+  
+    $sale_id = $conn->lastInsertId();
+  
+    foreach ($sku_codes as $sku_code) {
+      $stmt = $conn->prepare("INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (:sale_id, :sku_code, 1)");
+      $stmt->bindParam("sale_id", $sale_id);
+      $stmt->bindParam("sku_code", $sku_code);
+      $stmt->execute();
+    }
+  
+    if (isset($_POST["pay-card"])) {
+      $stmt = $conn->prepare("INSERT INTO CardPayment (sale_id, last4Digits) VALUES (:sale_id, :last4Digits)");
+      $stmt->bindParam("sale_id", $sale_id);
+      $cardNumber = rand(1000,9999);
+      $stmt->bindParam("last4Digits", $cardNumber); // random card number
+      $stmt->execute();
+    } else {
+      $stmt = $conn->prepare("INSERT INTO CashPayment (sale_id, initialTender, change) VALUES (:sale_id, :initialTender, :change)");
+      $stmt->bindParam("sale_id", $sale_id);
+      // assume payments are made only with 20 pound notes
+      // TODO
+    }
+  
+  
+    // reset scanned items
+    $_SESSION["scanned_items"] = "[]";
+  }
+}
 
 ?>
 
