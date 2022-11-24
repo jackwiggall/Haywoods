@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-
-
 <html>
 
   <head>
@@ -11,33 +9,6 @@
   </head>
 
   <body>
-
-    <?php
-
-     $dbhost = "-h silva.computing.dundee.ac.uk";
-     $dbuser = "22ac3u03";
-     $dbpass = "ac31b2";
-     $dbname = "22ac3d03";
-
-     // Create connection
-     $conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
-
-     // Check connection
-     if ($conn->connect_error) {
-         die("Connection failed: " . $conn->connect_error);
-     }
-     echo "Connected successfully\n";
-
-     $search "thing";
-     $res = $conn -> query("SELECT price FROM Product WHERE sku_code = $search");
-     if ($res) {
-         $rows = $res->fetch_row();
-  
-     } 
-     else {
-         echo "sql error";
-     }
-    ?>
     <div class="container">
       <h1 class="text-center bg-primary text-light border border-dark p-2 mt-2">Product Search</h1>
       <div class="bg-info border border-dark mt-3 mb-3 p-2">
