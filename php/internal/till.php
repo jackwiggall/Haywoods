@@ -39,19 +39,21 @@ if (isset($_POST["sku"])) {
       <div class="container border border-dark bg-info p-2 mb-2">
         <div class="row p-2">
           <div class="col"> <!--Table-->
-            <h4>scanned items</h4>
+            <h3 class="p-3 border border-dark bg-light">Scanning Area</h3>
             <table class="table table-bordered border-dark bg-light it-pr">
               <tr>
-                <th>Sku code</th>
+                <th>SKU Code</th>
                 <th>Description</th>
                 <th>Price</th>
               </tr>
               <tr>
                 <td>Table</td>
+                <td>...</td>
                 <td>£40</td>
               </tr>
               <tr>
                 <td>Seat</td>
+                <td>...</td>
                 <td>£50</td>
               </tr>
             </table>
@@ -62,10 +64,10 @@ if (isset($_POST["sku"])) {
           </div>
         <div class="col"> <!--Buttons-->
           <h3 class="p-3 border border-dark bg-light w300">Total £90</h3><br>
-          <input type="submit" value="Reset Trans" class="btn btn-primary mt-1 border border-dark w300" action=""><br>
-          <input type="submit" value="Pay Card" class="btn btn-primary mt-1 border border-dark w300" action=""><br>
-          <input type="submit" value="Pay Cash" class="btn btn-primary mt-1 border border-dark w300" action=""><br>
-          <button class="btn btn-success mt-1 border border-dark w300 h100" action="">CONFIRM<br/>Received<br/>Money</button><!--change shade/tone-->
+          <input type="submit" value="Reset Trans" class="btn btn-primary mt-1 border border-dark w300 center" action=""><br>
+          <input type="submit" value="Pay Card" class="btn btn-primary mt-1 border border-dark w300 center" action=""><br>
+          <input type="submit" value="Pay Cash" class="btn btn-primary mt-1 border border-dark w300 center" action=""><br>
+          <button class="btn btn-success mt-1 border border-dark w300 h100 center" action="">CONFIRM<br/>Received<br/>Money</button><!--change shade/tone-->
         </div>
       </div>
     </div>
