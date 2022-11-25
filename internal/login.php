@@ -51,7 +51,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-    <title>Login</title>
+    <title>Haywoods</title>
     <link rel="stylesheet" href="../styles.css">
   </head>
 
@@ -62,8 +62,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
       <div class="container border border-dark bg-info p-2 mb-2">
         <!--<h3 class="p-3 border border-dark bg-light">Enter Details</h3>-->
         <form action="" method="POST">
+
           <p class="d-inline-block border border-dark bg-light p-2">Username:</p> <input type="text" class="bg-light p-2" required name="username"><br>
           <p class="d-inline-block border border-dark bg-light p-2">Password:</p> <input type="text" class="bg-light p-2" required name="password"><br>
+
           <input type="submit" value="Login" class="btn btn-primary mt-1 border border-dark w300">
         </form>
         <?php
