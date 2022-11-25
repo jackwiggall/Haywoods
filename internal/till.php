@@ -9,7 +9,6 @@ if (session_status() == PHP_SESSION_NONE) session_start();
 require './access_level.php';
 requireAccessLevel(4);
 
-
 require '../database.php';
 
 $invalidScan = false;
@@ -67,14 +66,18 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
     $store_id = $row[1];
   
   
-    $stmt = $conn->prepare("INSERT INTO Sale (store_id, totalCost, staff_id) VALUES (:store_id, :totalCost, :staff_id)");
+    // insert into Sale
+    $review_code = bin2hex(random_bytes(8));
+    $stmt = $conn->prepare("INSERT INTO Sale (store_id, totalCost, staff_id, review_code) VALUES (:store_id, :totalCost, :staff_id, :review_code)");
     $stmt->bindParam("store_id", $store_id);
     $stmt->bindParam("totalCost", $totalCost);
     $stmt->bindParam("staff_id", $staff_id);
+    $stmt->bindParam("review_code", $review_code); // review code to random hex string
     $stmt->execute();
   
     $sale_id = $conn->lastInsertId();
   
+    // insert into Sale_Product
     foreach ($sku_codes as $sku_code) {
       $stmt = $conn->prepare("INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (:sale_id, :sku_code, 1)");
       $stmt->bindParam("sale_id", $sale_id);
@@ -82,6 +85,7 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
       $stmt->execute();
     }
   
+    // insert into CardPayment & CashPayment
     if (isset($_POST["pay-card"])) {
       $stmt = $conn->prepare("INSERT INTO CardPayment (sale_id, last4Digits) VALUES (:sale_id, :last4Digits)");
       $stmt->bindParam("sale_id", $sale_id);
@@ -94,12 +98,25 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
       // assume payments are made only with 20 pound notes
       // TODO
     }
+
   
   
     // reset scanned items
     $_SESSION["scanned_items"] = "[]";
   }
 }
+
+
+
+// todo 
+/*
+have js to show green button to confirm payment, with cash show input box to enter money given
+and make popup box to show change,
+if card show input box with text above reading 'connected to card reading device, take balance away from card ending in xxxx'
+to simulate it actualy connecting to some device
+
+
+*/
 
 ?>
 
