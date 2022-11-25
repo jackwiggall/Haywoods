@@ -89,11 +89,15 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
     if (isset($_POST["pay-card"])) {
       $stmt = $conn->prepare("INSERT INTO CardPayment (sale_id, last4Digits) VALUES (:sale_id, :last4Digits)");
       $stmt->bindParam("sale_id", $sale_id);
-      $cardNumber = rand(1000,9999);
+      $cardNumber = $_POST['last4Digits'];
       $stmt->bindParam("last4Digits", $cardNumber); // random card number
       $stmt->execute();
     } else {
       $stmt = $conn->prepare("INSERT INTO CashPayment (sale_id, initialTender, change) VALUES (:sale_id, :initialTender, :change)");
+      $initialTender = (int)$_POST['initial-tender'];
+      $change = $totalCost-$initialTender;
+      $stmt->bindParam("initialTender", $initialTender);
+      $stmt->bindParam("change", $change);
       $stmt->bindParam("sale_id", $sale_id);
       // assume payments are made only with 20 pound notes
       // TODO
@@ -132,12 +136,13 @@ to simulate it actualy connecting to some device
   </head>
 
   <body>
+    <?php require './login_banner.php'; ?>
     <div class="container">
       <h1 class="text-center bg-primary text-light border border-dark p-2 mt-2">Till</h1>
 
       <div class="container border border-dark bg-info p-2 mb-2">
         <div class="row p-2">
-          <div class="col"> <!--Table-->
+          <div class="col-8"> <!--Table-->
             <h3 class="p-3 border border-dark bg-light">Scanned Items</h3>
             <table class="table table-bordered border-dark bg-light it-pr">
               <tr>
@@ -165,23 +170,93 @@ to simulate it actualy connecting to some device
               <input type="submit" value="Scan" class="btn btn-primary p-2 border border-dark w110">
             </form>
           </div>
-        <div class="col"> <!--Buttons-->
-        <div class="f-r">
-          <h3 class="p-3 border border-dark bg-light w300">Total £<?php echo $totalPrice; ?></h3><br>
+        <div class="col-3 float-end"> <!--Buttons-->
+        <div class=" float-end">
+          <h3 class="p-3 border border-dark bg-light w300">Total £<strong id="totalPrice"><?php echo $totalPrice; ?></strong></h3><br>
           <form action="" method="POST">
             <input type="submit" value="Reset transaction" name="reset" class="btn btn-warning mt-1 border border-dark w300 center" action="">
           </form>
-          <form action="" method="POST">
-            <input type="submit" value="Pay Card" name="pay-card" class="btn btn-primary mt-1 border border-dark w300 center" action="">
+          <form action="" method="POST" id="payConfirmForm">
           </form>
-          <form action="" method="post">
-            <input type="submit" value="Pay Cash" name="pay-cash" class="btn btn-primary mt-1 border border-dark w300 center" action="">
-          </form>
-          <!-- <button class="btn btn-success mt-1 border border-dark w300 h100 center" action="">CONFIRM<br/>Received<br/>Money</button> -->
+          
+            <button type="submit" class="btn btn-primary mt-1 border border-dark w300 center" id="payCardBtn">Pay Card</button>
+            <br>
+            <button type="submit" class="btn btn-primary mt-1 border border-dark w300 center" id="payCashBtn">Pay Cash</button>
+            <br>
+            <div id="payCashBox" class="input-group mt-2" style="display:none;">
+              Enter money given:<br>
+              <input type="number" id="initial-tender">
+            </div>
+            <div id="payCardBox" style="display:none;">
+              Card reader has detected card<br> ending in <strong id="card-last4Digits"><?php echo rand(1000,9999); ?></strong>
+            </div>
+            <button class="btn btn-success mt-1 border border-dark w300 h100 center" id="payConfirmBtn" style="display:none;">
+              CONFIRM Payment
+            </button>
         </div>
         </div>
       </div>
     </div>
   </body>
+
+  <script>
+    function showCardBox() {
+      document.getElementById("payCashBox").style.display = "none";
+      document.getElementById("payCardBox").style.display = "block";
+      document.getElementById("payConfirmBtn").style.display = "block";
+    }
+    function showCashBox() {
+      document.getElementById("payCardBox").style.display = "none";
+      document.getElementById("payCashBox").style.display = "block";
+      document.getElementById("payConfirmBtn").style.display = "block";
+    }
+    function haveItemsBeenScanned() {
+      return (document.getElementById("totalPrice").textContent !== "0")
+    }
+    
+    function createInputElement(key, val) {
+      const inputElement = document.createElement("input");
+      inputElement.type = "hidden";
+      inputElement.name = key;
+      inputElement.value = val;
+      return inputElement
+    }
+
+    document.getElementById("payConfirmBtn").addEventListener("click", (e) => {
+      const payConfirmForm = document.getElementById("payConfirmForm");
+      payConfirmForm.innerHTML = ''; // clear
+      if (paymentMethod === "pay-card") {
+        payConfirmForm.appendChild(createInputElement("pay-card", "true"));
+        payConfirmForm.appendChild(createInputElement("last4Digits", "1111"));
+      } else {
+        payConfirmForm.appendChild(createInputElement("pay-cash", "true"));
+        
+        // check enough money is given
+        const initialTender = document.getElementById("initial-tender").value;
+        const totalPrice = Number(document.getElementById("totalPrice").textContent);
+        console.log(totalPrice, initialTender);
+        if (initialTender < totalPrice) {
+          return
+        }
+        payConfirmForm.appendChild(createInputElement("initial-tender", initialTender));
+      }
+      payConfirmForm.submit();
+    })
+
+    let paymentMethod = "";
+    document.getElementById("payCardBtn").addEventListener("click", (e) => {
+      paymentMethod = "pay-card";
+      if (haveItemsBeenScanned()) {
+        showCardBox();
+      }
+    })
+
+    document.getElementById("payCashBtn").addEventListener("click", (e) => {
+      paymentMethod = "pay-cash";
+      if (haveItemsBeenScanned()) {
+        showCashBox();
+      }
+    })
+  </script>
 
 </html>
