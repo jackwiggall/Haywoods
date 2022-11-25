@@ -62,8 +62,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
       <div class="container border border-dark bg-info p-2 mb-2">
         <!--<h3 class="p-3 border border-dark bg-light">Enter Details</h3>-->
         <form action="" method="POST">
-          <p class="d-inline-block border border-dark bg-light p-2">Username:</p> <input type="text" required class="bg-light p-2" name="username"><br> <!--bug to enter empty user allows entry-->
-          <p class="d-inline-block border border-dark bg-light p-2">Password:</p> <input type="text" required class="bg-light p-2" name="password"><br>
+
+          <p class="d-inline-block border border-dark bg-light p-2">Username:</p> <input type="text" class="bg-light p-2" required name="username"><br>
+          <p class="d-inline-block border border-dark bg-light p-2">Password:</p> <input type="text" class="bg-light p-2" required name="password"><br>
+
           <input type="submit" value="Login" class="btn btn-primary mt-1 border border-dark w300">
         </form>
         <?php

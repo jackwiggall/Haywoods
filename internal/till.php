@@ -153,7 +153,7 @@ to simulate it actualy connecting to some device
                     echo "<tr>";
                     echo "<th>".$scannedItem->{"sku_code"}."</th>";
                     echo "<th>".$scannedItem->{"name"}."</th>";
-                    echo "<th>".$scannedItem->{"price"}."</th>";
+                    echo "<th>£".$scannedItem->{"price"}."</th>";
                     echo "</tr>";
                     $totalPrice += $scannedItem->{"price"};
                   }
@@ -166,6 +166,7 @@ to simulate it actualy connecting to some device
             </form>
           </div>
         <div class="col"> <!--Buttons-->
+        <div class="f-r">
           <h3 class="p-3 border border-dark bg-light w300">Total £<?php echo $totalPrice; ?></h3><br>
           <form action="" method="POST">
             <input type="submit" value="Reset transaction" name="reset" class="btn btn-warning mt-1 border border-dark w300 center" action="">
@@ -177,6 +178,7 @@ to simulate it actualy connecting to some device
             <input type="submit" value="Pay Cash" name="pay-cash" class="btn btn-primary mt-1 border border-dark w300 center" action="">
           </form>
           <!-- <button class="btn btn-success mt-1 border border-dark w300 h100 center" action="">CONFIRM<br/>Received<br/>Money</button> -->
+        </div>
         </div>
       </div>
     </div>
