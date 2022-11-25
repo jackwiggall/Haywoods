@@ -69,6 +69,7 @@ CREATE TABLE Sale (
 	`staff_id` INT,
 	`date` TIMESTAMP DEFAULT now(),
 	`totalCost` DOUBLE NOT NULL,
+	`review_code` CHAR(40) UNIQUE,
 
 	PRIMARY KEY (`sale_id`),
 	FOREIGN KEY (`staff_id`) REFERENCES Staff(`staff_id`),
