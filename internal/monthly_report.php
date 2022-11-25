@@ -7,15 +7,15 @@ requireAccessLevel(1);
 
 <!DOCTYPE html>
 <html>
-  <?php require './login_banner.php'; ?>
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <title>Monthly Report</title>
     <link rel="stylesheet" href="../styles.css">
   </head>
-
+  
   <body>
+    <?php require './login_banner.php'; ?>
     <div class="container">
       <h1 class="text-center bg-primary text-light border border-dark p-2 mt-2">Monthly Report</h1>
 

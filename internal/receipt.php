@@ -13,7 +13,7 @@ $sale_id = $_GET["sale"];
 $stmt = $conn->prepare("SELECT store_id, staff_id, date, totalCost, review_code FROM Sale WHERE sale_id = :sale_id");
 $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
-  
+
 $row = $stmt->fetch();
 if ($row == null) {
   die("reciept not found");
@@ -78,6 +78,7 @@ if ($row != null) {
   <title>Receipt</title>
 </head>
 <body>
+  <?php require './login_banner.php'; ?>
   <div class="d-flex justify-content-center flex-nowrap mt-4">
     <div class="bg-white p-3 border border-dark" style="width: 500px;">
       <h1 class="text-center">Haywoods</h1>
@@ -146,7 +147,7 @@ if ($row != null) {
           review on our website with the code below.
         </div>
         <div class="text-center">
-          <strong><?php echo $sale_reviewCode; ?></strong>
+          <strong style='font-family: monospace'><?php echo $sale_reviewCode; ?></strong>
         </div>
       </div>
     </div>
