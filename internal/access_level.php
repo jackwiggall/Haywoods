@@ -20,7 +20,11 @@ function getAccessLevel($username, $password) {
   $stmt->execute();
   
   $row = $stmt->fetch();
-  
+  // user not found
+  if ($row == null) {
+    return -1;
+  }
+
   $actualPassword = $row[0]; // password for user
   $accessLevel = $row[1]; // access level associated with user
   if ($actualPassword == $password) {
