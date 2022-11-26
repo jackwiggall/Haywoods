@@ -67,7 +67,7 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
   
   
     // insert into Sale
-    $review_code = bin2hex(random_bytes(8));
+    $review_code = bin2hex(random_bytes(4));
     $stmt = $conn->prepare("INSERT INTO Sale (store_id, totalCost, staff_id, review_code) VALUES (:store_id, :totalCost, :staff_id, :review_code)");
     $stmt->bindParam("store_id", $store_id);
     $stmt->bindParam("totalCost", $totalCost);
@@ -95,9 +95,7 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
     } else {
       $stmt = $conn->prepare("INSERT INTO CashPayment (sale_id, initialTender, CashPayment.change) VALUES (:sale_id, :initialTender, :change)");
       $initialTender = (int)$_POST['initial-tender'];
-      $change = $initialTender - $totalCost;
       $stmt->bindParam("initialTender", $initialTender);
-      $stmt->bindParam("change", $change);
       $stmt->bindParam("sale_id", $sale_id);
       $stmt->execute();
     }

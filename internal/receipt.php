@@ -10,8 +10,13 @@ if (!isset($_GET["sale"])) {
 
 $sale_id = $_GET["sale"];
 
-// get fields from Sale
-$stmt = $conn->prepare("SELECT store_id, staff_id, date, totalCost, review_code FROM Sale WHERE sale_id = :sale_id");
+$receiptDetailsQuery = "SELECT Store.location, Staff.firstname, Sale.date, Sale.totalCost, Sale.review_code
+                        FROM Sale, Store, Staff
+                        WHERE Store.store_id = Sale.store_id
+                        AND Staff.staff_id = Sale.staff_id
+                        AND Sale.sale_id = :sale_id";
+
+$stmt = $conn->prepare($receiptDetailsQuery);
 $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
 
@@ -19,23 +24,13 @@ $row = $stmt->fetch();
 if ($row == null) {
   die("reciept not found");
 }
-$store_id = $row[0];
-$staff_id = $row[1];
+$sale_store_location = $row[0];
+$sale_staff_name = $row[1];
 $sale_date_time = explode(" ", $row[2]);
 $sale_totalCost = $row[3];
 $sale_reviewCode = $row[4];
 
-// get staff name and store location
-$stmt = $conn->prepare("SELECT Staff.firstname, Store.location
-                        FROM Store, Staff
-                        WHERE Store.store_id = Staff.store_id
-                        AND Staff.staff_id = :staff_id");
-$stmt->bindParam("staff_id", $staff_id);
-$stmt->execute();
 
-$row = $stmt->fetch();
-$sale_staff_name = $row[0];
-$sale_store_location = $row[1];
 
 
 // get products
@@ -57,13 +52,12 @@ if ($row != null) { // card payment
   $sale_card_last4Digits = $row[0];
   var_dump($row);
 } else { // cash payment
-  $stmt = $conn->prepare("SELECT initialTender,CashPayment.change FROM CashPayment WHERE sale_id = :sale_id");
+  $stmt = $conn->prepare("SELECT initialTender FROM CashPayment WHERE sale_id = :sale_id");
   $stmt->bindParam("sale_id", $sale_id);
   $stmt->execute();
 
   $row = $stmt->fetch();
   $sale_initialTender = $row[0];
-  $sale_change = $row[1];
 }
 
 ?>
@@ -133,7 +127,7 @@ if ($row != null) { // card payment
             echo "<span>Card Number: **** **** **** $sale_card_last4Digits</span>";
           } else {
             echo "<div><span>Initial Tender: £".$sale_initialTender."</span></div>";
-            echo "<div><span>Change: £".$sale_change."</span></div>";
+            echo "<div><span>Change: £".$sale_initialTender - $sale_totalCost."</span></div>";
           }
         ?>
       </div>
