@@ -93,14 +93,13 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
       $stmt->bindParam("last4Digits", $cardNumber); // random card number
       $stmt->execute();
     } else {
-      $stmt = $conn->prepare("INSERT INTO CashPayment (sale_id, initialTender, change) VALUES (:sale_id, :initialTender, :change)");
+      $stmt = $conn->prepare("INSERT INTO CashPayment (sale_id, initialTender, CashPayment.change) VALUES (:sale_id, :initialTender, :change)");
       $initialTender = (int)$_POST['initial-tender'];
-      $change = $totalCost-$initialTender;
+      $change = $initialTender - $totalCost;
       $stmt->bindParam("initialTender", $initialTender);
       $stmt->bindParam("change", $change);
       $stmt->bindParam("sale_id", $sale_id);
-      // assume payments are made only with 20 pound notes
-      // TODO
+      $stmt->execute();
     }
 
   

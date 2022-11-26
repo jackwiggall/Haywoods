@@ -128,8 +128,8 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
           </tr>
           <tr>
             <?php
-              echo "<td>$cardSales</td>";
               echo "<td>$cashSales</td>";
+              echo "<td>$cardSales</td>";
               echo "<th>$totalSales</th>";
             ?>
           </tr>
