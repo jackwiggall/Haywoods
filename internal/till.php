@@ -88,12 +88,12 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
     // insert into CardPayment & CashPayment
     if (isset($_POST["pay-card"])) {
       $stmt = $conn->prepare("INSERT INTO CardPayment (sale_id, last4Digits) VALUES (:sale_id, :last4Digits)");
-      $stmt->bindParam("sale_id", $sale_id);
       $cardNumber = $_POST['last4Digits'];
-      $stmt->bindParam("last4Digits", $cardNumber); // random card number
+      $stmt->bindParam("last4Digits", $cardNumber);
+      $stmt->bindParam("sale_id", $sale_id);
       $stmt->execute();
     } else {
-      $stmt = $conn->prepare("INSERT INTO CashPayment (sale_id, initialTender, CashPayment.change) VALUES (:sale_id, :initialTender, :change)");
+      $stmt = $conn->prepare("INSERT INTO CashPayment (sale_id, initialTender) VALUES (:sale_id, :initialTender)");
       $initialTender = (int)$_POST['initial-tender'];
       $stmt->bindParam("initialTender", $initialTender);
       $stmt->bindParam("sale_id", $sale_id);
@@ -105,17 +105,6 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
   }
 }
 
-
-
-// todo 
-/*
-have js to show green button to confirm payment, with cash show input box to enter money given
-and make popup box to show change,
-if card show input box with text above reading 'connected to card reading device, take balance away from card ending in xxxx'
-to simulate it actualy connecting to some device
-
-
-*/
 
 ?>
 
