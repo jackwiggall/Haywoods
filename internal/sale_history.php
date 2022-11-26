@@ -52,6 +52,7 @@ if (isset($_POST['date']) || isset($_POST['store'])) {
 </head>
 
 <body>
+  <?php require 'login_banner.php'; ?>
   <div class="container">
     <h1 class="text-center bg-primary text-light border border-dark p-2 mt-2">Sale History</h1>
 

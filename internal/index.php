@@ -3,6 +3,7 @@
 if (session_status() == PHP_SESSION_NONE) session_start();
 
 require 'access_level.php';
+requireAccessLevel(1);
 
 $accessLevel = -1;
 if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
@@ -21,21 +22,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
+  <?php require 'login_banner.php'; ?>
   <div class="container">
     <h1 class="text-center bg-primary text-light border border-dark p-2 mt-2">Internal</h1>
-    <!-- <?php require 'login_banner.php'; ?> -->
-    <h3 class="p-3 mb-5">
-      <?php
-        if ($accessLevel != -1) {
-          echo "User: $username, Access: $accessLevel";
-          echo "<a class='f-r' href='./login.php?logout=true&redirect=./index.php'>Logout</a>";
-        } else {
-          #echo "Sign in: ";
-          echo "<a class='f-r' href='./login.php?redirect=./index.php'>Login</a>";
-        }
-      ?>
-    </h3>
-
+   
     <?php
       if ($accessLevel != -1) {
         echo '<div class="container border border-dark bg-info p-2 mb-2">';
