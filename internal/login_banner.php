@@ -3,19 +3,15 @@
 require '../database.php';
 
 $username = $_SESSION['username'];
-$stmt = $conn->prepare("SELECT Store.location,Staff.firstname,Staff.lastname,AccessLevel.name
-                        FROM Store,Staff,AccessLevel
-                        WHERE Staff.store_id = Store.store_id
-                        AND Staff.accessLevel_id = AccessLevel.accessLevel_id
-                        AND Staff.login_username = :username");
+$stmt = $conn->prepare("SELECT location, AccessLevelName, firstname, lastname FROM StaffDetails WHERE login_username = :username");
 $stmt->bindParam("username", $username);
 $stmt->execute();
 $row = $stmt->fetch();
 
 $store_location = $row[0];
-$firstname = $row[1];
-$lastname = $row[2];
-$accessLevelName = $row[3];
+$accessLevelName = $row[1];
+$firstname = $row[2];
+$lastname = $row[3];
 
 
 ?>

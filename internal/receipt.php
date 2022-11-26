@@ -16,49 +16,30 @@ $receiptDetailsQuery = "SELECT Store.location, Staff.firstname, Sale.date, Sale.
                         AND Staff.staff_id = Sale.staff_id
                         AND Sale.sale_id = :sale_id";
 
-$stmt = $conn->prepare($receiptDetailsQuery);
+$stmt = $conn->prepare("SELECT date, totalCost, review_code, location, firstname, initialTender, last4Digits FROM ReceiptDetails WHERE sale_id = :sale_id");
 $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
-
 $row = $stmt->fetch();
 if ($row == null) {
   die("reciept not found");
 }
-$sale_store_location = $row[0];
-$sale_staff_name = $row[1];
-$sale_date_time = explode(" ", $row[2]);
-$sale_totalCost = $row[3];
-$sale_reviewCode = $row[4];
-
-
+$sale_date_time = explode(" ", $row[0]);
+$sale_totalCost = $row[1];
+$sale_reviewCode = $row[2];
+$sale_store_location = $row[3];
+$sale_staff_name = $row[4];
+$sale_initialTender = $row[5];
+$sale_card_last4Digits = $row[6];
 
 
 // get products
-$stmt = $conn->prepare("SELECT Product.sku_code, Product.name, Product.price FROM Product WHERE Product.sku_code in (SELECT sku_code FROM Sale_Product WHERE sale_id = :sale_id)");
+$stmt = $conn->prepare("SELECT sku_code, name, price, quantity FROM SaleItems WHERE sale_id = :sale_id");
 $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
 
 $sale_items = $stmt->fetchAll();
 
 $sale_items_count = count($sale_items);
-
-
-$stmt = $conn->prepare("SELECT last4Digits FROM CardPayment WHERE sale_id = :sale_id");
-$stmt->bindParam("sale_id", $sale_id);
-$stmt->execute();
-
-$row = $stmt->fetch();
-if ($row != null) { // card payment
-  $sale_card_last4Digits = $row[0];
-  var_dump($row);
-} else { // cash payment
-  $stmt = $conn->prepare("SELECT initialTender FROM CashPayment WHERE sale_id = :sale_id");
-  $stmt->bindParam("sale_id", $sale_id);
-  $stmt->execute();
-
-  $row = $stmt->fetch();
-  $sale_initialTender = $row[0];
-}
 
 ?>
 

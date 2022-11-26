@@ -13,27 +13,26 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
   $month = $_GET["month"];
   $year = $_GET["year"];
 
-  $stmt = $conn->prepare("SELECT store_id FROM Staff WHERE login_username = :username");
+  // query StaffDetails View to get store_id associated with user
+  $stmt = $conn->prepare("SELECT store_id FROM StaffDetails WHERE login_username = :username");
   $stmt->bindParam("username", $_SESSION['username']);
   $stmt->execute();
-  $store_id = $stmt->fetch()[0]; 
+  $store_id = $stmt->fetch()[0];
 
-  // Card and Cash sales
-  $cashCardSalesQuery = "SELECT
-                    (
-                      SELECT SUM(Sale.totalCost) FROM Sale,CardPayment,Sale_Product
-                      WHERE MONTH(Sale.date) = :month AND YEAR(Sale.date) = :year
-                      AND Sale.store_id = :store_id
-                      AND Sale.sale_id = Sale_Product.sale_id
-                      AND Sale_Product.sale_id = CardPayment.sale_id
-                    ) AS cardSales,
-                    (
-                      SELECT SUM(Sale.totalCost) FROM Sale,CashPayment,Sale_Product
-                      WHERE MONTH(Sale.date) = :month AND YEAR(Sale.date) = :year
-                      AND Sale.store_id = :store_id
-                      AND Sale.sale_id = Sale_Product.sale_id
-                      AND Sale_Product.sale_id = CashPayment.sale_id
-                    ) AS cashSales";
+  // query CashCardSales View to get Cash and Card sales for specific month
+  $cashCardSalesQuery = "SELECT (
+                          SELECT SUM(totalCost) FROM CashCardSales
+                          WHERE cardPayment_id IS NOT NULL
+                          AND store_id = :store_id
+                          AND MONTH(date) = :month AND YEAR(date) = :year
+                        ) AS cardSales,
+                        (
+                          SELECT SUM(totalCost) FROM CashCardSales
+                          WHERE cashPayment_id IS NOT NULL
+                          AND store_id = :store_id
+                          AND MONTH(date) = :month AND YEAR(date) = :year
+                        ) AS CashSales";
+  
   $stmt = $conn->prepare($cashCardSalesQuery);
   $stmt->bindParam("month", $month);
   $stmt->bindParam("year", $year);
