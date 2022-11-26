@@ -10,12 +10,8 @@ if (!isset($_GET["sale"])) {
 
 $sale_id = $_GET["sale"];
 
-$receiptDetailsQuery = "SELECT Store.location, Staff.firstname, Sale.date, Sale.totalCost, Sale.review_code
-                        FROM Sale, Store, Staff
-                        WHERE Store.store_id = Sale.store_id
-                        AND Staff.staff_id = Sale.staff_id
-                        AND Sale.sale_id = :sale_id";
 
+// query ReceiptDetails View
 $stmt = $conn->prepare("SELECT date, totalCost, review_code, location, firstname, initialTender, last4Digits FROM ReceiptDetails WHERE sale_id = :sale_id");
 $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
@@ -108,7 +104,8 @@ $sale_items_count = count($sale_items);
             echo "<span>Card Number: **** **** **** $sale_card_last4Digits</span>";
           } else {
             echo "<div><span>Initial Tender: £".$sale_initialTender."</span></div>";
-            echo "<div><span>Change: £".$sale_initialTender - $sale_totalCost."</span></div>";
+            $change = $sale_initialTender - $sale_totalCost;
+            echo "<div><span>Change: £$change</span></div>";
           }
         ?>
       </div>
