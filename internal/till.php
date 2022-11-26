@@ -175,6 +175,11 @@ to simulate it actualy connecting to some device
           </form>
           <form action="" method="POST" id="payConfirmForm">
           </form>
+            <?php
+              if (isset($sale_id)) {
+                echo "<a target='_blank' href='./receipt.php?sale=$sale_id'>print last sales reciept</a>";
+              }
+            ?>
           
             <button type="submit" class="btn btn-primary mt-1 border border-dark w300 center" id="payCardBtn">Pay Card</button>
             <br>
@@ -223,18 +228,21 @@ to simulate it actualy connecting to some device
       const payConfirmForm = document.getElementById("payConfirmForm");
       payConfirmForm.innerHTML = ''; // clear
       if (paymentMethod === "pay-card") {
+        // get card number
+        const last4Digits = document.getElementById("card-last4Digits").textContent;
         payConfirmForm.appendChild(createInputElement("pay-card", "true"));
-        payConfirmForm.appendChild(createInputElement("last4Digits", "1111"));
+        payConfirmForm.appendChild(createInputElement("last4Digits", last4Digits));
       } else {
-        payConfirmForm.appendChild(createInputElement("pay-cash", "true"));
-        
-        // check enough money is given
+        // get cost values
         const initialTender = document.getElementById("initial-tender").value;
         const totalPrice = Number(document.getElementById("totalPrice").textContent);
+
+        // check enough money is given
         console.log(totalPrice, initialTender);
         if (initialTender < totalPrice) {
           return
         }
+        payConfirmForm.appendChild(createInputElement("pay-cash", "true"));
         payConfirmForm.appendChild(createInputElement("initial-tender", initialTender));
       }
       payConfirmForm.submit();

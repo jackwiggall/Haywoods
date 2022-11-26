@@ -10,6 +10,7 @@ if (!isset($_GET["sale"])) {
 
 $sale_id = $_GET["sale"];
 
+// get fields from Sale
 $stmt = $conn->prepare("SELECT store_id, staff_id, date, totalCost, review_code FROM Sale WHERE sale_id = :sale_id");
 $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
@@ -24,27 +25,27 @@ $sale_date_time = explode(" ", $row[2]);
 $sale_totalCost = $row[3];
 $sale_reviewCode = $row[4];
 
-
-
-$stmt = $conn->prepare("SELECT firstname FROM Staff WHERE staff_id = :staff_id");
+// get staff name and store location
+$stmt = $conn->prepare("SELECT Staff.firstname, Store.location
+                        FROM Store, Staff
+                        WHERE Store.store_id = Staff.store_id
+                        AND Staff.staff_id = :staff_id");
 $stmt->bindParam("staff_id", $staff_id);
 $stmt->execute();
 
-$sale_staff_name = $stmt->fetch()[0];
+$row = $stmt->fetch();
+$sale_staff_name = $row[0];
+$sale_store_location = $row[1];
 
 
-$stmt = $conn->prepare("SELECT location FROM Store WHERE store_id = :store_id");
-$stmt->bindParam("store_id", $store_id);
-$stmt->execute();
-
-$sale_store_location = $stmt->fetch()[0];
-
-
+// get products
 $stmt = $conn->prepare("SELECT Product.sku_code, Product.name, Product.price FROM Product WHERE Product.sku_code in (SELECT sku_code FROM Sale_Product WHERE sale_id = :sale_id)");
 $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
 
 $sale_items = $stmt->fetchAll();
+
+$sale_items_count = count($sale_items);
 
 
 $stmt = $conn->prepare("SELECT last4Digits FROM CardPayment WHERE sale_id = :sale_id");
@@ -52,10 +53,11 @@ $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
 
 $row = $stmt->fetch();
-if ($row != null) {
+if ($row != null) { // card payment
   $sale_card_last4Digits = $row[0];
-} else {
-  $stmt = $conn->prepare("SELECT initialTender,change FROM CashPayment WHERE sale_id = :sale_id");
+  var_dump($row);
+} else { // cash payment
+  $stmt = $conn->prepare("SELECT initialTender,CashPayment.change FROM CashPayment WHERE sale_id = :sale_id");
   $stmt->bindParam("sale_id", $sale_id);
   $stmt->execute();
 
@@ -78,7 +80,6 @@ if ($row != null) {
   <title>Receipt</title>
 </head>
 <body>
-  <?php require './login_banner.php'; ?>
   <div class="d-flex justify-content-center flex-nowrap mt-4">
     <div class="bg-white p-3 border border-dark" style="width: 500px;">
       <h1 class="text-center">Haywoods</h1>
@@ -121,7 +122,7 @@ if ($row != null) {
             <span>SALE Total</span>
           </div>
           <div class="col text-end">
-            <strong><span> £</span><span>100.00</span></strong>
+            <strong><span> £</span><span><?php echo $sale_totalCost; ?></span></strong>
           </div>
         </div>
       </div>
@@ -138,7 +139,7 @@ if ($row != null) {
       </div>
 
       <div class="border-2 border-top border-bottom border-dark mt-1">
-        <span>Total No of Items: </span><span>2</span>
+        <span>Total No of Items: <?php echo $sale_items_count; ?></span>
       </div>
 
       <div class="border-2 border-top border-bottom border-dark mt-1">
