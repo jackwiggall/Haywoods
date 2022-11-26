@@ -102,8 +102,6 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
       $stmt->execute();
     }
 
-  
-  
     // reset scanned items
     $_SESSION["scanned_items"] = "[]";
   }

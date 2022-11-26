@@ -3,7 +3,7 @@
 if (session_status() == PHP_SESSION_NONE) session_start();
 
 require 'access_level.php';
-requireAccessLevel(1);
+requireAccessLevel(4);
 
 $accessLevel = -1;
 if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
