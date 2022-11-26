@@ -3,6 +3,69 @@
 require './access_level.php';
 requireAccessLevel(1);
 
+
+require '../database.php';
+
+$valuesSet = false;
+
+if (isset($_GET["year"]) && isset($_GET["month"])) {
+  $valuesSet = true;
+  $month = $_GET["month"];
+  $year = $_GET["year"];
+
+  $stmt = $conn->prepare("SELECT store_id FROM Staff WHERE login_username = :username");
+  $stmt->bindParam("username", $_SESSION['username']);
+  $stmt->execute();
+  $store_id = $stmt->fetch()[0]; 
+
+  // Card and Cash sales
+  $cashCardSalesQuery = "SELECT
+                    (
+                      SELECT SUM(Sale.totalCost) FROM Sale,CardPayment,Sale_Product
+                      WHERE MONTH(Sale.date) = :month AND YEAR(Sale.date) = :year
+                      AND Sale.store_id = :store_id
+                      AND Sale.sale_id = Sale_Product.sale_id
+                      AND Sale_Product.sale_id = CardPayment.sale_id
+                    ) AS cardSales,
+                    (
+                      SELECT SUM(Sale.totalCost) FROM Sale,CashPayment,Sale_Product
+                      WHERE MONTH(Sale.date) = :month AND YEAR(Sale.date) = :year
+                      AND Sale.store_id = :store_id
+                      AND Sale.sale_id = Sale_Product.sale_id
+                      AND Sale_Product.sale_id = CashPayment.sale_id
+                    ) AS cashSales";
+  $stmt = $conn->prepare($cashCardSalesQuery);
+  $stmt->bindParam("month", $month);
+  $stmt->bindParam("year", $year);
+  $stmt->bindParam("store_id", $store_id);
+  $stmt->execute();
+  $row = $stmt->fetch();
+  // set to nulls to 0
+  $cardSales = ($row[0] == null) ? 0 : $row[0];
+  $cashSales = ($row[1] == null) ? 0 : $row[1];
+  $totalSales = $cardSales + $cashSales;
+
+
+  // $topSellersQuery = "SELECT Product.sku_code,name,COUNT(sku_code),date
+  //                     FROM Product,Sale GROUP BY sku_code ORDER BY 'value_occurence' DESC
+                      
+  //                     WHERE MONTH(date) = :month AND YEAR(date) = :year";
+  // $stmt = $conn->prepare($topSellersQuery);
+  // $stmt->bindParam("month", $month);
+  // $stmt->bindParam("year", $year);
+  // $stmt->execute();
+  // $topSellers = $stmt->fetchAll();
+
+
+}
+// $stmt = $conn->prepare("SELECT sale_id,date,staff_id,totalCost FROM Sale "+$query_where);
+//   if (isset($_POST['date']))  $stmt->bindParam("date", $_POST['date']);
+//   if (isset($_POST['store'])) $stmt->bindParam("store", $_POST['store']);
+
+//   $stmt->execute();
+
+//   while (($store = $stmt->fetch()) != null) {
+
 ?>
 
 <!DOCTYPE html>
@@ -20,13 +83,40 @@ requireAccessLevel(1);
       <h1 class="text-center bg-primary text-light border border-dark p-2 mt-2">Monthly Report</h1>
 
       <div class="container border border-dark bg-info p-2 mb-2">
-        <table class="table table-bordered border-dark bg-light">
-          <tr>
-            <th>Monthly Report</th>
-            <td>May</td>
-          </tr>
-        </table>
+        <form action="" method="get">
+          Monthly Report for 
+          <select name="year">
+            <?php
+              $year = date("Y");
+              $currentYear = (isset($_GET['year'])) ? $_GET['year'] : $year;
+              for ($i = $year-5; $i <= $year; $i++) {
+                $selected = "";
+                if ($i == $currentYear) $selected = "selected";
+                echo "<option value='$i' $selected>$i</option>";
+              }
+            ?>
+          </select>
+          <select name="month">
+            <?php
+              $months = array("January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+              $currentMonth = (isset($_GET['month'])) ? $_GET['month'] : date("m");
+              for ($i=1; $i<13; $i++) {
+                $selected = "";
+                if ($i == $currentMonth) $selected = "selected";
+                echo "<option value='$i' $selected>".$months[$i-1]."</option>";
+              }
+            ?>
+          </select>
+          <input type="submit" value="Search">
+        </form> 
       </div>
+
+      <?php
+        // dont show anything if submit button not pressed
+        if (!$valuesSet) {
+          die("</div></body></html>");
+        }
+      ?>
 
       <div class="container border border-dark bg-info p-2 mb-2">
         <h3 class="p-3 border border-dark bg-light">Sale Details</h3>
@@ -37,9 +127,11 @@ requireAccessLevel(1);
             <th>Total</th>
           </tr>
           <tr>
-            <td>£10,400.01</td>
-            <td>£66,123.30</td>
-            <th>£76,523.31</th>
+            <?php
+              echo "<td>$cardSales</td>";
+              echo "<td>$cashSales</td>";
+              echo "<th>$totalSales</th>";
+            ?>
           </tr>
         </table>
       </div>
