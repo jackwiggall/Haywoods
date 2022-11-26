@@ -67,7 +67,7 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
   
   
     // insert into Sale
-    $review_code = bin2hex(random_bytes(4));
+    $review_code = dechex(rand(0,pow(2,26)));
     $stmt = $conn->prepare("INSERT INTO Sale (store_id, totalCost, staff_id, review_code) VALUES (:store_id, :totalCost, :staff_id, :review_code)");
     $stmt->bindParam("store_id", $store_id);
     $stmt->bindParam("totalCost", $totalCost);
