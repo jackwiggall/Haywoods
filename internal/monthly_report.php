@@ -44,7 +44,7 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
   $cashSales = ($row[1] == null) ? 0 : $row[1];
   $totalSales = $cardSales + $cashSales;
 
-
+  // query TopSellers View to get the top 5 selling items
   $topSellersQuery = "SELECT sku_code, name, quantity
                       FROM TopSellers
                       WHERE store_id = :store_id AND

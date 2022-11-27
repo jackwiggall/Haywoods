@@ -2,10 +2,10 @@
 require "database.php";
 
 
-$product_sku = $_GET['sku'];
-if (!isset($product_sku)) {
+if (!isset($_GET['sku'])) {
   die("invalid sku, TODO pretty");
 }
+$product_sku = $_GET['sku'];
 
 /*** Get product name,description and price ***/
 // get product sku code from url http://localhost/product_details.php?sku=XXXXXX
@@ -24,8 +24,8 @@ $product_description = $item_row[1];
 $product_price = $item_row[2];
 
 /*** Get product reviews ***/
-// get average rating
-$stmt = $conn->prepare("SELECT AVG(rating) AS AverageRating FROM Review WHERE Review.sku_code = :sku");
+// query view AverageRating to get the average rating of a product
+$stmt = $conn->prepare("SELECT rating FROM AverageRating WHERE sku_code = :sku");
 $stmt->bindParam("sku", $product_sku);
 $stmt->execute();
 
@@ -61,7 +61,7 @@ $reviews = $stmt->fetchAll(); // get all reviews
             <h3 class="p-3 mb-3 border border-dark bg-light"> <?php echo $product_name; ?></h3>
             <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Product Code: <?php echo $product_sku; ?></div>
             <div class="d-inline-block p-2 mt-2 border border-dark bg-light">£<?php echo $product_price; ?></div>
-            <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Rating: <?php if (isset($average_rating)) echo round($average_rating, 1); else echo '?'; ?>/10 Stars</div><br>
+            <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Rating: <?php echo $average_rating; ?>/10 Stars</div><br>
               <!--form?-->
               <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Enter your postcode: </div>
                 <input type="text" class="bg-light p-2 mt-2" name="postcode" placeholder="DD1 2LN"><br>

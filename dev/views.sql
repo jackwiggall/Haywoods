@@ -48,7 +48,7 @@ FROM Sale
   JOIN Store ON (Sale.store_id = Store.store_id)
   LEFT JOIN CashPayment ON (Sale.sale_id = CashPayment.sale_id)
   LEFT JOIN CardPayment ON (Sale.sale_id = CardPayment.sale_id);
--- top sellers
+-- Top Sellers
 CREATE VIEW TopSellers AS
 SELECT Store.store_id,
   Sale.date,
@@ -64,3 +64,17 @@ GROUP BY Sale_Product.sku_code,
   YEAR(Sale.date),
   Store.store_id
 ORDER BY quantity DESC;
+-- Average Rating
+CREATE VIEW AverageRating AS
+SELECT Product.sku_code,
+  coalesce(ROUND(AVG(Review.rating), 1), '?') AS rating
+FROM Product
+  LEFT JOIN Review ON (Product.sku_code = Review.sku_code)
+GROUP BY Product.sku_code;
+-- ProductList
+CREATE VIEW ProductList AS
+SELECT sku_code,
+  name,
+  description,
+  price
+FROM Product;
