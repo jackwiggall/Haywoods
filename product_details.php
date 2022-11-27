@@ -55,7 +55,7 @@ $reviews = $stmt->fetchAll(); // get all reviews
       <div class="container border border-dark bg-info p-2 mt-2">
         <div class="row p-2">
           <div class="col"> <!--Image-->
-            <img src="blank.png" class="card-img-top border border-dark" alt="...">
+            <img src="<?php echo "./images/${product_sku}_0.jpg"; ?>" class="card-img-top border border-dark" alt="...">
           </div>
           <div class="col"> <!--Information-->
             <h3 class="p-3 mb-3 border border-dark bg-light"> <?php echo $product_name; ?></h3>
