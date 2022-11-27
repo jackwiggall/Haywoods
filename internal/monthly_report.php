@@ -45,15 +45,17 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
   $totalSales = $cardSales + $cashSales;
 
 
-  // $topSellersQuery = "SELECT Product.sku_code,name,COUNT(sku_code),date
-  //                     FROM Product,Sale GROUP BY sku_code ORDER BY 'value_occurence' DESC
-                      
-  //                     WHERE MONTH(date) = :month AND YEAR(date) = :year";
-  // $stmt = $conn->prepare($topSellersQuery);
-  // $stmt->bindParam("month", $month);
-  // $stmt->bindParam("year", $year);
-  // $stmt->execute();
-  // $topSellers = $stmt->fetchAll();
+  $topSellersQuery = "SELECT sku_code, name, quantity
+                      FROM TopSellers
+                      WHERE store_id = :store_id AND
+                      MONTH(date) = :month AND YEAR(date) = :year
+                      LIMIT 5";
+  $stmt = $conn->prepare($topSellersQuery);
+  $stmt->bindParam("month", $month);
+  $stmt->bindParam("year", $year);
+  $stmt->bindParam("store_id", $store_id);
+  $stmt->execute();
+  $topSellers = $stmt->fetchAll();
 
 
 }
@@ -136,38 +138,22 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
       </div>
 
       <div class="container border border-dark bg-info p-2 mb-2">
-        <h3 class="p-3 border border-dark bg-light">Top 5 Sellers</h3>
+        <h3 class="p-3 border border-dark bg-light">Top Sellers</h3>
         <table class="table table-bordered border-dark bg-light">
           <tr>
-            <th>Name</th>
             <th>SKU Code</th>
+            <th>Name</th>
             <th>Sold</th>
           </tr>
-          <tr> <!--1 of 5-->
-            <td>TV Stand</td>
-            <td>125160</td>
-            <td>20</td>
-          </tr>
-          <tr> <!--2 of 5-->
-            <td>Bedside Cabinet</td>
-            <td>123012</td>
-            <td>16</td>
-          </tr>
-          <tr> <!--3 of 5-->
-            <td>Bed Frame</td>
-            <td>124019</td>
-            <td>15</td>
-          </tr>
-          <tr> <!--4 of 5-->
-            <td>Table</td>
-            <td>121022</td>
-            <td>14</td>
-          </tr>
-          <tr> <!--5 of 5-->
-            <td>Sofa</td>
-            <td>125159</td>
-            <td>12</td>
-          </tr>
+          <?php
+            foreach ($topSellers as $topSeller) {
+              echo "<tr>";
+              echo "<td>".$topSeller[0]."</td>";
+              echo "<td>".$topSeller[1]."</td>";
+              echo "<td>".$topSeller[2]."</td>";
+              echo "</tr>";
+            }
+          ?>
         </table>
       </div>
 

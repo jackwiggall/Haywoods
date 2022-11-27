@@ -16,6 +16,7 @@ FROM Sale
 -- Receipt items
 CREATE VIEW SaleItems AS
 SELECT Sale.sale_id,
+  Sale.review_code,
   Product.sku_code,
   Product.name,
   Product.price,
@@ -47,3 +48,19 @@ FROM Sale
   JOIN Store ON (Sale.store_id = Store.store_id)
   LEFT JOIN CashPayment ON (Sale.sale_id = CashPayment.sale_id)
   LEFT JOIN CardPayment ON (Sale.sale_id = CardPayment.sale_id);
+-- top sellers
+CREATE VIEW TopSellers AS
+SELECT Store.store_id,
+  Sale.date,
+  Product.sku_code,
+  Product.name,
+  COUNT(Product.sku_code) AS quantity
+FROM Sale
+  JOIN Sale_Product ON (Sale.sale_id = Sale_Product.sale_id)
+  JOIN Store ON (Sale.store_id = Store.store_id)
+  JOIN Product ON (Sale_Product.sku_code = Product.sku_code)
+GROUP BY Sale_Product.sku_code,
+  MONTH(Sale.date),
+  YEAR(Sale.date),
+  Store.store_id
+ORDER BY quantity DESC;
