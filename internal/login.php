@@ -102,7 +102,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px">
-    <h1 class="w3-jumbo"><b>Login</b></h1> <!--Page Title-->
+    <h1 class="w3-jumbo"><b>Login to internal site</b></h1> <!--Page Title-->
     <h1 class="w3-xxxlarge text-primary"><b>Enter Details.</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
     <form action="" method="POST">

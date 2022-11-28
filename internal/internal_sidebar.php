@@ -20,6 +20,7 @@
           echo "<a href='./monthly_report.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Monthly Report</a>";
         }
     ?>
+    <a href='./login.php?logout=true' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Logout</a>
   </div>
 </nav>
 
