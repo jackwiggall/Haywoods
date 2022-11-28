@@ -10,7 +10,7 @@ $dbname = "22ac3d03";
 // Create connection
 try {
   $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
-} catch (mysqli_sql_exception $e) {
+} catch (PDOException $e) {
   // error connecting to database, return null object
   die("database error");
 }
