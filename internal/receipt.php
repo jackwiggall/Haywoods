@@ -1,5 +1,7 @@
 <?php
 
+require '../database.php';
+
 require 'access_level.php';
 requireAccessLevel(4);
 
