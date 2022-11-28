@@ -86,22 +86,8 @@ SELECT Sale.sale_id,
   Staff.firstname,
   Staff.lastname,
   COUNT(Sale_Product.quantity) AS quantity,
-  ROUND(Sale.totalCost, 2) AS totalCost
+  Sale.totalCost
 FROM Sale
   JOIN Staff ON (Sale.staff_id = Staff.staff_id)
   JOIN Sale_Product ON (Sale.sale_id = Sale_Product.sale_id)
 GROUP BY Sale.sale_id;
--- Staff Login details
-CREATE VIEW StaffLogin AS
-SELECT Store.store_id,
-  Store.location AS storeLocation,
-  Staff.accessLevel_id AS accessLevel,
-  AccessLevel.name AS accessLevelName,
-  CONCAT(Staff.firstname, " ", Staff.lastname) AS fullname,
-  Staff.login_username,
-  Staff.login_password
-FROM Staff
-  JOIN Store ON (Staff.store_id = Store.store_id)
-  JOIN AccessLevel ON (
-    Staff.accessLevel_id = AccessLevel.accessLevel_id
-  );

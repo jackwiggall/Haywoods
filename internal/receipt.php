@@ -19,7 +19,7 @@ $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
 $row = $stmt->fetch();
 if ($row == null) {
-  die("reciept not found");
+  die("receipt not found");
 }
 $sale_date_time = explode(" ", $row[0]);
 $sale_totalCost = $row[1];
@@ -129,4 +129,3 @@ $sale_items_count = count($sale_items);
   </div>
 </body>
 </html>
-

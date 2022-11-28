@@ -29,97 +29,120 @@ if (isset($_GET['search'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<title>Haywoods</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
 
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-    <title>Product Search</title>
-    <link rel="stylesheet" href="./styles.css">
-  </head>
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar bg-primary w3-collapse w3-top w3-large w3-padding text-white" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <div class="w3-container">
+    <h3 class="w3-padding-64"><b>Haywoods</b></h3>
+  </div>
+  <div class="w3-bar-block"> <!--Check access level? Add login/logout on bar? may need to change addresses-->
+    <a href="index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> <!--Index-->
+    <a href="product_search.php" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Product Search</a> <!-- -->
+  </div>
+</nav>
 
-  <body>
-    <div class="container">
-      <h1 class="text-center bg-primary text-light border border-dark p-2 mt-2">Product Search</h1>
-      <div class="bg-info border border-dark mt-3 mb-3 p-2">
-        <h3 class="pt-3">Search</h3>
+<!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large text-primary w3-xlarge w3-padding">
+  <a href="javascript:void(0)" class="w3-button text-primary w3-margin-right" onclick="w3_open()">☰</a>
+  <span>Haywoods</span>
+</header>
 
-        <!--Search input-->
-        <form action="" method="GET">
-          <div class="btn-toolbar mb-3" role="toolbar">
-            <div class="input-group m-r mt-2 pr-5">
-              <input type="text" name="search" class="form-control bg-light" placeholder="Search" value="<?php if (isset($_GET["search"])) echo $_GET["search"]; ?>">
-              <div class="input-group-prepend">
-                <input type="submit" class="input-group-text bg-primary text-white" id="btnGroupAddon" value="Search">
-              </div>
-              </div>
-          <!--Minimum input-->
-            <div class="input-group m-r mt-2 pr-5">
-              <div class="input-group-prepend">
-                <div class="input-group-text bg-primary text-white" id="btnGroupAddon">£</div>
-              </div>
-              <input type="text" name="min" class="form-control bg-light" placeholder="Min" value="<?php if (isset($_GET["min"])) echo $_GET["min"]; ?>">
-            </div>
-            <!--Maxium input-->
-            <div class="input-group mt-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text bg-primary text-white" id="btnGroupAddon">£</div>
-              </div>
-              <input type="text" name="max" class="form-control bg-light" placeholder="Max" value="<?php if (isset($_GET["max"])) echo $_GET["max"]; ?>">
-            </div>
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px">
+    <h1 class="w3-jumbo"><b>Product Search</b></h1> <!--Page Title-->
+    <h1 class="w3-xxxlarge text-primary"><b>Search.</b></h1> <!--Sub title-->
+    <hr style="width:50px;border:5px solid blue" class="w3-round">
+    <!--Search input-->
+    <form action="" method="GET" class="border border-dark bg-primary p-2 mt-2 dropshadow">
+      <div class="btn-toolbar mb-3" role="toolbar">
+        <div class="input-group m-r mt-2 pr-5">
+          <input type="text" name="search" class="form-control bg-light" placeholder="Search" value="<?php if (isset($_GET["search"])) echo $_GET["search"]; ?>">
+          <div class="input-group-prepend">
+            <input type="submit" class="input-group-text bg-dark text-white" id="btnGroupAddon" value="Search">
           </div>
-        </form>
-      </div>
-
-      <div class="card-deck">
-        <?php
-          foreach ($results as $result) {
-            // sku_code, name, price
-            echo '<div class="card bg-info border border-dark p-2 mb-2 m-r d-inline-block c-width">';
-            echo '<a href="./product_details.php?sku='.$result[0].'"><img src="images/'.$result[0].'_0.jpg" class="card-img-top border border-dark" alt="...">';
-            echo '<div class="card-body">';
-            echo '<p class="card-text text-white bg-primary pl-1 border border-dark">'.$result[2].'</p>';
-            echo '<p class="card-text text-white bg-primary pl-1 border border-dark d-block">'.$result[1].'</p>';
-            echo '</div>';
-            echo '</a>';
-            echo '</div>';
-
-          }
-        ?>
-        <div class="card bg-info border border-dark p-2 mb-2 m-r d-inline-block c-width">
-          <a href="#"><img src="blank.png" class="card-img-top border border-dark" alt="..."> <!--1 of 8-->
-            <div class="card-body">
-              <p class="card-text text-white bg-primary pl-1 border border-dark">£110.99</p>
-              <p class="card-text text-white bg-primary pl-1 border border-dark d-block">TV Stand</p>
-            </div>
-          </a>
+          </div>
+      <!--Minimum input-->
+        <div class="input-group m-r mt-2 pr-5">
+          <div class="input-group-prepend">
+            <div class="input-group-text bg-dark text-white" id="btnGroupAddon">£</div>
+          </div>
+          <input type="text" name="min" class="form-control bg-light" placeholder="Min" value="<?php if (isset($_GET["min"])) echo $_GET["min"]; ?>">
         </div>
-        <div class="card bg-info border border-dark p-2 mb-2 m-r d-inline-block c-width">
-          <a href="#"><img src="blank.png" class="card-img-top border border-dark" alt="..."> <!--2 of 8-->
-            <div class="card-body">
-              <p class="card-text text-white bg-primary pl-1 border border-dark">£39.00</p>
-              <p class="card-text text-white bg-primary pl-1 border border-dark d-block">Bedside Cabinet</p>
-            </div>
-          </a>
-        </div>
-        <div class="card bg-info border border-dark p-2 mb-2 m-r d-inline-block c-width">
-          <a href="#"><img src="blank.png" class="card-img-top border border-dark" alt="..."> <!--3 of 8-->
-            <div class="card-body">
-              <p class="card-text text-white bg-primary pl-1 border border-dark">£110.99</p>
-              <p class="card-text text-white bg-primary pl-1 border border-dark d-block">TV Stand</p>
-            </div>
-          </a>
-        </div>
-        <div class="card bg-info border border-dark p-2 mb-2 m-r d-inline-block c-width">
-          <a href="#"><img src="blank.png" class="card-img-top" alt="..."> <!--4 of 8-->
-            <div class="card-body">
-              <p class="card-text text-white bg-primary pl-1 border border-dark">£110.99</p>
-              <p class="card-text text-white bg-primary pl-1 border border-dark d-block">TV Stand</p>
-            </div>
-          </a>
+        <!--Maxium input-->
+        <div class="input-group mt-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text bg-dark text-white" id="btnGroupAddon">£</div>
+          </div>
+          <input type="text" name="max" class="form-control bg-light" placeholder="Max" value="<?php if (isset($_GET["max"])) echo $_GET["max"]; ?>">
         </div>
       </div>
+    </form>
+  </div>
+  <!-- Output, if empty hide -->
+  <div class="w3-container" style="margin-top:80px">
+    <h1 class="w3-xxxlarge text-primary"><b>Results.</b></h1> <!--Sub title-->
+    <hr style="width:50px;border:5px solid blue" class="w3-round">
+    <div class="card-deck">
+      <?php
+        foreach ($results as $result) {
+          // sku_code, name, price
+          echo '<div class="card bg-primary dropshadow border border-dark p-2 mb-2 m-r d-inline-block c-width">';
+          echo '<a href="./product_details.php?sku='.$result[0].'"><img src="images/'.$result[0].'_0.jpg" class="card-img-top border border-dark" alt="...">';
+          echo '<div class="card-body">';
+          echo '<p class="card-text text-light pl-1">£'.$result[2].'</p>';
+          echo '<p class="card-text text-light pl-1 d-block">'.$result[1].'</p>';
+          echo '</div>';
+          echo '</a>';
+          echo '</div>';
+        }
+      ?>
     </div>
-  </body>
+  </div>
 
+<!-- End page content -->
+</div>
+
+<!-- W3.CSS Container -->
+<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p></div>
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+</script>
+
+</body>
 </html>

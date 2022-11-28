@@ -1,9 +1,7 @@
 <?php
-// ensure session is started
-if (session_status() == PHP_SESSION_NONE) session_start();
 
-require 'access_level.php';
-requireAccessLevel(4);
+require './access_level.php';
+requireAccessLevel(3);
 
 ?>
 
@@ -26,27 +24,27 @@ requireAccessLevel(4);
   <div class="w3-container">
     <h3 class="w3-padding-64"><b>Haywoods<br>Internal</b></h3>
   </div>
-  <div class="w3-bar-block"> <!--Check access level? Add login/logout on bar? may need to change addresses-->
-    <?php
+  <?php
     if($accessLevel != -1){
       echo"<a href='./login.php?logout=true' class='w3-bar-item w3-button w3-hover-white'>User: $username, Access: $accessLevel</a>";
     }else{
       echo "<a href='./login.php' class='w3-bar-item w3-button w3-hover-white'>Login</a>";}
-    ?> <!--logout/login-->
-    <a href="../index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Front-End</a> <!--Index-->
+  ?> <!--logout/login-->
+  <div class="w3-bar-block"> <!--Check access level? Add login/logout on bar? may need to change addresses-->
+    <a href="./index.php" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> <!--Index-->
     <?php
-        if ($accessLevel <= 4) { // trainee
-          echo "<a href='./till.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Till</a>";
-        }
-        if ($accessLevel <= 3) { // employee
-          echo "<a href='./product_history.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Product History</a>";
-        }
-        if ($accessLevel <= 2) { // supervisor
-          echo "<a href='./sale_history.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Sale History</a>";
-        }
-        if ($accessLevel == 1) { // management
-          echo "<a href='./monthly_report.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Monthly Report</a>";
-        }
+      if ($accessLevel <= 4) { // trainee
+        echo "<a href='./till.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Till</a>";
+      }
+      if ($accessLevel <= 3) { // employee
+        echo "<a href='./product_history.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Product History</a>";
+      }
+      if ($accessLevel <= 2) { // supervisor
+        echo "<a href='./sale_history.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Sale History</a>";
+      }
+      if ($accessLevel == 1) { // management
+        echo "<a href='./monthly_report.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Monthly Report</a>";
+      }
     ?>
   </div>
 </nav>
@@ -65,16 +63,50 @@ requireAccessLevel(4);
 
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px">
-    <h1 class="w3-jumbo"><b>Home</b></h1> <!--Page Title-->
-    <h1 class="w3-xxxlarge text-primary"><b>Welcome.</b></h1> <!--Sub title-->
+    <h1 class="w3-jumbo"><b>Product History</b></h1> <!--Page Title-->
+    <h1 class="w3-xxxlarge text-primary"><b>SKU Code.</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
-    <?php require 'login_banner.php'; #change ?><br>
-    <p>We are a interior design service that focus on what's best for your home and what's best for you!</p>
-    <p>Some text about our services - what we do and what we offer. We are lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor
-    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </p>
+    <div class="container bg-primary border border-dark p-2 dropshadow">
+      <form action="?" method="get">
+        <p class="d-inline-block border border-dark bg-light p-2">Product SKU:</p> <input type="text"
+          class="bg-light p-2" name="sku" placeholder="000000"><br>
+        <input type="submit" value="Search" class="btn btn-dark mt-1 border border-dark w300">
+      </form>
+    </div>
   </div>
+
+  <!--History-->
+  <?php if ($result) { #change to search thing
+    echo "
+    <div class='w3-container' style='margin-top:80px'>
+      <h1 class='w3-xxxlarge text-primary'><b>${product_name}.</b></h1> <!--Sub title-->
+      <hr style='width:50px;border:5px solid blue' class='w3-round'>
+      <div class='container bg-primary border border-dark p-2 dropshadow'>
+        <table class='table table-bordered border-dark bg-light'>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Description</th>
+            <th>Start Price</th>
+            <th>End Price</th>
+            <th>Start Stock</th>
+            <th>End Stock</th>
+            <th>Variance</th>
+          </tr>
+          <tr>
+            <td>20/10/2022</td>
+            <td>12:00:00</td>
+            <td>Sale</td>
+            <td>£100.99</td>
+            <td>£100.99</td>
+            <td>21</td>
+            <td>20</td>
+            <td>-1</td>
+          </tr>
+        </table>
+      </div>
+    </div>"; }
+  ?>
 
 <!-- End page content -->
 </div>
