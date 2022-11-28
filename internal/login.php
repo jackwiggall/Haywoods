@@ -2,17 +2,18 @@
 // ensure session is started
 if (session_status() == PHP_SESSION_NONE) session_start();
 
+require '../database.php';
 
-require './access_level.php';
 
-
+// function to redirect to page after authentication
 function performRedirection() {
   $redirection = $_GET["redirect"];
   if (isset($redirection)) {
     header("location: $redirection");
     die();
   } else {
-    header('location: /Haywoods/internal/index.php');
+    // no redirection field set, redirect to index page
+    header('location: ./index.php');
     die();
   }
 }
@@ -21,26 +22,42 @@ function performRedirection() {
 // logout request
 if (isset($_GET['logout']) && $_GET['logout'] == "true") {
   session_destroy(); // clear login cookies
-  performRedirection();
+  performRedirection(); // redirect
 }
 
-$invalidLogin = false;
-
+$errorMessage = "";
 if (isset($_POST['username']) && isset($_POST['password'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
-  $access_level = getAccessLevel($username, $password);
-  // user not found on system
-  // echo "<br>access level $access_level for $username: $password<br>";
-  if ($access_level == -1) {
-    $invalidLogin = true;
-  } else {
-    // login successfull, save details to cookie to be used again
-    $_SESSION["username"] = $username;
-    $_SESSION["password"] = $password;
 
-    // redirect to different page
-    performRedirection();
+  $stmt = $conn->prepare("SELECT store_id, storeLocation, accessLevel, accessLevelName, fullname, login_username, login_password
+                          FROM StaffLogin WHERE login_username = :username");
+  $stmt->bindParam("username", $username);
+  $stmt->execute();
+
+  $row = $stmt->fetch();
+
+  $_SESSION['loggedIn'] = false;
+  if ($row == null) { // user not found on database
+    // set bool flag to display error message that login was unsuccessful
+    $errorMessage = "Invalid Username";
+  } else {
+    $actualPassword = $row['login_password'];
+    if ($actualPassword != $password) {
+      $errorMessage = "Invalid Password";
+    } else {
+      // login successfull, save details to cookie
+      $_SESSION['loggedIn'] = true;
+      $_SESSION['fullname'] = $row['fullname'];
+      $_SESSION['username'] = $row['login_username'];
+      $_SESSION['location'] = $row['storeLocation'];
+      $_SESSION['store_id'] = $row['store_id'];
+      $_SESSION['accessLevel'] = $row['accessLevel'];
+      $_SESSION['accessLevelName'] = $row['accessLevelName'];
+  
+      // redirect to different page
+      performRedirection();
+    }
   }
 }
 
@@ -69,8 +86,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
           <input type="submit" value="Login" class="btn btn-primary mt-1 border border-dark w300">
         </form>
         <?php
-          if ($invalidLogin) {
-            echo '<h1>failed</h1>';
+          if (!empty($errorMessage)) {
+            echo "<h1>$errorMessage</h1>";
           }
         ?>
       </div>

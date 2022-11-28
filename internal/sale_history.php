@@ -1,5 +1,7 @@
 <?php
 
+require "../database.php";
+
 require "access_level.php";
 requireAccessLevel(2);
 
@@ -59,7 +61,16 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
             $stmt = $conn->prepare("SELECT store_id, location FROM Store");
             $stmt->execute();
             while (($store = $stmt->fetch()) != null) {
-              echo '<option value="'.$store[0].'">'.$store[1].'</option>';
+              $selected = "";
+              if (isset($_GET["store"])) {
+                if ($_GET["store"] == $store['store_id']) {
+                  $selected = "selected";
+                }
+              } elseif ($store['store_id'] == $_SESSION['store_id']) {
+                $selected = "selected";
+              }
+
+              echo '<option value="'.$store['store_id'].'"'.$selected.'>'.$store['location'].'</option>';
             }
           ?>
         </select>
