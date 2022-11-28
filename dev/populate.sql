@@ -334,7 +334,7 @@ VALUES (
         '69 Matthews Avenue Perth',
         '07541335195',
         16,
-        'micms',
+        'michael',
         'pass'
     ),
     (
@@ -346,7 +346,7 @@ VALUES (
         '12 Matthews Road Montrose',
         '079876432143',
         20,
-        'ellst',
+        'elliot',
         'pass'
     ),
     (
@@ -358,7 +358,7 @@ VALUES (
         '18 Barnes Street Aberdeen',
         '07554125685',
         30,
-        'bendd',
+        'benjamin',
         'pass'
     ),
     (
@@ -370,7 +370,7 @@ VALUES (
         '2 Cecil Street Stirling',
         '07754121873',
         26,
-        'chroy',
+        'chris',
         'pass'
     ),
     (
@@ -382,7 +382,7 @@ VALUES (
         '17 Andrews Crescent Perth',
         '07748156684',
         38,
-        'nicjn',
+        'nicole',
         'pass'
     ),
     (
@@ -394,7 +394,7 @@ VALUES (
         '7 Craigstown Road Dunfermline',
         '07845125463',
         16,
-        'jacwl',
+        'jack',
         'pass'
     ),
     (
