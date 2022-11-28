@@ -3,15 +3,15 @@
 require "access_level.php";
 requireAccessLevel(2);
 
-$items = array();
-if (isset($_POST['date']) || isset($_POST['store'])) {
+$sales = [];
+if (isset($_GET['date']) || isset($_GET['store'])) {
   $query_where = "WHERE";
 
-  if (isset($_POST['date'])) {
-    $query_where += " cast(date as date) = cast(:date as date) AND";
+  if (isset($_GET['date'])) {
+    $query_where = "$query_where cast(date as date) = cast(:date as date) AND";
   }
-  if (isset($_POST['store'])) {
-    $query_where += " store_id = :store AND";
+  if (isset($_GET['store'])) {
+    $query_where = "$query_where store_id = :store AND";
   }
 
 
@@ -20,21 +20,13 @@ if (isset($_POST['date']) || isset($_POST['store'])) {
   } else {
     $query_where = substr($query_where, 0, -4); // remove trailing AND
   }
-
-  $stmt = $conn->prepare("SELECT sale_id,date,staff_id,totalCost FROM Sale "+$query_where);
-  if (isset($_POST['date']))  $stmt->bindParam("date", $_POST['date']);
-  if (isset($_POST['store'])) $stmt->bindParam("store", $_POST['store']);
+  $stmt = $conn->prepare("SELECT sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost FROM SaleHistory $query_where");
+  if (isset($_GET['date']))  $stmt->bindParam("date", $_GET['date']);
+  if (isset($_GET['store'])) $stmt->bindParam("store", $_GET['store']);
 
   $stmt->execute();
 
-  while (($store = $stmt->fetch()) != null) {
-
-  }
-  // SELECT COUNT(quantity) AS quantity FROM Sale_Product WHERE sale_id = (SELECT sale_id FROM Sale $query_where)
-
-
-
-  // $items = $stmt->fetchAll();
+  $sales = $stmt->fetchAll();
 }
 
 ?>
@@ -43,7 +35,6 @@ if (isset($_POST['date']) || isset($_POST['store'])) {
 
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
@@ -72,7 +63,7 @@ if (isset($_POST['date']) || isset($_POST['store'])) {
         <br>
 
         <p class="d-inline-block border border-dark bg-light p-2">Sale Date: </p>
-        <input type="date" class="bg-light p-2" name="date" <?php if (isset($_POST["date"])) { echo "value=".$_POST["date"]; } ?>><br>
+        <input type="date" class="bg-light p-2" name="date" <?php if (isset($_GET["date"])) { echo "value=".$_GET["date"]; } ?>><br>
 
         <!-- <p class="d-inline-block border border-dark bg-light p-2">Total Value:</p> <input type="number"
           class="bg-light p-2" name="sku" placeholder="0"><br>
@@ -93,15 +84,19 @@ if (isset($_POST['date']) || isset($_POST['store'])) {
           <th>Value</th>
           <th>More Details</th>
         </tr>
-        <tr>
-          <!--RESPONSIVE OVERFLOW ISSUE-->
-          <td>23/01/22</td>
-          <td>12:00:00</td>
-          <td>John Doe</td>
-          <td>3</td>
-          <td>£30.99</td>
-          <td><a href="#">Click for Sale Details</a></td>
-        </tr>
+        <?php
+          foreach ($sales as $sale) {
+            // sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost
+            echo "<tr>";
+            echo "<td>".$sale[1]."</td>";
+            echo "<td>".$sale[2]."</td>";
+            echo "<td>".$sale[3]." ".$sale[4]."</td>";
+            echo "<td>".$sale[5]."</td>";
+            echo "<td>".$sale[6]."</td>";
+            echo '<td><a href="./receipt.php?sale='.$sale[0].'">View Receipt</a></td>';
+            echo "</tr>";
+          }
+        ?>
       </table>
     </div>
 

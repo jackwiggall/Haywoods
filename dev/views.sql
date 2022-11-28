@@ -28,7 +28,7 @@ FROM Sale
 CREATE VIEW StaffDetails AS
 SELECT Store.store_id,
   Store.location,
-  AccessLevel.name AS AccessLevelName,
+  AccessLevel.name AS accessLevelName,
   Staff.firstname,
   Staff.lastname,
   Staff.login_username
@@ -54,7 +54,7 @@ SELECT Store.store_id,
   Sale.date,
   Product.sku_code,
   Product.name,
-  COUNT(Product.sku_code) AS quantity
+  COUNT(Sale_Product.quantity) AS quantity
 FROM Sale
   JOIN Sale_Product ON (Sale.sale_id = Sale_Product.sale_id)
   JOIN Store ON (Sale.store_id = Store.store_id)
@@ -78,3 +78,16 @@ SELECT sku_code,
   description,
   price
 FROM Product;
+-- SaleHistory
+CREATE VIEW SaleHistory AS
+SELECT Sale.sale_id,
+  Sale.date,
+  Sale.store_id,
+  Staff.firstname,
+  Staff.lastname,
+  COUNT(Sale_Product.quantity) AS quantity,
+  Sale.totalCost
+FROM Sale
+  JOIN Staff ON (Sale.staff_id = Staff.staff_id)
+  JOIN Sale_Product ON (Sale.sale_id = Sale_Product.sale_id)
+GROUP BY Sale.sale_id;

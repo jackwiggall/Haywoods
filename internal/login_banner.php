@@ -3,7 +3,7 @@
 require '../database.php';
 
 $username = $_SESSION['username'];
-$stmt = $conn->prepare("SELECT location, AccessLevelName, firstname, lastname FROM StaffDetails WHERE login_username = :username");
+$stmt = $conn->prepare("SELECT location, accessLevelName, firstname, lastname FROM StaffDetails WHERE login_username = :username");
 $stmt->bindParam("username", $username);
 $stmt->execute();
 $row = $stmt->fetch();
