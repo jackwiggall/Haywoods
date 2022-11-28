@@ -3,8 +3,11 @@
 require "access_level.php";
 requireAccessLevel(2);
 
+// flag to hide table headers if no query executed
+$queryExecuted = false;
 $sales = [];
 if (isset($_GET['date']) || isset($_GET['store'])) {
+  $queryExecuted = true;
   $query_where = "WHERE";
 
   if (isset($_GET['date'])) {
@@ -63,7 +66,16 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
         <br>
 
         <p class="d-inline-block border border-dark bg-light p-2">Sale Date: </p>
-        <input type="date" class="bg-light p-2" name="date" <?php if (isset($_GET["date"])) { echo "value=".$_GET["date"]; } ?>><br>
+        <input type="date" class="bg-light p-2" name="date"
+        <?php
+          if (isset($_GET["date"])) {
+            echo "value=".$_GET["date"];
+          } else {
+            $currentDate = date("Y-m-d");
+            echo "value=".$currentDate;
+          }
+        ?>
+        ><br>
 
         <!-- <p class="d-inline-block border border-dark bg-light p-2">Total Value:</p> <input type="number"
           class="bg-light p-2" name="sku" placeholder="0"><br>
@@ -73,6 +85,11 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
       </form>
     </div>
 
+    <?php
+      if (!$queryExecuted) {
+        die("</div></body></html>");
+      }
+    ?>
     <!--hide below until search-->
     <div class="container border border-dark bg-info p-2 mt-4">
       <table class="table table-bordered border-dark bg-light">
