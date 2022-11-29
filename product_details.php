@@ -78,7 +78,7 @@ $reviews = $stmt->fetchAll(); // get all reviews
             <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Nearest Store: </div>
               <input type="text" disabled class="bg-light p-2 mt-2" name="store" placeholder="DD2 5FP"><br> <!--change to nearest store-->
             <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Stock Level </div>
-              <input type="text" disabled class="bg-light p-2 mt-2" name="stock" placeholder="21"><br> <!--change to store's stock level->
+              <input type="text" disabled class="bg-light p-2 mt-2" name="stock" placeholder="21"><br> <!--change to store's stock level-->
 
           <h4 class="pt-3 mb-3 text-white">Description</h4>
             <div class="d-inline-block p-2 mt-2 border border-dark bg-light"><?php echo $product_description; ?></div>

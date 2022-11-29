@@ -82,22 +82,22 @@ if (isset($_GET['search'])) {
   <div class="w3-container" style="margin-top:80px">
     <h1 class="w3-xxxlarge text-primary"><b>Results.</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
-    <div class="card-deck">
-      <?php
-        foreach ($results as $result) {
-          // sku_code, name, price
-          echo '<div class="card bg-primary dropshadow border border-dark p-2 mb-2 m-r d-inline-block c-width">';
-          echo '<a href="./product_details.php?sku='.$result[0].'"><img src="images/'.$result[0].'_0.jpg" class="card-img-top border border-dark" alt="...">';
-          echo '<div class="card-body">';
-          echo '<p class="card-text text-light pl-1">£'.$result[2].'</p>';
-          echo '<p class="card-text text-light pl-1 d-block">'.$result[1].'</p>';
-          echo '</div>';
-          echo '</a>';
-          echo '</div>';
-        }
-      ?>
+      <div class="card-deck">
+        <?php
+          foreach ($results as $result) {
+            // sku_code, name, price
+            echo '<div class="card bg-primary dropshadow border border-dark p-2 mb-2 m-r d-inline-block c-width">';
+            echo '<a href="./product_details.php?sku='.$result[0].'"><img src="images/'.$result[0].'_0.jpg" class="card-img-top border border-dark" alt="...">';
+            echo '<div class="card-body">';
+            echo '<p class="card-text text-light pl-1">£'.$result[2].'</p>';
+            echo '<p class="card-text text-light pl-1 d-block">'.$result[1].'</p>';
+            echo '</div>';
+            echo '</a>';
+            echo '</div>';
+          }
+        ?>
+      </div>
     </div>
-  </div>
 
 <!-- End page content -->
 </div>

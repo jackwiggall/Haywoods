@@ -77,14 +77,15 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 <body>
 
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar bg-primary w3-collapse w3-top w3-large w3-padding text-white" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+<nav class="w3-sidebar bg-dark w3-collapse w3-top w3-large w3-padding text-white" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
   <div class="w3-container">
     <h3 class="w3-padding-64"><b>Haywoods<br>Internal</b></h3>
   </div>
   <div class="w3-bar-block"> <!--Check access level? Add login/logout on bar? may need to change addresses-->
     <a href="../index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> <!--Index-->
-    <a href="../product_search.php" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Product Search</a> <!-- -->
+    <a href="../product_search.php" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Product Search</a> <!--Library-->
+    <a href="../review.php" oncick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Write a Review</a> <!--Make review-->
   </div>
 </nav>
 
@@ -102,7 +103,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px">
-    <h1 class="w3-jumbo"><b>Login to internal site</b></h1> <!--Page Title-->
+    <h1 class="w3-jumbo"><b>Login to Internal Site</b></h1> <!--Page Title-->
     <h1 class="w3-xxxlarge text-primary"><b>Enter Details.</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
     <form action="" method="POST">

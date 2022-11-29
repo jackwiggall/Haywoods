@@ -1,12 +1,17 @@
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar bg-primary w3-collapse w3-top w3-large w3-padding text-white" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+<nav class="w3-sidebar bg-dark w3-collapse w3-top w3-large w3-padding text-white" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
   <div class="w3-container">
-    <h3 class="w3-padding-64"><b>Haywoods<br>Internal</b></h3>
+    <h3 class="w3-padding-64 pb-3"><b>Haywoods<br>Internal</b></h3>
   </div>
   <div class="w3-bar-block"> <!--Check access level? Add login/logout on bar? may need to change addresses-->
-    
     <?php
+      echo "<p class='w3-bar-item w3-text-blue mt-0 pt-0 mb-5'><b class='text-white'>User:</b> Micms<br>
+      <b class='text-white'>Access:</b> Management<br>
+      <b class='text-white'>Store:</b> 19 Annfield Street Dundee</p>";
+      #echo "<p class='w3-bar-item text-primary mt-0 pt-0'>Access: Management</p>";
+      #echo "<p class='w3-bar-item text-primary mt-0 pt-0'>Store: 19 Annfield Street Dundee</p><br>";
+
         if ($_SESSION['accessLevel'] <= 4) { // trainee
           echo "<a href='./till.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Till</a>";
         }

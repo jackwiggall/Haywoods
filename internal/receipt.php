@@ -118,7 +118,7 @@ $sale_items_count = count($sale_items);
 
       <div class="border-2 border-top border-bottom border-dark mt-1">
         <div>
-          Happy or unhappy with your purchase? please write a product
+          Happy or unhappy with your purchase? Please write a product
           review on our website with the code below.
         </div>
         <div class="text-center">
