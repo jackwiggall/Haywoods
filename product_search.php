@@ -13,7 +13,7 @@ if (isset($_GET['search'])) {
 
 
   $stmt = $conn->prepare("SELECT sku_code, name, price
-                          FROM ProductList
+                          FROM ProductWithRating
                           WHERE name LIKE :search
                           AND :minimum < price AND :maximum > price");
   $wildcardSearch = "%$search%";
@@ -87,10 +87,10 @@ if (isset($_GET['search'])) {
           foreach ($results as $result) {
             // sku_code, name, price
             echo '<div class="card bg-primary dropshadow border border-dark p-2 mb-2 m-r d-inline-block c-width">';
-            echo '<a href="./product_details.php?sku='.$result[0].'"><img src="images/'.$result[0].'_0.jpg" class="card-img-top border border-dark" alt="...">';
+            echo '<a href="./product_details.php?sku='.$result['sku_code'].'"><img src="images/'.$result['sku_code'].'_0.jpg" class="card-img-top border border-dark" alt="...">';
             echo '<div class="card-body">';
-            echo '<p class="card-text text-light pl-1">£'.$result[2].'</p>';
-            echo '<p class="card-text text-light pl-1 d-block">'.$result[1].'</p>';
+            echo '<p class="card-text text-light pl-1">£'.$result['price'].'</p>';
+            echo '<p class="card-text text-light pl-1 d-block">'.$result['name'].'</p>';
             echo '</div>';
             echo '</a>';
             echo '</div>';

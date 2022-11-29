@@ -11,7 +11,8 @@ $product_sku = $_GET['sku'];
 // get product sku code from url http://localhost/product_details.php?sku=XXXXXX
 // and escape it to prevent naughty sql injection attacks
 
-$stmt = $conn->prepare("SELECT name,description,price FROM Product WHERE sku_code = :sku");
+// query view ProductWithRating to get the average rating of a product along with other details
+$stmt = $conn->prepare("SELECT name,description,price, rating FROM ProductWithRating WHERE sku_code = :sku");
 $stmt->bindParam("sku", $product_sku);
 $stmt->execute();
 
@@ -19,17 +20,11 @@ $item_row = $stmt->fetch(); // read sql response from query
 // the $item_row variable is an array of name,description,price
 // extract values from array and put them in seperate varaibles to be inlined
 // with the html code below
-$product_name = $item_row[0];
-$product_description = $item_row[1];
-$product_price = $item_row[2];
+$product_name = $item_row['name'];
+$product_description = $item_row['description'];
+$product_price = $item_row['price'];
+$average_rating = $item_row['rating'];
 
-/*** Get product reviews ***/
-// query view AverageRating to get the average rating of a product
-$stmt = $conn->prepare("SELECT rating FROM AverageRating WHERE sku_code = :sku");
-$stmt->bindParam("sku", $product_sku);
-$stmt->execute();
-
-$average_rating = $stmt->fetch()[0];
 
 $stmt = $conn->prepare("SELECT rating,title,content,review_date FROM Review WHERE Review.sku_code = :sku ORDER BY review_date ASC");
 $stmt->bindParam("sku", $product_sku);
@@ -86,10 +81,10 @@ $reviews = $stmt->fetchAll(); // get all reviews
           <h3 class="p-3 m-2 text-white">Product Reviews</h3>
           <?php
             foreach ($reviews as $review) {
-              $review_rating = $review[0];
-              $review_title = $review[1];
-              $review_content = $review[2];
-              $review_date = $review[3];
+              $review_rating = $review['rating'];
+              $review_title = $review['title'];
+              $review_content = $review['content'];
+              $review_date = $review['review_date'];
               if ($review_title != '') { // only show reviews which have a title
                 echo '<div class="d-inline-block p-3 mt-3 border border-dark bg-light">';
                 echo '<b>'.$review_title.'</b>';

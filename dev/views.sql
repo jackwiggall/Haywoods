@@ -64,20 +64,16 @@ GROUP BY Sale_Product.sku_code,
   YEAR(Sale.date),
   Store.store_id
 ORDER BY quantity DESC;
--- Average Rating
-CREATE VIEW AverageRating AS
+-- Products with average rating
+CREATE VIEW ProductWithRating AS
 SELECT Product.sku_code,
-  coalesce(ROUND(AVG(Review.rating), 1), '?') AS rating
+  coalesce(ROUND(AVG(Review.rating), 1), '?') AS rating,
+  Product.name,
+  Product.description,
+  price
 FROM Product
   LEFT JOIN Review ON (Product.sku_code = Review.sku_code)
 GROUP BY Product.sku_code;
--- ProductList
-CREATE VIEW ProductList AS
-SELECT sku_code,
-  name,
-  description,
-  price
-FROM Product;
 -- SaleHistory
 CREATE VIEW SaleHistory AS
 SELECT Sale.sale_id,
@@ -86,8 +82,23 @@ SELECT Sale.sale_id,
   Staff.firstname,
   Staff.lastname,
   COUNT(Sale_Product.quantity) AS quantity,
-  Sale.totalCost
+  ROUND(Sale.totalCost, 2) AS totalCost
 FROM Sale
   JOIN Staff ON (Sale.staff_id = Staff.staff_id)
   JOIN Sale_Product ON (Sale.sale_id = Sale_Product.sale_id)
 GROUP BY Sale.sale_id;
+-- Staff Login details
+CREATE VIEW StaffLogin AS
+SELECT Staff.staff_id,
+  Store.store_id,
+  Store.location AS storeLocation,
+  Staff.accessLevel_id AS accessLevel,
+  AccessLevel.name AS accessLevelName,
+  CONCAT(Staff.firstname, " ", Staff.lastname) AS fullname,
+  Staff.login_username,
+  Staff.login_password
+FROM Staff
+  JOIN Store ON (Staff.store_id = Store.store_id)
+  JOIN AccessLevel ON (
+    Staff.accessLevel_id = AccessLevel.accessLevel_id
+  );

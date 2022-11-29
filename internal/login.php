@@ -30,7 +30,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
 
-  $stmt = $conn->prepare("SELECT store_id, storeLocation, accessLevel, accessLevelName, fullname, login_username, login_password
+  $stmt = $conn->prepare("SELECT store_id, staff_id, storeLocation, accessLevel, accessLevelName, fullname, login_username, login_password
                           FROM StaffLogin WHERE login_username = :username");
   $stmt->bindParam("username", $username);
   $stmt->execute();
@@ -52,6 +52,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
       $_SESSION['username'] = $row['login_username'];
       $_SESSION['location'] = $row['storeLocation'];
       $_SESSION['store_id'] = $row['store_id'];
+      $_SESSION['staff_id'] = $row['staff_id'];
       $_SESSION['accessLevel'] = $row['accessLevel'];
       $_SESSION['accessLevelName'] = $row['accessLevelName'];
 
@@ -77,27 +78,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 <body>
 
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar bg-dark w3-collapse w3-top w3-large w3-padding text-white" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
-  <div class="w3-container">
-    <h3 class="w3-padding-64"><b>Haywoods<br>Internal</b></h3>
-  </div>
-  <div class="w3-bar-block"> <!--Check access level? Add login/logout on bar? may need to change addresses-->
-    <a href="../index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> <!--Index-->
-    <a href="../product_search.php" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Product Search</a> <!--Library-->
-    <a href="../review.php" oncick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Write a Review</a> <!--Make review-->
-  </div>
-</nav>
-
-<!-- Top menu on small screens -->
-<header class="w3-container w3-top w3-hide-large text-primary w3-xlarge w3-padding">
-  <a href="javascript:void(0)" class="w3-button text-primary w3-margin-right" onclick="w3_open()">☰</a>
-  <span>Haywoods</span>
-</header>
-
-<!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
-
+<?php require './internal_sidebar.php' ?>
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:340px;margin-right:40px">
 

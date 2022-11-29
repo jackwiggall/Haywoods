@@ -17,9 +17,9 @@ if (isset($_POST["scanned"])) {
 
   // initialize cookie
   if (!isset($_SESSION["scanned_items"])) {
-    $_SESSION["scanned_items"] = "[]";
+    $_SESSION["scanned_items"] = [];
   }
-  $scannedItems = json_decode($_SESSION["scanned_items"]);
+  $scannedItems = $_SESSION["scanned_items"];
 
   // get product info from db
   $stmt = $conn->prepare("SELECT sku_code,name,price FROM Product WHERE sku_code = :sku");
@@ -32,41 +32,31 @@ if (isset($_POST["scanned"])) {
     $invalidScan = true;
   } else {
     // add to array
-    $scannedItems[] = json_encode($row);
+    $scannedItems[] = $row;
 
-    // update cookie
-    $_SESSION["scanned_items"] = json_encode($scannedItems);
+    // update session cookie
+    $_SESSION["scanned_items"] = $scannedItems;
   }
 }
 if (isset($_POST["reset"])) {
-  $_SESSION["scanned_items"] = "[]";
+  $_SESSION["scanned_items"] = [];
 }
 
 if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
   $totalCost = 0;
   $sku_codes = array();
-  foreach (json_decode($_SESSION["scanned_items"]) as $scannedItem) {
-    $scannedItem = json_decode($scannedItem);
-    $totalCost += $scannedItem->{"price"};
-    $sku_codes[] = $scannedItem->{"sku_code"};
+  foreach ($_SESSION["scanned_items"] as $scannedItem) {
+    $totalCost += $scannedItem["price"];
+    $sku_codes[] = $scannedItem["sku_code"];
   }
 
   // not an empty transaction
   if (!empty($sku_codes)) {
-    // get staff id by querying using session username
-    // put sale through first, get sale_id, then make other tables
-    // sotre_id from staff
-
-    $stmt = $conn->prepare("SELECT staff_id, store_id FROM Staff WHERE login_username = :username");
-    $stmt->bindParam("username", $_SESSION["username"]);
-    $stmt->execute();
-
-    $row = $stmt->fetch();
-    $staff_id = $row[0];
-    $store_id = $row[1];
-
-
+    
+    
     // insert into Sale
+    $staff_id = $_SESSION['staff_id'];
+    $store_id = $_SESSION['store_id'];
     $review_code = dechex(rand(0,pow(2,26)));
     $stmt = $conn->prepare("INSERT INTO Sale (store_id, totalCost, staff_id, review_code) VALUES (:store_id, :totalCost, :staff_id, :review_code)");
     $stmt->bindParam("store_id", $store_id);
@@ -101,7 +91,7 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
     }
 
     // reset scanned items
-    $_SESSION["scanned_items"] = "[]";
+    $_SESSION["scanned_items"] = [];
   }
 }
 
@@ -145,13 +135,12 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
             $totalPrice = 0;
             if (isset($scannedItems)) {
               foreach ($scannedItems as $scannedItem) {
-                $scannedItem = json_decode($scannedItem);
                 echo "<tr>";
-                echo "<th>".$scannedItem->{"sku_code"}."</th>";
-                echo "<th>".$scannedItem->{"name"}."</th>";
-                echo "<th>£".$scannedItem->{"price"}."</th>";
+                echo "<th>".$scannedItem["sku_code"]."</th>";
+                echo "<th>".$scannedItem["name"]."</th>";
+                echo "<th>£".$scannedItem["price"]."</th>";
                 echo "</tr>";
-                $totalPrice += $scannedItem->{"price"};
+                $totalPrice += $scannedItem["price"];
               }
             }
           ?>
@@ -164,12 +153,17 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
     <div class="col float-end"> <!--Buttons-->
     <div class="float-end">
       <h3 class="p-3 border border-dark bg-light w300">Total £<strong id="totalPrice"><?php echo $totalPrice; ?></strong></h3><br>
+      
       <form action="" method="POST">
-        <input type="submit" value="Reset transaction" name="reset" class="btn btn-dark mt-1 border border-light w300 center" action=""><br>
+        <?php
+          if (!empty($_SESSION['scanned_items'])) {
+            echo '<input type="submit" value="Reset transaction" name="reset" class="btn btn-dark mt-1 border border-light w300 center" action=""><br>';
+          }
+        ?>
       </form>
       <?php
         if (isset($sale_id)) {
-          echo "<a href='./receipt.php?sale=$sale_id'><button class='btn btn-dark mt-1 border border-light w300 h100 center'>Print Prior Sale Receipt</button></a>";
+          echo "<a href='./receipt.php?sale=$sale_id' target='_blank'><button class='btn btn-dark mt-1 border border-light w300 h100 center'>Print Prior Sale Receipt</button></a>";
         }
       ?>
       <form action="" method="POST" id="payConfirmForm">
