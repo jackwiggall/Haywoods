@@ -69,12 +69,26 @@ if (isset($_GET['search'])) {
           <input type="text" name="min" class="form-control bg-light" placeholder="Min" value="<?php if (isset($_GET["min"])) echo $_GET["min"]; ?>">
         </div>
         <!--Maxium input-->
-        <div class="input-group mt-2">
+        <div class="input-group m-r mt-2 pr-5">
           <div class="input-group-prepend">
             <div class="input-group-text bg-dark text-white" id="btnGroupAddon">£</div>
           </div>
           <input type="text" name="max" class="form-control bg-light" placeholder="Max" value="<?php if (isset($_GET["max"])) echo $_GET["max"]; ?>">
         </div>
+        <!--Minimum Rating-->
+          <div class="input-group m-r mt-2 pr-5">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-dark text-white" id="btnGroupAddon">Rating</div>
+            </div>
+            <input type="text" name="rmin" class="form-control bg-light" placeholder="Min" value="<?php if (isset($_GET["min"])) echo $_GET["min"]; ?>">
+          </div>
+          <!--Maxium Rating-->
+          <div class="input-group m-r mt-2 pr-5 ">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-dark text-white" id="btnGroupAddon">Rating</div>
+            </div>
+            <input type="text" name="rmax" class="form-control bg-light" placeholder="Max" value="<?php if (isset($_GET["max"])) echo $_GET["max"]; ?>">
+          </div>
       </div>
     </form>
   </div>
