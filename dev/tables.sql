@@ -94,7 +94,7 @@ CREATE TABLE Review (
 );
 CREATE TABLE StockLevel (
 	`stockLevel_id` INT AUTO_INCREMENT,
-	`sku_code` INT UNIQUE,
+	`sku_code` INT,
 	`store_id` INT,
 	`count` INT,
 	PRIMARY KEY (`stockLevel_id`),

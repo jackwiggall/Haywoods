@@ -613,7 +613,7 @@ VALUES (
   );
 -- stock levels
 INSERT INTO StockLevel (store_id, sku_code, count)
-VALUES (1, 11001, 10),
+VALUES (1, 110001, 10),
   (1, 110002, 15),
   (1, 110003, 5),
   (1, 110004, 8),
