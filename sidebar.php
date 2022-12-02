@@ -8,7 +8,7 @@
   <div class="w3-bar-block"> <!--Check access level? Add login/logout on bar? may need to change addresses-->
     <a href="index.php" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> <!--Index-->
     <a href="product_search.php" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Product Search</a> <!--Library-->
-    <a href="../review.php" oncick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Write a Review</a> <!--Make review-->
+    <a href="review.php" oncick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Write a Review</a> <!--Make review-->
   </div>
 </nav>
 
