@@ -12,7 +12,7 @@ $product_sku = $_GET['sku'];
 // and escape it to prevent naughty sql injection attacks
 
 // query view ProductWithRating to get the average rating of a product along with other details
-$stmt = $conn->prepare("SELECT name,description,price, rating FROM ProductWithRating WHERE sku_code = :sku");
+$stmt = $conn->prepare("SELECT name,description,price, rating FROM vProductDetails WHERE sku_code = :sku");
 $stmt->bindParam("sku", $product_sku);
 $stmt->execute();
 

@@ -14,7 +14,7 @@ $sale_id = $_GET["sale"];
 
 
 // query ReceiptDetails View
-$stmt = $conn->prepare("SELECT date, totalCost, review_code, location, firstname, initialTender, last4Digits FROM ReceiptDetails WHERE sale_id = :sale_id");
+$stmt = $conn->prepare("SELECT date, totalCost, review_code, location, firstname, initialTender, last4Digits FROM vReceiptDetails WHERE sale_id = :sale_id");
 $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
 $row = $stmt->fetch();
@@ -31,7 +31,7 @@ $sale_card_last4Digits = $row['last4Digits'];
 
 
 // get products
-$stmt = $conn->prepare("SELECT sku_code, name, price, quantity FROM SaleItems WHERE sale_id = :sale_id");
+$stmt = $conn->prepare("SELECT sku_code, name, price, quantity FROM vSaleItems WHERE sale_id = :sale_id");
 $stmt->bindParam("sale_id", $sale_id);
 $stmt->execute();
 

@@ -25,7 +25,7 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
   } else {
     $query_where = substr($query_where, 0, -4); // remove trailing AND
   }
-  $stmt = $conn->prepare("SELECT sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost FROM SaleHistory $query_where");
+  $stmt = $conn->prepare("SELECT sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost FROM vSaleHistory $query_where");
   if (isset($_GET['date']))  $stmt->bindParam("date", $_GET['date']);
   if (isset($_GET['store'])) $stmt->bindParam("store", $_GET['store']);
 

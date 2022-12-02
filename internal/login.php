@@ -31,7 +31,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
   $password = $_POST['password'];
 
   $stmt = $conn->prepare("SELECT store_id, staff_id, storeLocation, accessLevel, accessLevelName, fullname, login_username, login_password
-                          FROM StaffLogin WHERE login_username = :username");
+                          FROM vStaffLogin WHERE login_username = :username");
   $stmt->bindParam("username", $username);
   $stmt->execute();
 

@@ -8,13 +8,13 @@ require '../database.php';
 $results = null;
 $notFoundError = false;
 if (isset($_GET['sku']) && !empty($_GET['sku'])) {
-  $stmt = $conn->prepare("SELECT date, quantitySold, priceChange FROM ProductHistory WHERE sku_code = :sku_code AND (store_id = :store_id OR store_id IS NULL)");
+  $stmt = $conn->prepare("SELECT date, quantitySold, priceChange FROM vProductHistory WHERE sku_code = :sku_code AND (store_id = :store_id OR store_id IS NULL)");
   $stmt->bindParam("store_id", $_SESSION['store_id']);
   $stmt->bindParam("sku_code", $_GET['sku']);
   $stmt->execute();
   $results = $stmt->fetchAll();
 
-  $stmt = $conn->prepare("SELECT count FROM vStockLevel WHERE store_id = :store_id AND sku_code = :sku_code");
+  $stmt = $conn->prepare("SELECT name, stockLevel FROM vProductDetails WHERE store_id = :store_id AND sku_code = :sku_code");
   $stmt->bindParam("store_id", $_SESSION['store_id']);
   $stmt->bindParam("sku_code", $_GET['sku']);
   $stmt->execute();
@@ -23,7 +23,8 @@ if (isset($_GET['sku']) && !empty($_GET['sku'])) {
     $results = null;
     $notFoundError = true;
   } else {
-    $stockLevel = $row[0];
+    $stockLevel = $row['stockLevel'];
+    $productName = $row['name'];
   }
 }
 
@@ -76,7 +77,8 @@ if (isset($_GET['sku']) && !empty($_GET['sku'])) {
   <div class='w3-container' style='margin-top:80px'>
     <hr style='width:50px;border:5px solid blue' class='w3-round'>
     <?php
-      echo "<h2>Current Stock: $stockLevel</h2>";
+      echo "<h2>$productName</h2>";
+      echo "<h3>Current Stock: $stockLevel</h3>";
     ?>
     <div class='container bg-primary border border-dark p-2 dropshadow'>
       <table class='table table-bordered border-dark bg-light'>

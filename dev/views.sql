@@ -1,5 +1,5 @@
--- Receipt details
-CREATE VIEW ReceiptDetails AS
+-- ReceiptDetails
+CREATE VIEW vReceiptDetails AS
 SELECT Sale.sale_id,
   Sale.date,
   Sale.totalCost,
@@ -13,8 +13,8 @@ FROM Sale
   JOIN Staff ON (Sale.staff_id = Staff.staff_id)
   LEFT JOIN CashPayment ON (Sale.sale_id = CashPayment.sale_id)
   LEFT JOIN CardPayment ON (Sale.sale_id = CardPayment.sale_id);
--- Receipt items
-CREATE VIEW SaleItems AS
+-- SaleItems
+CREATE VIEW vSaleItems AS
 SELECT Sale.sale_id,
   Sale.review_code,
   Product.sku_code,
@@ -24,8 +24,8 @@ SELECT Sale.sale_id,
 FROM Sale
   JOIN Sale_Product ON (Sale.sale_id = Sale_Product.sale_id)
   JOIN Product ON (Sale_Product.sku_code = Product.sku_code);
--- Staff details for banner
-CREATE VIEW StaffDetails AS
+-- StaffDetails
+CREATE VIEW vStaffDetails AS
 SELECT Store.store_id,
   Store.location,
   AccessLevel.name AS accessLevelName,
@@ -37,8 +37,8 @@ FROM Staff
   JOIN AccessLevel ON (
     Staff.accessLevel_id = AccessLevel.accessLevel_id
   );
--- Cash and Card sales
-CREATE VIEW CashCardSales AS
+-- CashCardSales
+CREATE VIEW vCashCardSales AS
 SELECT Store.store_id,
   Sale.date,
   Sale.totalCost,
@@ -48,8 +48,8 @@ FROM Sale
   JOIN Store ON (Sale.store_id = Store.store_id)
   LEFT JOIN CashPayment ON (Sale.sale_id = CashPayment.sale_id)
   LEFT JOIN CardPayment ON (Sale.sale_id = CardPayment.sale_id);
--- Top Sellers
-CREATE VIEW TopSellers AS
+-- TopSellers
+CREATE VIEW vTopSellers AS
 SELECT Store.store_id,
   Sale.date,
   Product.sku_code,
@@ -64,18 +64,22 @@ GROUP BY Sale_Product.sku_code,
   YEAR(Sale.date),
   Store.store_id
 ORDER BY quantity DESC;
--- Products with average rating
-CREATE VIEW ProductWithRating AS
+-- ProductDetails
+CREATE VIEW vProductDetails AS
 SELECT Product.sku_code,
   coalesce(ROUND(AVG(Review.rating), 1), '?') AS rating,
   Product.name,
   Product.description,
-  price
+  price,
+  StockLevel.count AS stockLevel,
+  StockLevel.store_id
 FROM Product
   LEFT JOIN Review ON (Product.sku_code = Review.sku_code)
-GROUP BY Product.sku_code;
+  JOIN StockLevel ON (Product.sku_code = StockLevel.sku_code)
+GROUP BY Product.sku_code,
+  StockLevel.store_id;
 -- SaleHistory
-CREATE VIEW SaleHistory AS
+CREATE VIEW vSaleHistory AS
 SELECT Sale.sale_id,
   Sale.date,
   Sale.store_id,
@@ -87,8 +91,8 @@ FROM Sale
   JOIN Staff ON (Sale.staff_id = Staff.staff_id)
   JOIN Sale_Product ON (Sale.sale_id = Sale_Product.sale_id)
 GROUP BY Sale.sale_id;
--- Staff Login details
-CREATE VIEW StaffLogin AS
+-- StaffLogin
+CREATE VIEW vStaffLogin AS
 SELECT Staff.staff_id,
   Store.store_id,
   Store.location AS storeLocation,
@@ -102,27 +106,8 @@ FROM Staff
   JOIN AccessLevel ON (
     Staff.accessLevel_id = AccessLevel.accessLevel_id
   );
--- Product History
--- CREATE VIEW ProductHistory AS
--- SELECT Sale.store_id AS store_id,
---   Product.sku_code AS sku_code,
---   Sale.date AS date,
---   COUNT(Sale_Product.sku_code) AS quantitySold,
---   NULL AS priceChange
--- FROM Sale
---   JOIN Sale_Product ON (Sale.sale_id = Sale_Product.sale_id)
---   JOIN Product ON (Sale_Product.sku_code = Product.sku_code)
--- GROUP BY Sale_Product.sale_id,
---   Sale.sale_id
--- UNION
--- SELECT NULL AS Store_id,
---   PriceAdjustment.sku_code AS sku_code,
---   PriceAdjustment.date AS date,
---   NULL AS quantitySold,
---   PriceAdjustment.newPrice AS priceChange
--- FROM PriceAdjustment
--- ORDER BY date DESC;
-CREATE VIEW ProductHistory AS
+-- ProductHistory
+CREATE VIEW vProductHistory AS
 SELECT Sale.store_id AS store_id,
   Product.sku_code AS sku_code,
   Sale.date AS date,
@@ -141,9 +126,3 @@ SELECT NULL AS Store_id,
   PriceAdjustment.newPrice AS priceChange
 FROM PriceAdjustment
 ORDER BY date DESC;
--- StockLevel
-CREATE VIEW vStockLevel AS
-SELECT sku_code,
-  store_id,
-  count
-FROM StockLevel;

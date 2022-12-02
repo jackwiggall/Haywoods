@@ -27,7 +27,7 @@ if (isset($_GET['search'])) {
 
 
   $stmt = $conn->prepare("SELECT sku_code, name, price
-                          FROM ProductWithRating
+                          FROM vProductDetails
                           WHERE name LIKE :search
                           AND :minimum < price AND :maximum > price
                           $orderBy");

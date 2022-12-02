@@ -14,13 +14,13 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
 
   // query CashCardSales View to get Cash and Card sales for specific month
   $cashCardSalesQuery = "SELECT (
-                          SELECT SUM(totalCost) FROM CashCardSales
+                          SELECT SUM(totalCost) FROM vCashCardSales
                           WHERE cardPayment_id IS NOT NULL
                           AND store_id = :store_id
                           AND MONTH(date) = :month AND YEAR(date) = :year
                         ) AS cardSales,
                         (
-                          SELECT SUM(totalCost) FROM CashCardSales
+                          SELECT SUM(totalCost) FROM vCashCardSales
                           WHERE cashPayment_id IS NOT NULL
                           AND store_id = :store_id
                           AND MONTH(date) = :month AND YEAR(date) = :year
@@ -39,7 +39,7 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
 
   // query TopSellers View to get the top 5 selling items
   $topSellersQuery = "SELECT sku_code, name, quantity
-                      FROM TopSellers
+                      FROM vTopSellers
                       WHERE store_id = :store_id AND
                       MONTH(date) = :month AND YEAR(date) = :year
                       LIMIT 5";
