@@ -10,7 +10,14 @@ if (isset($_GET['search'])) {
   if (!empty($_GET['min'])) $min = (int)$_GET['min'];
   if (!empty($_GET['max'])) $max = (int)$_GET['max'];
 
+  if (isset($_GET['order'])) {
+    $order = $_GET['order'];
+  }
+  $order = "revelance";
 
+  if ($order != "revelance") {
+    $orderBy = "ORDER BY :order"
+  }
 
   $stmt = $conn->prepare("SELECT sku_code, name, price
                           FROM ProductWithRating
@@ -77,17 +84,20 @@ if (isset($_GET['search'])) {
         </div>
         <!--Minimum Rating-->
           <div class="input-group m-r mt-2 pr-5">
-            <div class="input-group-prepend">
-              <div class="input-group-text bg-dark text-white" id="btnGroupAddon">Rating</div>
-            </div>
-            <input type="text" name="rmin" class="form-control bg-light" placeholder="Min" value="<?php if (isset($_GET["min"])) echo $_GET["min"]; ?>">
-          </div>
-          <!--Maxium Rating-->
-          <div class="input-group m-r mt-2 pr-5 ">
-            <div class="input-group-prepend">
-              <div class="input-group-text bg-dark text-white" id="btnGroupAddon">Rating</div>
-            </div>
-            <input type="text" name="rmax" class="form-control bg-light" placeholder="Max" value="<?php if (isset($_GET["max"])) echo $_GET["max"]; ?>">
+            <select name="order">
+              <?php
+                $values = ["revelance", "rating", "price_low", "price_high"];
+                $names = ["Revelance", "Star Rating", "Price (lowest first)", "Price (highest first)"];
+
+                foreach ($values as $i => $value) {
+                  $selected = "";
+                  if (isset($_GET['order']) && $_GET['order'] == $value) {
+                    $selected = "selected";
+                  }
+                  echo '<option value="'.$value.'"'.$selected.'>'.$names[$i].'</option>';
+                }
+              ?>
+            </select>
           </div>
       </div>
     </form>
