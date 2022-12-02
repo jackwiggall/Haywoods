@@ -1,8 +1,8 @@
 <?php
 
 // database login details
-$dbhost = "127.0.0.1"; // change to silva.computing.dundee.ac.uk
-// $dbhost = "silva.computing.dundee.ac.uk";
+// $dbhost = "127.0.0.1"; // change to silva.computing.dundee.ac.uk
+$dbhost = "silva.computing.dundee.ac.uk";
 $dbuser = "22ac3u03";
 $dbpass = "ac31b2";
 $dbname = "22ac3d03";
