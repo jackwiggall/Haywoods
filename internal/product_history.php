@@ -6,8 +6,9 @@ requireAccessLevel(3);
 require '../database.php';
 
 $results = null;
-if (isset($_GET['sku'])) {
-  $stmt = $conn->prepare("SELECT sku_code, date, quantitySold, priceChange FROM ProductHistory WHERE sku_code = :sku_code AND (store_id = :store_id OR store_id IS NULL)");
+$notFoundError = false;
+if (isset($_GET['sku']) && !empty($_GET['sku'])) {
+  $stmt = $conn->prepare("SELECT date, quantitySold, priceChange FROM ProductHistory WHERE sku_code = :sku_code AND (store_id = :store_id OR store_id IS NULL)");
   $stmt->bindParam("store_id", $_SESSION['store_id']);
   $stmt->bindParam("sku_code", $_GET['sku']);
   $stmt->execute();
@@ -17,7 +18,13 @@ if (isset($_GET['sku'])) {
   $stmt->bindParam("store_id", $_SESSION['store_id']);
   $stmt->bindParam("sku_code", $_GET['sku']);
   $stmt->execute();
-  $stockLevel = $stmt->fetch()[0];
+  $row = $stmt->fetch();
+  if ($row == null) {
+    $results = null;
+    $notFoundError = true;
+  } else {
+    $stockLevel = $row[0];
+  }
 }
 
 
@@ -56,13 +63,20 @@ if (isset($_GET['sku'])) {
     </div>
   </div>
 
+  <?php
+    if ($results == null) {
+      if ($notFoundError) {
+        echo "not found";
+      }
+      die("</div></body></html>");
+    }
+  ?>
+
   <!--History-->
   <div class='w3-container' style='margin-top:80px'>
     <hr style='width:50px;border:5px solid blue' class='w3-round'>
     <?php
-      if ($results != null) {
-        echo "<h2>Current Stock: $stockLevel</h2>";
-      }
+      echo "<h2>Current Stock: $stockLevel</h2>";
     ?>
     <div class='container bg-primary border border-dark p-2 dropshadow'>
       <table class='table table-bordered border-dark bg-light'>
@@ -76,7 +90,6 @@ if (isset($_GET['sku'])) {
 
           <th>Date</th>
           <th>Time</th>
-          <th>Sku Code</th>
           <th>Description</th>
           <th>Price</th>
           <th>Sold</th>
@@ -88,7 +101,6 @@ if (isset($_GET['sku'])) {
               echo "<tr>";
               echo "<td>".$timeDate[0]."</td>";
               echo "<td>".$timeDate[1]."</td>";
-              echo "<td>".$result['sku_code']."</td>";
               if ($result['priceChange']) {
                 echo "<td>Price Change</td>";
                 echo "<td>£".$result['priceChange']."</td>";
