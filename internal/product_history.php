@@ -3,6 +3,24 @@
 require './access_level.php';
 requireAccessLevel(3);
 
+require '../database.php';
+
+$results = null;
+if (isset($_GET['sku'])) {
+  $stmt = $conn->prepare("SELECT sku_code, date, quantitySold, priceChange FROM ProductHistory WHERE sku_code = :sku_code AND (store_id = :store_id OR store_id IS NULL)");
+  $stmt->bindParam("store_id", $_SESSION['store_id']);
+  $stmt->bindParam("sku_code", $_GET['sku']);
+  $stmt->execute();
+  $results = $stmt->fetchAll();
+
+  $stmt = $conn->prepare("SELECT count FROM vStockLevel WHERE store_id = :store_id AND sku_code = :sku_code");
+  $stmt->bindParam("store_id", $_SESSION['store_id']);
+  $stmt->bindParam("sku_code", $_GET['sku']);
+  $stmt->execute();
+  $stockLevel = $stmt->fetch()[0];
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -32,44 +50,64 @@ requireAccessLevel(3);
     <div class="container bg-primary border border-dark p-2 dropshadow">
       <form action="?" method="get">
         <p class="d-inline-block border border-dark bg-light p-2">Product SKU:</p> <input type="text"
-          class="bg-light p-2" name="sku" placeholder="000000"><br>
+          class="bg-light p-2" name="sku" placeholder="000000" value=<?php if (isset($_GET['sku'])) { echo $_GET['sku']; }?>><br>
         <input type="submit" value="Search" class="btn btn-dark mt-1 border border-dark w300">
       </form>
     </div>
   </div>
 
   <!--History-->
-  <?php if ($result) { #change to search thing
-    echo "
-    <div class='w3-container' style='margin-top:80px'>
-      <h1 class='w3-xxxlarge text-primary'><b>${product_name}.</b></h1> <!--Sub title-->
-      <hr style='width:50px;border:5px solid blue' class='w3-round'>
-      <div class='container bg-primary border border-dark p-2 dropshadow'>
-        <table class='table table-bordered border-dark bg-light'>
-          <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Description</th>
-            <th>Start Price</th>
-            <th>End Price</th>
-            <th>Start Stock</th>
-            <th>End Stock</th>
-            <th>Variance</th>
-          </tr>
-          <tr>
-            <td>20/10/2022</td>
-            <td>12:00:00</td>
-            <td>Sale</td>
-            <td>£100.99</td>
-            <td>£100.99</td>
-            <td>21</td>
-            <td>20</td>
-            <td>-1</td>
-          </tr>
-        </table>
-      </div>
-    </div>"; }
-  ?>
+  <div class='w3-container' style='margin-top:80px'>
+    <hr style='width:50px;border:5px solid blue' class='w3-round'>
+    <?php
+      if ($results != null) {
+        echo "<h2>Current Stock: $stockLevel</h2>";
+      }
+    ?>
+    <div class='container bg-primary border border-dark p-2 dropshadow'>
+      <table class='table table-bordered border-dark bg-light'>
+        <tr>
+          <!-- <th>Date</th>
+          <th>Time</th>
+          <th>Start Price</th>
+          <th>End Price</th>
+          <th>Start Stock</th>
+          <th>End Stock</th> -->
+
+          <th>Date</th>
+          <th>Time</th>
+          <th>Sku Code</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Sold</th>
+        </tr>
+        <?php
+          if ($results != null) {
+            foreach ($results as $result) {
+              $timeDate = explode(" ", $result['date']);
+              echo "<tr>";
+              echo "<td>".$timeDate[0]."</td>";
+              echo "<td>".$timeDate[1]."</td>";
+              echo "<td>".$result['sku_code']."</td>";
+              if ($result['priceChange']) {
+                echo "<td>Price Change</td>";
+                echo "<td>£".$result['priceChange']."</td>";
+                echo "<td>N/A</td>";
+              } else {
+                echo "<td>Sale</td>";
+                echo "<td>N/A</td>";
+                echo "<td>".$result['quantitySold']."</td>";
+              }
+              
+              // echo "<td>".$result[]."</td>";
+              // echo "<td>".$result[]."</td>";
+              // echo "<td>".$result[]."</td>";
+            }
+          }
+        ?>
+      </table>
+    </div>
+  </div>
 
 <!-- End page content -->
 </div>

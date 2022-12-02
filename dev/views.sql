@@ -102,3 +102,48 @@ FROM Staff
   JOIN AccessLevel ON (
     Staff.accessLevel_id = AccessLevel.accessLevel_id
   );
+-- Product History
+-- CREATE VIEW ProductHistory AS
+-- SELECT Sale.store_id AS store_id,
+--   Product.sku_code AS sku_code,
+--   Sale.date AS date,
+--   COUNT(Sale_Product.sku_code) AS quantitySold,
+--   NULL AS priceChange
+-- FROM Sale
+--   JOIN Sale_Product ON (Sale.sale_id = Sale_Product.sale_id)
+--   JOIN Product ON (Sale_Product.sku_code = Product.sku_code)
+-- GROUP BY Sale_Product.sale_id,
+--   Sale.sale_id
+-- UNION
+-- SELECT NULL AS Store_id,
+--   PriceAdjustment.sku_code AS sku_code,
+--   PriceAdjustment.date AS date,
+--   NULL AS quantitySold,
+--   PriceAdjustment.newPrice AS priceChange
+-- FROM PriceAdjustment
+-- ORDER BY date DESC;
+CREATE VIEW ProductHistory AS
+SELECT Sale.store_id AS store_id,
+  Product.sku_code AS sku_code,
+  Sale.date AS date,
+  COUNT(Sale_Product.sku_code) AS quantitySold,
+  NULL AS priceChange
+FROM Sale
+  JOIN Sale_Product ON (Sale.sale_id = Sale_Product.sale_id)
+  JOIN Product ON (Sale_Product.sku_code = Product.sku_code)
+GROUP BY Sale_Product.sale_id,
+  Sale.sale_id
+UNION
+SELECT NULL AS Store_id,
+  PriceAdjustment.sku_code AS sku_code,
+  PriceAdjustment.date AS date,
+  NULL AS quantitySold,
+  PriceAdjustment.newPrice AS priceChange
+FROM PriceAdjustment
+ORDER BY date DESC;
+-- StockLevel
+CREATE VIEW vStockLevel AS
+SELECT sku_code,
+  store_id,
+  count
+FROM StockLevel;
