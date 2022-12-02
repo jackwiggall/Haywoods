@@ -21,13 +21,13 @@ $row = $stmt->fetch();
 if ($row == null) {
   die("receipt not found");
 }
-$sale_date_time = explode(" ", $row[0]);
-$sale_totalCost = $row[1];
-$sale_reviewCode = $row[2];
-$sale_store_location = $row[3];
-$sale_staff_name = $row[4];
-$sale_initialTender = $row[5];
-$sale_card_last4Digits = $row[6];
+$sale_date_time = explode(" ", $row['date']);
+$sale_totalCost = $row['totalCost'];
+$sale_reviewCode = $row['review_code'];
+$sale_store_location = $row['location'];
+$sale_staff_name = $row['firstname'];
+$sale_initialTender = $row['initialTender'];
+$sale_card_last4Digits = $row['last4Digits'];
 
 
 // get products
@@ -75,13 +75,13 @@ $sale_items_count = count($sale_items);
         <?php
           foreach ($sale_items as $sale_item) {
             echo "<div>";
-            echo "<div>".$sale_item[1]."</div>";
+            echo "<div>".$sale_item['name']."</div>";
             echo '<div class="row">';
             echo '<div class="col">';
-            echo '<span>'.$sale_item[0]."</span><span> x 1</span>";
+            echo '<span>'.$sale_item['sku_code']."</span><span> x 1</span>";
             echo "</div>";
             echo '<div class="col text-end">';
-            echo '<span>@ £</span><span>'.$sale_item[2]."</span>";
+            echo '<span>@ £</span><span>'.$sale_item['price']."</span>";
             echo "</div>";
             echo "</div>";
             echo "</div>";
