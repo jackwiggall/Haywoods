@@ -12,12 +12,6 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
   $month = $_GET["month"];
   $year = $_GET["year"];
 
-  // query StaffDetails View to get store_id associated with user
-  $stmt = $conn->prepare("SELECT store_id FROM StaffDetails WHERE login_username = :username");
-  $stmt->bindParam("username", $_SESSION['username']);
-  $stmt->execute();
-  $store_id = $stmt->fetch()[0];
-
   // query CashCardSales View to get Cash and Card sales for specific month
   $cashCardSalesQuery = "SELECT (
                           SELECT SUM(totalCost) FROM CashCardSales
@@ -30,17 +24,17 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
                           WHERE cashPayment_id IS NOT NULL
                           AND store_id = :store_id
                           AND MONTH(date) = :month AND YEAR(date) = :year
-                        ) AS CashSales";
+                        ) AS cashSales";
 
   $stmt = $conn->prepare($cashCardSalesQuery);
   $stmt->bindParam("month", $month);
   $stmt->bindParam("year", $year);
-  $stmt->bindParam("store_id", $store_id);
+  $stmt->bindParam("store_id", $_SESSION['store_id']);
   $stmt->execute();
   $row = $stmt->fetch();
   // set to nulls to 0
-  $cardSales = ($row[0] == null) ? 0 : $row[0];
-  $cashSales = ($row[1] == null) ? 0 : $row[1];
+  $cardSales = ($row['cardSales'] == null) ? 0 : $row['cardSales'];
+  $cashSales = ($row['cashSales'] == null) ? 0 : $row['cashSales'];
   $totalSales = $cardSales + $cashSales;
 
   // query TopSellers View to get the top 5 selling items
@@ -52,7 +46,7 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
   $stmt = $conn->prepare($topSellersQuery);
   $stmt->bindParam("month", $month);
   $stmt->bindParam("year", $year);
-  $stmt->bindParam("store_id", $store_id);
+  $stmt->bindParam("store_id", $_SESSION['store_id']);
   $stmt->execute();
   $topSellers = $stmt->fetchAll();
 
@@ -158,9 +152,9 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
         <?php
           foreach ($topSellers as $topSeller) {
             echo "<tr>";
-            echo "<td>".$topSeller[0]."</td>";
-            echo "<td>".$topSeller[1]."</td>";
-            echo "<td>".$topSeller[2]."</td>";
+            echo "<td>".$topSeller['sku_code']."</td>";
+            echo "<td>".$topSeller['name']."</td>";
+            echo "<td>".$topSeller['quantity']."</td>";
             echo "</tr>";
           }
         ?>
