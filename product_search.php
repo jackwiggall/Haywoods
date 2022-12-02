@@ -10,19 +10,27 @@ if (isset($_GET['search'])) {
   if (!empty($_GET['min'])) $min = (int)$_GET['min'];
   if (!empty($_GET['max'])) $max = (int)$_GET['max'];
 
+  $orderBy = "";
   if (isset($_GET['order'])) {
-    $order = $_GET['order'];
+    switch ($_GET['order']) {
+      case 'rating':
+        $orderBy = "ORDER BY (CASE WHEN rating = '?' THEN 1 ELSE 0 END), rating DESC";
+        break;
+      case 'price_low':
+        $orderBy = "ORDER BY price ASC";
+        break;
+      case 'price_high':
+        $orderBy = "ORDER BY price DESC";
+        break;
+    }
   }
-  $order = "revelance";
 
-  if ($order != "revelance") {
-    $orderBy = "ORDER BY :order"
-  }
 
   $stmt = $conn->prepare("SELECT sku_code, name, price
                           FROM ProductWithRating
                           WHERE name LIKE :search
-                          AND :minimum < price AND :maximum > price");
+                          AND :minimum < price AND :maximum > price
+                          $orderBy");
   $wildcardSearch = "%$search%";
   $stmt->bindParam("search", $wildcardSearch);
   $stmt->bindParam("minimum", $min);
