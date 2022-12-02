@@ -1,3 +1,32 @@
+<?php
+
+require './database.php';
+
+$results = [];
+if (isset($_GET['review_code'])) {
+  $userSale = $_GET['review_code'];
+
+
+
+
+  $stmt = $conn->prepare("SELECT sku_code, name
+                          FROM SaleItems
+                          WHERE review_code = :review_code
+                          GROUP BY sku_code"
+                        );
+
+  $stmt->bindParam("review_code", $userSale);
+  
+  
+  
+  $stmt->execute();
+  $results = $stmt->fetchAll();
+  var_dump($results);
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,12 +72,12 @@
     <hr style="width:50px;border:5px solid blue" class="w3-round">
     <div class="bg-primary border border-dark mt-3 mb-3 p-2">
       <!--Search input-->
-      <form action="?" method="get">
+      <form action="" method="GET" >
         <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
           <div class="input-group m-r mt-2 pr-5">
-            <input type="text" class="form-control bg-light" placeholder="Receipt ID" aria-label="Search">
+            <input type="text" class="form-control bg-light" name ="review_code" placeholder="Receipt ID" aria-label="Search" value="<?php if (isset($_GET["review_code"])) echo $_GET["review_code"]; ?>">
             <div class="input-group-prepend">
-              <div type="submit" class="input-group-text bg-dark text-white" id="btnGroupAddon">&#x1F50D;</div>
+              <input type="submit" class="input-group-text bg-dark text-white" id="btnGroupAddon" value="Search">
             </div>
           </div>
         </div>
@@ -56,21 +85,36 @@
     </div>
 
     <div class="bg-primary text-white border border-dark mt-3 mb-3 p-2">
-      <input type="radio" class="p-3 ml-2" id="table" value="1">
-      <label for="table">Table 210001</label><br>
+    
+    
+    <form action="" method="GET">
+      <?php
+          foreach ($results as $result) {
+            // sku_code, name, price
+            echo '<input type="radio" name="item" class="p-3 ml-2" value="'.$result['sku_code'].'">';
+            echo '<label>'.$result['name']. " ". $result['sku_code'].'</label>';
+            echo '</a>';
+            echo '<br>';
+            
+          }
+        ?>
 
-      <input type="radio" class="p-3 ml-2" id="chair" value="2">
-      <label for="chair">Chair 310001</label>
+    
     </div>
-
     <div class="bg-primary text-white border border-dark mt-3 mb-3 p-2">
-      <p class="d-inline-block">Rating:</p> <input type="number" class="bg-light p-2" min="0" max="10" name="rating" placeholder="0"> of 10<br>
-      <p class="d-inline-block">Title:</p> <input type="text" class="bg-light p-2" name="title"><br>
-      <textarea placeholder="Description" name="descriptionBox" rows="4" cols="50"></textarea><br>
-      <button class="w300 bg-dark border border-light text-white p-3">Submit</button>
-    </div>
-  </div>
-
+    <input type="text" class="form-control bg-light" name ="review_code" placeholder="Receipt ID" aria-label="Search" value="<?php if (isset($_GET["review_code"])) echo $_GET["review_code"]; ?>">
+    <div class="input-group-prepend">
+    <input type="submit" class="input-group-text bg-dark text-white" id="btnGroupAddon" value="Search">
+    <?php
+          foreach ($results as $result) {
+            // sku_code, name, price
+            
+            
+          }
+        ?>
+  </form>
+  
+        </div>
 <!-- End page content -->
 </div>
 
