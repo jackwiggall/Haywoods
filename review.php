@@ -17,11 +17,24 @@ if (isset($_GET['review_code'])) {
 
   $stmt->bindParam("review_code", $userSale);
   
-  
-  
   $stmt->execute();
   $results = $stmt->fetchAll();
   var_dump($results);
+  
+  
+  $stmt2 = $conn->prepare("INSERT INTO Review
+                          (sku_code, rating, title, content)
+                          VALUES (:sku_code, :rating, title, content)"
+                          
+                        );
+                        
+      $stmt2->bindParam("sku_code", $sku_code);
+      $stmt2->bindParam("title", $title);
+      $stmt2->bindParam("rating", $rating);
+      $stmt2->bindParam("content", $content);
+  
+  $stmt2->execute();
+  $results = $stmt2->fetchAll();
 }
 
 ?>
@@ -72,7 +85,7 @@ if (isset($_GET['review_code'])) {
       <?php
           foreach ($results as $result) {
             // sku_code, name, price
-            echo '<input type="radio" name="item" class="p-3 ml-2" value="'.$result['sku_code'].'">';
+            echo '<input type="radio" name="item" class="p-3 ml-2" value="'.$result['sku_code'].'" aria-label="submit-Review" > ' ;
             echo '<label>'.$result['name']. " ". $result['sku_code'].'</label>';
             echo '</a>';
             echo '<br>';
@@ -81,21 +94,24 @@ if (isset($_GET['review_code'])) {
         ?>
 
     
-    </div>
-    <div class="bg-primary text-white border border-dark mt-3 mb-3 p-2">
-    <input type="text" class="form-control bg-light" name ="review_code" placeholder="Receipt ID" aria-label="Search" value="<?php if (isset($_GET["review_code"])) echo $_GET["review_code"]; ?>">
-    <div class="input-group-prepend">
-    <input type="submit" class="input-group-text bg-dark text-white" id="btnGroupAddon" value="Search">
-    <?php
-          foreach ($results as $result) {
-            // sku_code, name, price
+      </div>
+      <div class="bg-primary text-white border border-dark mt-3 mb-3 p-2">
+
+   
+          
+           
+            <p class="d-inline-block">Rating:</p> <input type="number" class="bg-light p-2" min="0" max="10" name="rating"  aria-label="submit-Review"  placeholder="0" value="<?php if (isset($_GET["Rating"])) echo $_GET["Rating"]; ?>"> of 10<br>
+            <p class="d-inline-block">Title:</p> <input type="text"   class="bg-light p-2" name="title" aria-label="submit-Review"  value="<?php if (isset($_GET["title"])) echo $_GET["title"]; ?>"><br>
+           <textarea placeholder="content" name="contentBox"   aria-label="submit-Review" value="<?php if (isset($_GET["content"])) echo $_GET["content"]; ?>" cols="50"></textarea><br>
+           
             
-            
-          }
-        ?>
-  </form>
-  
+          
+     
+
+        <button class="w300 bg-dark border border-light text-white p-3" value="submit-Review">Submit</button>
         </div>
+  </div>
+        </form>
 <!-- End page content -->
 </div>
 
