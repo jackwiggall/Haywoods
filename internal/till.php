@@ -18,7 +18,7 @@ if (isset($_POST["scanned"])) {
   $scannedItems = $_SESSION["scanned_items"];
 
   // get product info from db
-  $stmt = $conn->prepare("SELECT sku_code,name,price FROM vProduct WHERE sku_code = :sku GROUP BY");
+  $stmt = $conn->prepare("SELECT sku_code,name,price FROM vProduct WHERE sku_code = :sku");
   $stmt->bindParam("sku", $scanned_sku);
   $stmt->execute();
 
