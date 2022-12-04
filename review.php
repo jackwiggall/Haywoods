@@ -7,7 +7,7 @@ if (isset($_GET['review_code'])) {
   $reviewCode = $_GET['review_code'];
 
   $stmt = $conn->prepare("SELECT sku_code, name
-                          FROM SaleItems
+                          FROM vSaleItems
                           WHERE review_code = :review_code
                           GROUP BY sku_code"
                         );

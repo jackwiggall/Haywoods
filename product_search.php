@@ -30,7 +30,7 @@ if (isset($_GET['search'])) {
                           FROM vProductDetails
                           WHERE name LIKE :search
                           AND :minimum < price AND :maximum > price
-                          $orderBy");
+                          GROUP BY sku_code $orderBy");
   $wildcardSearch = "%$search%";
   $stmt->bindParam("search", $wildcardSearch);
   $stmt->bindParam("minimum", $min);
@@ -119,7 +119,7 @@ if (isset($_GET['search'])) {
           foreach ($results as $result) {
             // sku_code, name, price
             echo '<div class="card bg-primary dropshadow border border-dark p-2 mb-2 m-r d-inline-block c-width">';
-            echo '<a href="./product_details.php?sku='.$result['sku_code'].'"><img src="images/'.$result['sku_code'].'_0.jpg" class="card-img-top border border-dark" alt="...">';
+            echo '<a href="./product_details.php?sku='.$result['sku_code'].'"><img src="images/'.$result['sku_code'].'.jpg" class="card-img-top border border-dark" alt="...">';
             echo '<div class="card-body">';
             echo '<p class="card-text text-light pl-1">£'.$result['price'].'</p>';
             echo '<p class="card-text text-light pl-1 d-block">'.$result['name'].'</p>';
