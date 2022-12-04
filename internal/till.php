@@ -1,8 +1,4 @@
 <?php
-// have items send to self in post request,
-// add to cookie
-// parse cookie in table
-
 // ensure session is started
 if (session_status() == PHP_SESSION_NONE) session_start();
 
@@ -51,9 +47,7 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
   }
 
   // not an empty transaction
-  if (!empty($sku_codes)) {
-    
-    
+  if (!empty($sku_codes)) {   
     // insert into Sale
     $staff_id = $_SESSION['staff_id'];
     $store_id = $_SESSION['store_id'];
@@ -65,29 +59,37 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
     $stmt->bindParam("review_code", $review_code); // review code to random hex string
     $stmt->execute();
 
+    // get last inserted id to insert into joining tables
     $sale_id = $conn->lastInsertId();
 
-    // insert into Sale_Product
-    foreach ($sku_codes as $sku_code) {
-      $stmt = $conn->prepare("INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (:sale_id, :sku_code, 1)");
-      $stmt->bindParam("sale_id", $sale_id);
-      $stmt->bindParam("sku_code", $sku_code);
-      $stmt->execute();
-    }
-
-    // insert into CardPayment & CashPayment
-    if (isset($_POST["pay-card"])) {
-      $stmt = $conn->prepare("INSERT INTO CardPayment (sale_id, last4Digits) VALUES (:sale_id, :last4Digits)");
-      $cardNumber = $_POST['last4Digits'];
-      $stmt->bindParam("last4Digits", $cardNumber);
-      $stmt->bindParam("sale_id", $sale_id);
-      $stmt->execute();
-    } else {
-      $stmt = $conn->prepare("INSERT INTO CashPayment (sale_id, initialTender) VALUES (:sale_id, :initialTender)");
-      $initialTender = (int)$_POST['initial-tender'];
-      $stmt->bindParam("initialTender", $initialTender);
-      $stmt->bindParam("sale_id", $sale_id);
-      $stmt->execute();
+    try {
+      // begin transaction
+      $conn->beginTransaction();
+      // insert into Sale_Product
+      foreach ($sku_codes as $sku_code) {
+        $stmt = $conn->prepare("INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (:sale_id, :sku_code, 1)");
+        $stmt->bindParam("sale_id", $sale_id);
+        $stmt->bindParam("sku_code", $sku_code);
+        $stmt->execute();
+      }
+  
+      // insert into CardPayment & CashPayment
+      if (isset($_POST["pay-card"])) {
+        $stmt = $conn->prepare("INSERT INTO CardPayment (sale_id, last4Digits) VALUES (:sale_id, :last4Digits)");
+        $cardNumber = $_POST['last4Digits'];
+        $stmt->bindParam("last4Digits", $cardNumber);
+        $stmt->bindParam("sale_id", $sale_id);
+        $stmt->execute();
+      } else {
+        $stmt = $conn->prepare("INSERT INTO CashPayment (sale_id, initialTender) VALUES (:sale_id, :initialTender)");
+        $initialTender = (int)$_POST['initial-tender'];
+        $stmt->bindParam("initialTender", $initialTender);
+        $stmt->bindParam("sale_id", $sale_id);
+        $stmt->execute();
+      }
+    } catch (Exception $e) {
+      $stmt->rollback();
+      die("database error");
     }
 
     // reset scanned items
@@ -176,7 +178,7 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
           <input type="number" id="initial-tender">
         </div>
         <div id="payCardBox" class="text-white hide">
-          Card reader has detected card<br> ending in <strong id="card-last4Digits"><?php echo rand(0000,9999); ?></strong>
+          Card reader has detected card<br> ending in <strong id="card-last4Digits"><?php echo rand(1000,9999); ?></strong>
         </div>
         <button class="btn btn-success mt-1 border border-dark w300 h100 center hide" id="payConfirmBtn">
           CONFIRM Payment
