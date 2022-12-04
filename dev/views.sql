@@ -72,10 +72,12 @@ SELECT Product.sku_code,
   Product.description,
   price,
   StockLevel.count AS stockLevel,
-  StockLevel.store_id
+  StockLevel.store_id,
+  Store.location AS storeLocation
 FROM Product
   LEFT JOIN Review ON (Product.sku_code = Review.sku_code)
   JOIN StockLevel ON (Product.sku_code = StockLevel.sku_code)
+  JOIN Store ON (StockLevel.store_id = Store.store_id)
 GROUP BY Product.sku_code,
   StockLevel.store_id;
 -- SaleHistory
