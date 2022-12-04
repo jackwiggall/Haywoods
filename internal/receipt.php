@@ -39,6 +39,9 @@ $sale_items = $stmt->fetchAll();
 
 $sale_items_count = count($sale_items);
 
+
+
+$reviewUrl = $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF'], 2)."/review.php";
 ?>
 
 
@@ -119,7 +122,7 @@ $sale_items_count = count($sale_items);
       <div class="border-2 border-top border-bottom border-dark mt-1">
         <div>
           Happy or unhappy with your purchase? Please write a product
-          review on our website with the code below.
+          review on our <?php echo "<a href='${reviewUrl}?review_code=$sale_reviewCode'>website</a> ($reviewUrl)"; ?> with the code below.
         </div>
         <div class="text-center">
           <strong style='font-family: monospace'><?php echo $sale_reviewCode; ?></strong>
