@@ -9,6 +9,7 @@
     <a href="index.php" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> <!--Index-->
     <a href="product_search.php" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Product Search</a> <!--Library-->
     <a href="review.php" oncick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Write a Review</a> <!--Make review-->
+    <a href="./internal/index.php" oncick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Haywoods Internal</a>
   </div>
 </nav>
 

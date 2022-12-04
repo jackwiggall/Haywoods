@@ -5,11 +5,13 @@ require './database.php';
 $results = [];
 if (isset($_GET['search'])) {
   $search = $_GET['search'];
-  $min = 0;
-  $max = PHP_INT_MAX;
+  // set max and min variables for sql query based on form input,
+  $min = 0; // if minimum price not set default to 0
+  $max = PHP_INT_MAX; // if maximum price not set default to a very large number
   if (!empty($_GET['min'])) $min = (int)$_GET['min'];
   if (!empty($_GET['max'])) $max = (int)$_GET['max'];
 
+  // make order by queried based on form
   $orderBy = "";
   if (isset($_GET['order'])) {
     switch ($_GET['order']) {
@@ -25,19 +27,20 @@ if (isset($_GET['search'])) {
     }
   }
 
-
+  // sql query
   $stmt = $conn->prepare("SELECT sku_code, name, price
                           FROM vProductDetails
                           WHERE name LIKE :search
                           AND :minimum < price AND :maximum > price
                           GROUP BY sku_code $orderBy");
-  $wildcardSearch = "%$search%";
+  $wildcardSearch = "%$search%"; // wildcard search to match any products with $search in their name
   $stmt->bindParam("search", $wildcardSearch);
   $stmt->bindParam("minimum", $min);
   $stmt->bindParam("maximum", $max);
 
-
   $stmt->execute();
+
+  // save sql result to variable to be used in the code below
   $results = $stmt->fetchAll();
 }
 
@@ -94,6 +97,7 @@ if (isset($_GET['search'])) {
           <div class="input-group m-r mt-2 pr-5">
             <select name="order">
               <?php
+                // create drop down options while also preserving last selected value as it gets reset on browser refresh
                 $values = ["revelance", "rating", "price_low", "price_high"];
                 $names = ["Revelance", "Star Rating", "Price (lowest first)", "Price (highest first)"];
 
