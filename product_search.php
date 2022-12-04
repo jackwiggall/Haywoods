@@ -31,10 +31,13 @@ if (isset($_GET['search'])) {
   $stmt = $conn->prepare("SELECT sku_code, name, price
                           FROM vProductDetails
                           WHERE name LIKE :search
+                          OR sku_code = :sku_code
                           AND :minimum < price AND :maximum > price
                           GROUP BY sku_code $orderBy");
   $wildcardSearch = "%$search%"; // wildcard search to match any products with $search in their name
   $stmt->bindParam("search", $wildcardSearch);
+  // also find product with the same sku code as search for if a user searches a sku code directly
+  $stmt->bindParam("sku_code", $search);
   $stmt->bindParam("minimum", $min);
   $stmt->bindParam("maximum", $max);
 
@@ -42,6 +45,11 @@ if (isset($_GET['search'])) {
 
   // save sql result to variable to be used in the code below
   $results = $stmt->fetchAll();
+
+  // user searched a valid sku code, immediately redirect to page
+  if (strlen($search) == 6 && is_numeric($search) && count($results) == 1) {
+    header("location: ./product_details.php?sku=$search");
+  }
 }
 
 ?>
@@ -49,7 +57,7 @@ if (isset($_GET['search'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Haywoods</title>
+<title>Product Search | Haywoods</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -68,7 +76,6 @@ if (isset($_GET['search'])) {
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px">
     <h1 class="w3-jumbo"><b>Product Search</b></h1> <!--Page Title-->
-    <h1 class="w3-xxxlarge text-primary"><b>Search.</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
     <!--Search input-->
     <form action="" method="GET" class="border border-dark bg-primary p-2 mt-2 dropshadow">
@@ -84,14 +91,14 @@ if (isset($_GET['search'])) {
           <div class="input-group-prepend">
             <div class="input-group-text bg-dark text-white" id="btnGroupAddon">£</div>
           </div>
-          <input type="text" name="min" class="form-control bg-light" placeholder="Min" value="<?php if (isset($_GET["min"])) echo $_GET["min"]; ?>">
+          <input type="text" name="min" class="form-control bg-light" style="width: 60px;"  placeholder="Min" value="<?php if (isset($_GET["min"])) echo $_GET["min"]; ?>">
         </div>
         <!--Maxium input-->
         <div class="input-group m-r mt-2 pr-5">
           <div class="input-group-prepend">
             <div class="input-group-text bg-dark text-white" id="btnGroupAddon">£</div>
           </div>
-          <input type="text" name="max" class="form-control bg-light" placeholder="Max" value="<?php if (isset($_GET["max"])) echo $_GET["max"]; ?>">
+          <input type="text" name="max" class="form-control bg-light" style="width: 60px;" placeholder="Max" value="<?php if (isset($_GET["max"])) echo $_GET["max"]; ?>">
         </div>
         <!--Minimum Rating-->
           <div class="input-group m-r mt-2 pr-5">
@@ -116,7 +123,6 @@ if (isset($_GET['search'])) {
   </div>
   <!-- Output, if empty hide -->
   <div class="w3-container" style="margin-top:80px">
-    <h1 class="w3-xxxlarge text-primary"><b>Results.</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
       <div class="card-deck">
         <?php
@@ -131,15 +137,15 @@ if (isset($_GET['search'])) {
             echo '</a>';
             echo '</div>';
           }
+          if (empty($results) && isset($_GET['search'])) {
+            echo "no items found match search";
+          }
         ?>
       </div>
     </div>
 
 <!-- End page content -->
 </div>
-
-<!-- W3.CSS Container -->
-<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p></div>
 
 </body>
 </html>

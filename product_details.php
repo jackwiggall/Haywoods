@@ -12,18 +12,19 @@ $product_sku = $_GET['sku'];
 // and escape it to prevent naughty sql injection attacks
 
 // query view ProductWithRating to get the average rating of a product along with other details
-$stmt = $conn->prepare("SELECT name,description,price, rating FROM vProductDetails WHERE sku_code = :sku");
+$stmt = $conn->prepare("SELECT name,description,price,rating, storeLocation, stockLevel FROM vProductDetails WHERE sku_code = :sku");
 $stmt->bindParam("sku", $product_sku);
 $stmt->execute();
 
-$item_row = $stmt->fetch(); // read sql response from query
+$productDetails = $stmt->fetchAll(); // read sql response from query
+
 // the $item_row variable is an array of name,description,price
 // extract values from array and put them in seperate varaibles to be inlined
 // with the html code below
-$product_name = $item_row['name'];
-$product_description = $item_row['description'];
-$product_price = $item_row['price'];
-$average_rating = $item_row['rating'];
+$product_name = $productDetails[0]['name'];
+$product_description = $productDetails[0]['description'];
+$product_price = $productDetails[0]['price'];
+$average_rating = $productDetails[0]['rating'];
 
 
 $stmt = $conn->prepare("SELECT rating,title,content,review_date FROM Review WHERE Review.sku_code = :sku ORDER BY review_date ASC");
@@ -35,7 +36,7 @@ $reviews = $stmt->fetchAll(); // get all reviews
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Haywoods</title>
+<title><?php echo $product_name; ?> | Haywoods</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -53,8 +54,8 @@ $reviews = $stmt->fetchAll(); // get all reviews
 
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px">
-    <h1 class="w3-jumbo"><b>Product Details</b></h1> <!--Page Title-->
-    <?php echo "<h1 class='w3-xxxlarge text-primary'><b>${product_name}.</b></h1>"; ?><!--Sub title-->
+    <a href="./product_search.php">Return to product search</a>
+    <h1 class="w3-jumbo"><b><?php echo $product_name; ?></b></h1> <!--Page Title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
     <div class="container border border-dark bg-primary p-2 mt-2 dropshadow">
       <div class="row p-2">
@@ -62,23 +63,26 @@ $reviews = $stmt->fetchAll(); // get all reviews
           <img src="<?php echo "./images/${product_sku}.jpg"; ?>" class="card-img-top border border-dark" alt="...">
         </div>
         <div class="col"> <!--Information-->
-          <h3 class="p-3 mb-3 border border-dark bg-light"> <?php echo $product_name; ?></h3>
           <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Product Code: <?php echo $product_sku; ?></div>
-          <div class="d-inline-block p-2 mt-2 border border-dark bg-light">£<?php echo $product_price; ?></div>
+          <br>
+          <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Price: £<?php echo $product_price; ?></div>
+          <br>
           <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Rating: <?php echo $average_rating; ?>/10 Stars</div><br>
-            <!--form?-->
-            <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Enter your postcode: </div>
-              <input type="text" name="postcode" class="bg-light p-2 mt-2" placeholder="DD1 2LN">
-              <input type="submit" class="bg-dark text-white p-2 mt-2" value="Go"><br>
-            <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Nearest Store: </div>
-              <input type="text" disabled class="bg-light p-2 mt-2" name="store" placeholder="DD2 5FP"><br> <!--change to nearest store-->
-            <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Stock Level </div>
-              <input type="text" disabled class="bg-light p-2 mt-2" name="stock" placeholder="21"><br> <!--change to store's stock level-->
+          
+          <select class="d-inline-block p-2 mt-2">
+          <?php
+            foreach ($productDetails as $productDetail) {
+              $stockLevel = $productDetail['stockLevel'];
+              $storeLocation = $productDetail['storeLocation'];
+              echo "<option>Store: $storeLocation, In stock: $stockLevel</option>";
+            }
+          ?>
+          </select>
 
           <h4 class="pt-3 mb-3 text-white">Description</h4>
             <div class="d-inline-block p-2 mt-2 border border-dark bg-light"><?php echo $product_description; ?></div>
           </div>
-          <h3 class="p-3 m-2 text-white">Product Reviews</h3>
+          <h3 class="p-3 m-2 mb-0 pb-0 text-white">Product Reviews</h3>
           <?php
             foreach ($reviews as $review) {
               $review_rating = $review['rating'];
@@ -102,29 +106,6 @@ $reviews = $stmt->fetchAll(); // get all reviews
 <!-- End page content -->
 </div>
 
-<!-- W3.CSS Container -->
-<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p></div>
-
-<script>
-// Script to open and close sidebar
-function w3_open() {
-  document.getElementById("mySidebar").style.display = "block";
-  document.getElementById("myOverlay").style.display = "block";
-}
-
-function w3_close() {
-  document.getElementById("mySidebar").style.display = "none";
-  document.getElementById("myOverlay").style.display = "none";
-}
-
-// Modal Image Gallery
-function onClick(element) {
-  document.getElementById("img01").src = element.src;
-  document.getElementById("modal01").style.display = "block";
-  var captionText = document.getElementById("caption");
-  captionText.innerHTML = element.alt;
-}
-</script>
 
 </body>
 </html>
