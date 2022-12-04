@@ -69,7 +69,7 @@ if (isset($_GET['review_code'])) {
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px">
     <h1 class="w3-jumbo"><b>Review</b></h1> <!--Page Title-->
-    <h1 class="w3-xxxlarge text-primary"><b>Enter Details.</b></h1> <!--Sub title-->
+    <h1 class="w3-xxxlarge text-primary"><b>Write a review on a purchased item</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
     <div class="bg-primary border border-dark mt-3 mb-3 p-2">
       <!--Search input-->
@@ -87,19 +87,23 @@ if (isset($_GET['review_code'])) {
 
     <?php
       if (empty($receiptItems)) {
+        // show warning message if review code was entered and nothing was found (invalid review code)
+        if (isset($_GET['review_code'])) {
+          echo "<div class='w3-round container mt-4 p-2 bg-warning'>Receipt associated with review code not found on system</div>";
+        }
         die("</div></body></html>");
       }
     ?>
 
     <form action="" method="POST" id="usrform">
       <div class="bg-primary text-white border border-dark mt-3 mb-3 p-2">
-        <h2>select item to write review on</h2>
+        <h2>select item from purchase to write review for</h2>
         <?php
           $checked = "checked";
           foreach ($receiptItems as $receiptItem) {
             // sku_code, name, price
             echo '<input type="radio" name="sku_code" class="p-3 ml-2" value="'.$receiptItem['sku_code'].'" '.$checked.'> ' ;
-            echo '<label>'.$receiptItem['name']. " ". $receiptItem['sku_code'].'</label>';
+            echo '<label>'.$receiptItem['sku_code']. " - ". $receiptItem['name'].'</label>';
             echo '</a>';
             echo '<br>';
             $checked = "";
@@ -107,22 +111,19 @@ if (isset($_GET['review_code'])) {
         ?>
       </div>
       <div class="bg-primary text-white border border-dark mt-3 mb-3 p-2">
-        <h2>Review</h2>
+        <h2>Review item</h2>
         <p class="d-inline-block">Rating:</p>
-        <input type="number" class="bg-light p-2" min="0" max="10" name="rating"> of 10<br>
+        <input type="number" class="bg-light p-2" style="width: 60px;" min="0" max="10" name="rating" value="10"> of 10<br>
 
-        <p class="d-inline-block">Title:</p> <input type="text" class="bg-light p-2" name="title" placeholder="title"><br>
-        <textarea placeholder="content" name="content" form="usrform"></textarea><br>
+        <!-- <p class="d-inline-block">Title:</p> -->
+         <input type="text" class="bg-light p-2" name="title" placeholder="title"><br>
+        <textarea placeholder="content" class="mt-2 mb-4" name="content" form="usrform"></textarea><br>
 
-        <input type="submit" class="w300 bg-dark border border-light text-white p-3" value="submit">
+        <input type="submit" class="w300 bg-dark border border-light text-white p-3" value="Place Review">
       </div>
     </form>
   </div>
-<!-- End page content -->
-
-<!-- W3.CSS Container -->
-<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p></div>
-
+</div>
 
 </body>
 </html>
