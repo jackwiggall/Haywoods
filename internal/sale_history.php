@@ -88,16 +88,19 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
         ?>
         ><br>
 
-        <!-- <p class="d-inline-block border border-dark bg-light p-2">Total Value:</p> <input type="number"
-          class="bg-light p-2" name="sku" placeholder="0"><br>
-        <p class="d-inline-block border border-dark bg-light p-2">SKU:</p> <input type="text" class="bg-light p-2"
-          name="sku" placeholder="000000"><br> -->
         <input type="submit" value="Search" class="btn btn-dark mt-1 border border-primary w300">
       </form>
     </div>
 
     <?php
+      // dont show empty table if page just loaded
       if (!$queryExecuted) {
+        die("</div></body></html>");
+      }
+
+      // no sales on this date
+      if (empty($sales)) {
+        echo '<p class="mt-2">no sales for found for specified date</p>';
         die("</div></body></html>");
       }
     ?>
@@ -131,9 +134,6 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
 
 <!-- End page content -->
 </div>
-
-<!-- W3.CSS Container -->
-<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p></div>
 
 </body>
 </html>
