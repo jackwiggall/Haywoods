@@ -120,7 +120,6 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px">
     <h1 class="w3-jumbo"><b>Till</b></h1> <!--Page Title-->
-    <h1 class="w3-xxxlarge text-primary"><b>Products.</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
     <div class="row p-2 bg-primary dropshadow">
       <div class="col-lg-8 col-md-12"> <!--Table-->
@@ -146,7 +145,7 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
           ?>
         </table>
         <form action="" method="POST">
-          <input type="number" class="bg-light p-2" name="scanned" placeholder="SKU Code">
+          <input type="number" class="bg-light p-2" name="scanned" placeholder="SKU Code" id="skuCodeInput">
           <input type="submit" value="Scan" class="btn btn-dark p-2 mb-2 border border-light w110">
         </form>
       </div>
@@ -190,10 +189,12 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
 <!-- End page content -->
 </div>
 
-<!-- W3.CSS Container -->
-<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p></div>
-
 <script>
+// auto focus sku_code input box
+document.getElementById("skuCodeInput").focus();
+
+
+// js to show pay by card / cash buttons
 function showCardBox() {
   document.getElementById("payCashBox").style.display = "none";
   document.getElementById("payCardBox").style.display = "block";
