@@ -1,173 +1,284 @@
 USE 22ac3d03;
 -- Product
-INSERT INTO Product (sku_code, name, description, price, image_count)
+INSERT INTO Product (
+    sku_code,
+    name,
+    description,
+    price,
+    category
+  )
 VALUES (
     110001,
     'Round Chestnut Coffee Table',
     'This round chestnut coffee table is all the new rage, making any living space look modern and chic perfect for slotting into a room corner or front and centre for you and your visitors',
     23.99,
-    1
+    'Living Room'
   ),
   (
     110002,
     'Round Oak Coffee Table',
     'This round oak coffee table is the sibling to our chestnut table in stock, a brighter shade making for a less cosy more energetic feel to your living room',
     25.99,
-    1
+    'Living Room'
   ),
   (
     110003,
     'Rectangle Ash Coffee Table',
     'Looking for a rustic touch? This rectangular ash coffee table is exactly what you need, it’s a fantastic centrepiece and talking point for your living room with its colour complimentary to most colour schemes',
     30.99,
-    1
+    'Living Room'
   ),
   (
     110004,
     'Triangle White Coffee Table',
     'No abundance of space but still looking for a modern touch? This white triangular coffee table is for you, the design allows it to easily tuck away into the corner of the room and its lightweight material makes it easy to move around at your leisure',
     19.99,
-    1
+    'Living Room'
   ),
   (
     120001,
     'Oak Dining Table',
     'The must have for this season, oak wood dining table is sleek stylish and spacious enough for the biggest of fajita nights able to sit two small households with ease, this product is also perfect for displaying nibbles during a house party',
     89.99,
-    1
+    'Kitchen'
   ),
   (
     120002,
     'Large granite Dining Table',
     'This unique design is just the talking point you need for your dining area, with a square design symmetry is easy meaning all fans of the oddly satisfying way of life are satisfied indeed',
     95.95,
-    1
+    'Kitchen'
   ),
   (
     120003,
     'Medium Mahogany Dining Table',
     'When looking to show off, impress a prince perhaps? Then this dining table is putting money where your mouth is, it’s expensive, it’s big, It is MAHOGANY!',
     595.99,
-    1
+    'Kitchen'
   ),
   (
     120004,
     'Medium Marble Dining Table',
     'Make Rome jealous with this marble dining table, it will fit any dinner party guests or family members you could want! Be warned though, with a table this glamourous, you will need to keep your eyes peeled for thieves wanting to get their hands on this',
     112.00,
-    2
+    'Kitchen'
+  ),
+  (
+    130001,
+    'Simple and quiet to keep focus, this plain desk comes with a set of drawers and two cable tidy gaps to ensure your desk is clutter free so there is only space for all your hard work',
+    206.50,
+    'Office'
+  ),
+  (
+    130002,
+    'The older sibling of another desk in our range this larger desk sports two drawers for maximum storage, adding a little extra length, ideal for those busy bees who use more than one monitor',
+    256.60,
+    'Office'
+  ),
+  (
+    130003,
+    'This L shaped office desk is perfect for anyone wanting to mix work with play, giving plenty of space for monitors and then desk space for any notepads, books and stationary, the perfect product for someone inclined to media',
+    229.99,
+    'Office'
   ),
   (
     210001,
-    'Medium Canvas Sofa',
-    'It’s comfy, it’s practical, it’s designed for you! This grey canvas sofa is great for cuddling up and watching TV and is designed specifically to go with some of our coffee table range!',
+    'It’s comfy, its practical, it’s designed for you! This grey canvas sofa is great for cuddling up and watching TV and is designed specifically to go with some of our coffee table range!',
     89.95,
-    1
+    'Living Room'
   ),
   (
     210002,
     'Medium Felt Sofa',
     'Grey not your style? Want something to make that living room pop? Then why not green? It’s loud, it’s colourful, it’s playful, it’s the talking point you will love!',
     77.99,
-    1
+    'Living Room'
   ),
   (
     210003,
     'Large Leather Sofa',
     'Do you like clubs? Yeah you do! This red leather sofa will make your room look like the VIP at the most exclusive club in town, the paparazzi will be at your door as soon as you place it in the house, party of 1 or party of 30 all that’s needed is some good music!',
     121.95,
-    1
+    'Living Room'
   ),
   (
     210004,
     'Medium Leather Sofa',
     'A nice cosy addition to the family home, movie night or warm mugs of hot chocolate, perfect from log cabins in the mountains to a penthouse in the big city!',
     146.99,
-    1
+    'Living Room'
   ),
   (
     220001,
     'Gaming Office Chair',
     'Struggling to get a win with your friends? Then you definitely need a better gaming chair, watch that K/D skyrocket and open a PO box just to store all of those Esport contracts that will be flying in your direction!',
-    87.99,
-    1
+    87.99
   ),
   (
     220002,
     'Reception Office Chair',
     'Bring a whole new meaning to home office, by bringing office to the home, this office chair is up to the standard of the offices in the city and with its comfort you are going to be left wondering why you ever bothered with that morning commute!',
-    79.95,
-    1
+    79.95
   ),
   (
     220003,
     'Home Office Chair',
     'Sick of having a crooked back from sitting at a desk all day? This office chair mixes pure comfort with practicality, the ergonomic mesh back will help fix your posture and reduce back pain guarunteed!',
     99.99,
-    1
+    'Office'
   ),
   (
     220004,
     'Sofa Office Chair',
     'Spend a lot of time at a desk? Playing games and watching movies, working and sitting. Then bring the living room to your bedroom with this sofa turned office chair. Ultimate comfort ultimate productivity',
     112.45,
-    1
+    'Office'
   ),
   (
     310001,
     'King Oak Bedframe',
     'Sweet dreams are guaranteed with this king size oak bed frame that will leave you feeling like royalty, plenty of storage space underneath the frame, this simple but effective look is perfect for decorating your bedroom around, it’s like a blank canvas!',
     359.99,
-    1
+    'Bedroom'
   ),
   (
     310002,
     'Queen Chestnut Bedframe',
     'This queen size divan bed is sleek, stylish and comfort guaranteed, with the divan style under bed storage is kept masked leaving your room looking organised and well kept, not to mention the size of the bed allowing you to take up as much space as you need for your beauty sleep!',
     688.99,
-    1
+    'Bedroom'
   ),
   (
     310003,
     'Double Grey Bedframe',
     'Modern design is very popular and this bed is an example of why this is the case. With its sleek design, padded headboard and tones to match most modern decor it looks great and feels great!',
     296.99,
-    1
+    'Bedroom'
   ),
   (
     310004,
     'Single Oak Bedframe',
     'This item of pure luxury is just what anyone could ask for in their bedroom, it is almost magical with its powers to send anyone to sleep in seconds allowing them to wake up at the crack of dawn feeling refreshed and ready to tackle the day. This bed speaks for itself',
     1000.00,
-    1
+    'Bedroom'
   ),
   (
     320001,
     'Dark Oak Wardrobe',
     'Dark colours are the in for interior design and this wardrobe is the perfect product for this, it is built tall to bring a new style of storage, fitting in the smallest of rooms but not sacrificing space with two racks for storing clothing on hangers plus the drawer space underneath, leaving more space for you!',
     299.99,
-    1
+    'Bedroom'
   ),
   (
     320002,
-    'White Mirrored Wardrobe',
-    'Who doesn’t like to turn their bedroom into a personal catwalk whilst getting ready, whether it is for work, uni or a night out with friends this mirrored wardrobe lets you sass walk to your heart’s content whilst picking out the perfect fit for your day!',
+    'Who doesn’t like to turn their bedroom into a personal catwalk whilst getting ready, whether it is for work, uni or a night out with friends this mirrored wardrobe lets you sass walk to your hearts content whilst picking out the perfect fit for your day!',
     315.95,
-    1
+    'Bedroom'
   ),
   (
     330001,
     'Oak Chest of Drawers',
     'No bedroom is complete without a chest of drawers for your clothes, this oak drawer set has 6 drawers for organisation not to mention the space on top for ornaments or even doubling as a night stand!',
     210.99,
-    1
+    'Bedroom'
   ),
   (
     330002,
-    'White Chest of Drawers',
     'Looking for a more whitewashed style? Then these white chest of drawers are the one for you. With a wider design giving you more space per drawer for all the shopaholics out there who need a place for all their clothing hauls!',
     175.95,
-    1
+    'Bedroom'
+  ),
+  (
+    410001,
+    'Add a playful pop of colour to your room with these multi-coloured ceiling lights, separating your room from the rest',
+    36.99
+  ),
+  (
+    410002,
+    'More of a rustic look for the budding artists of the world, make sure these lights add their own finished look hanging next to the murial on the concrete wall you just freshly painted' 39.99,
+    'Lighting'
+  ),
+  (
+    410003,
+    'Who loves bubbles? I know I do, and you too can show your love for bubbles with this collection of hanging ceiling lights shaped like pretty bubbled in your room providing a natural lighting look' 45.55,
+    'Lighting'
+  ),
+  (
+    410004,
+    'Have you room neat tidy and organised with these lights, with a sleek look and in a straight line they add a sharp and clean finish to any room' 31.99,
+    'Lighting'
+  ),
+  (
+    510001,
+    'These floating shelves add a simple, effective and attractive way of removing the clutter in your room, or just to put your favourite collectables and photographs on display',
+    34.99,
+    'Storage'
+  ),
+  (
+    510002,
+    'A shelving cabinet perfect for rustic cottage lovers out there, its old-fashioned design gives it a more homeley and natural feel with plenty of space for all your desired belongings',
+    48.99,
+    'Storage'
+  ),
+  (
+    510003,
+    'This statement piece is essential for the rainbow lovers out there who need that bit of colour in their life, with a modern angular design the pop of colour takes away from what would be a more agressive looking shelf',
+    27.77,
+    'Storage'
+  ),
+  (
+    510004,
+    'Made with plastic and standing big and tall these shelves are a great way of organising bomb site garages and lofts with all their boxes, tools and other items',
+    21.99,
+    'Storage'
+  ),
+  (
+    520001,
+    'This outdoor bunker is perfect for storing all of your gardening tools or toys for you and your family, with a design for maximizing storage space and sleek design making sure it wont stand out agianst your beautiful flowers',
+    29.99,
+    'Storage'
+  ),
+  (
+    520002,
+    'No divan no big deal, with one of these storage boxes any bed can become a divan with clothes, shoes or any other personal belongings able to be stored neatly and organised right in your room day or night',
+    11.99,
+    'Storage'
+  ),
+  (
+    520003,
+    'With locks making sure your belongings are protected from dust, water or whaterver you can imagine, this storage box can comfortably fit under a bed or in a cupboard keeping all your items together',
+    12.50,
+    'Storage'
+  ),
+  (
+    520004,
+    'Smaller boxes means space for more of the same, using these boxes let you organise your belongings into refined categories making searching and storing efficient',
+    02.00,
+    'Storage'
+  ),
+  (
+    530001,
+    'This tiered shoe rack keeps yourself and your guests shoes in order whilst keeping your floors clean from muddy feet, using dark colours to blend with modern homes or older alike',
+    15.99,
+    'Storage'
+  ),
+  (
+    530002,
+    'Nice and tall to avoid cricked backs and take up as little space as possible, this vertical shoe rack stores your favourite shoes for you and can fit snugly in corners and even behind doors!',
+    16.99,
+    'Storage'
+  ),
+  (
+    530003,
+    'Perfect for the smaller households, this shoe rack has a gorgeous wooden finish on top making it stand out in the crowd for all the budding interior designers out there',
+    12.20,
+    'Storage'
+  ),
+  (
+    530004,
+    'Not a big fan of showing off your shoes unless they are on your feet? Then this shoe rack is for you using a fold out system to keep the rack blended with your home',
+    19.99,
+    'Storage'
   );
 -- Review
 INSERT INTO Review (sku_code, rating, title, content, review_date)

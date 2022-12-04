@@ -38,7 +38,7 @@ CREATE TABLE Product (
 	`name` VARCHAR(255) NOT NULL,
 	`description` TEXT,
 	`price` DOUBLE NOT NULL,
-	`image_count` INT NOT NULL,
+	`category` VARCHAR(20),
 	PRIMARY KEY (`sku_code`)
 );
 CREATE TABLE PriceAdjustment (
