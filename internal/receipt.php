@@ -40,8 +40,9 @@ $sale_items = $stmt->fetchAll();
 $sale_items_count = count($sale_items);
 
 
-
-$reviewUrl = $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF'], 2)."/review.php";
+$protocol = "http://";
+if (isset($_SERVER['HTTPS'])) $protocol = "https://";
+$reviewUrl = $protocol.$_SERVER['HTTP_HOST'].dirname(dirname($_SERVER['PHP_SELF']))."/review.php";
 ?>
 
 
