@@ -347,9 +347,10 @@ function getPrice(items) {
   return price;
 }
 
-var saleInserts = [];
-var sale_productInserts = [];
-var paymentInserts = [];
+var saleValues = [];
+var sale_productValues = [];
+var cashPaymentValues = [];
+var cardPaymentValues = [];
 
 const store_id = 1;
 for (let i = 0; i < data.length; i++) {
@@ -361,16 +362,14 @@ for (let i = 0; i < data.length; i++) {
   const purchaseTime = purchase.purchaseTime;
 
   // insert into sale
-  saleInserts.push(
-    `INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (${sale_id}, ${store_id}, ${totalCost.toFixed(
+  saleValues.push(
+    `(${sale_id}, ${store_id}, ${totalCost.toFixed(
       2
-    )}, ${staffId}, "${reviewCode}", "${purchaseTime}");`
+    )}, ${staffId}, "${reviewCode}", "${purchaseTime}")`
   );
   // insert into sale_product
   for (let j = 0; j < purchase.items.length; j++) {
-    sale_productInserts.push(
-      `INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (${sale_id}, ${purchase.items[j]}, 1);`
-    );
+    sale_productValues.push(`(${sale_id}, ${purchase.items[j]}, 1)`);
   }
   // insert into cash/card payment
   if (purchase.payedCash) {
@@ -381,22 +380,31 @@ for (let i = 0; i < data.length; i++) {
       initialTender += overBy;
       initialTender = Math.floor(initialTender);
     }
-    paymentInserts.push(
-      `INSERT INTO CashPayment (sale_id, initialTender) VALUES (${sale_id}, ${initialTender});`
-    );
+    cashPaymentValues.push(`(${sale_id}, ${initialTender})`);
   } else {
     const cardLast4Digits = Math.floor(Math.random() * 10_000) + 1_000;
-    paymentInserts.push(
-      `INSERT INTO CardPayment (sale_id, last4Digits) VALUES (${sale_id}, ${cardLast4Digits});`
-    );
+    cardPaymentValues.push(`(${sale_id}, ${cardLast4Digits})`);
   }
 }
 
 console.log("USE 22ac3d03;");
-saleInserts.forEach((e) => console.log(e));
-sale_productInserts.forEach((e) => console.log(e));
-paymentInserts.forEach((e) => console.log(e));
-
-// INSERT INTO Sale (store_id, totalCost, staff_id, review_code) VALUES (:store_id, :totalCost, :staff_id, :review_code)
-// INSERT INTO Sale_Product(sale_id, sku_code, quantity) VALUES(: sale_id, : sku_code, 1)
-// INSERT INTO CardPayment (sale_id, last4Digits) VALUES (:sale_id, :last4Digits)
+console.log(
+  "INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES\n" +
+    saleValues.join(",\n") +
+    ";"
+);
+console.log(
+  "INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES \n" +
+    sale_productValues.join(",\n") +
+    ";"
+);
+console.log(
+  "INSERT INTO CashPayment (sale_id, initialTender) VALUES \n" +
+    cashPaymentValues.join(",\n") +
+    ";"
+);
+console.log(
+  "INSERT INTO CardPayment (sale_id, last4Digits) VALUES \n" +
+    cardPaymentValues.join(",\n") +
+    ";"
+);

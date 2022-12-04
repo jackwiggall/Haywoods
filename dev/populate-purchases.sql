@@ -1,187 +1,191 @@
 USE 22ac3d03;
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (1, 1, 47.98, 1, "413f21", "2022/11/01 10:50:01");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (2, 1, 23.99, 2, "30eb506", "2022/11/01 11:00:21");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (3, 1, 288.98, 3, "3f827a8", "2022/11/08 14:00:15");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (4, 1, 1000.00, 4, "1c4361", "2022/11/17 09:12:28");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (5, 1, 125.98, 2, "1e57377", "2022/11/03 11:45:29");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (6, 1, 299.99, 1, "2e6dbb5", "2022/11/22 15:13:40");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (7, 1, 177.98, 3, "58a23", "2022/11/09 18:27:34");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (8, 1, 210.99, 2, "28493f5", "2022/11/17 20:37:56");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (9, 1, 984.88, 2, "2c67b59", "2022/11/07 10:34:15");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (10, 1, 112.45, 1, "b03c81", "2022/11/01 15:38:11");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (11, 1, 546.93, 1, "7addf", "2022/11/01 11:11:18");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (12, 1, 121.95, 4, "2eb5ca0", "2022/11/06 16:05:34");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (13, 1, 87.99, 5, "37b2d67", "2022/11/23 11:18:59");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (14, 1, 172.98, 5, "2e3c383", "2022/11/01 13:19:27");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (15, 1, 199.94, 3, "1dbb76d", "2022/11/12 17:36:51");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (16, 1, 87.99, 2, "11db2d9", "2022/11/07 10:20:30");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (17, 1, 79.95, 1, "4abdc0", "2022/11/21 21:43:01");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (18, 1, 121.95, 1, "217b1ca", "2022/11/15 18:43:16");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (19, 1, 323.98, 2, "3503164", "2022/11/16 08:11:24");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (20, 1, 547.92, 2, "1aa6161", "2022/11/19 16:41:55");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (21, 1, 395.90, 3, "3a2e7e4", "2022/11/17 09:15:32");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (22, 1, 25.99, 3, "1b476d2", "2022/11/16 22:11:19");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (23, 1, 359.99, 4, "24b059c", "2022/11/08 16:43:22");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (24, 1, 132.44, 4, "384f38a", "2022/11/06 17:00:49");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (25, 1, 778.94, 5, "1498d2e", "2022/11/11 11:11:22");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (26, 1, 1000.00, 1, "3709873", "2022/11/01 15:34:21");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (27, 1, 99.99, 2, "3610509", "2022/11/01 14:56:41");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (28, 1, 146.99, 1, "1cbe25b", "2022/11/07 07:11:44");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (29, 1, 19.99, 1, "1909c1a", "2022/11/17 18:05:55");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (30, 1, 79.95, 4, "21d390", "2022/11/01 16:37:58");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (31, 1, 210.99, 5, "2b8bb8c", "2022/11/09 12:47:21");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (32, 1, 315.95, 2, "4fd189", "2022/11/21 13:42:31");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (33, 1, 886.93, 1, "165fb7c", "2022/11/01 09:11:06");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (34, 1, 89.95, 2, "14a1100", "2022/11/05 11:44:22");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (35, 1, 109.94, 2, "24b9cb3", "2022/11/22 20:17:50");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (36, 1, 185.94, 4, "3fb7533", "2022/11/29 11:48:19");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (37, 1, 296.99, 5, "3e9173b", "2022/11/29 11:12:30");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (38, 1, 121.95, 4, "4d4fbd", "2022/11/01 13:56:43");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (39, 1, 120.98, 4, "2ce3f65", "2022/11/11 18:51:30");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (40, 1, 510.98, 4, "2732d9", "2022/11/16 10:14:27");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (41, 1, 112.00, 3, "3962321", "2022/11/13 19:27:21");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (42, 1, 315.95, 2, "1ce3421", "2022/11/29 14:48:12");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (43, 1, 609.75, 2, "66844", "2022/11/11 11:20:14");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (44, 1, 25.99, 2, "377898e", "2022/11/15 18:00:00");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (45, 1, 210.99, 1, "341b91c", "2022/11/27 12:00:05");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (46, 1, 719.55, 1, "212c5f3", "2022/11/05 04:41:23");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (47, 1, 25.99, 3, "2b484a1", "2022/11/20 15:04:33");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (48, 1, 89.95, 3, "26c9ebe", "2022/11/15 16:20:21");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (49, 1, 296.99, 2, "1853460", "2022/11/28 09:18:27");
-INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES (50, 1, 89.99, 1, "1f76fb4", "2022/11/17 20:11:10");
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (1, 110001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (1, 110001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (2, 110001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (3, 330001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (3, 210002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (4, 310004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (5, 220003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (5, 110002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (6, 320001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (7, 120001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (7, 220001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (8, 330001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (9, 110001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (9, 120002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (9, 310002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (9, 330002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (10, 220004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (11, 110004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (11, 320002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (11, 330001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (12, 210003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (13, 220001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (14, 110002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (14, 210004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (15, 110001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (15, 330002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (16, 220001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (17, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (18, 210003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (19, 110001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (19, 320001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (20, 110002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (20, 210003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (20, 220003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (20, 320001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (21, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (21, 320002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (22, 110002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (23, 310001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (24, 110004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (24, 220004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (25, 210001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (25, 310002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (26, 310004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (27, 220003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (28, 210004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (29, 110004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (30, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (31, 330001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (32, 320002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (33, 310001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (33, 320002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (33, 330001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (34, 210001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (35, 110004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (35, 210001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (36, 120001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (36, 120002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (37, 310003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (38, 210003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (39, 110003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (39, 120001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (40, 320001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (40, 330001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (41, 120004, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (42, 320002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (43, 210003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (43, 210003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (43, 210003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (43, 210003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (43, 210003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (44, 110002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (45, 330001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (46, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (46, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (46, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (46, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (46, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (46, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (46, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (46, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (46, 220002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (47, 110002, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (48, 210001, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (49, 310003, 1);
-INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (50, 120001, 1);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (1, 1483);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (2, 24);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (3, 8839);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (4, 6686);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (5, 4998);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (6, 309);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (7, 1438);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (8, 3100);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (9, 7561);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (10, 122);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (11, 7654);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (12, 126);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (13, 1797);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (14, 5688);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (15, 1706);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (16, 88);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (17, 89);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (18, 9477);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (19, 6204);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (20, 1295);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (21, 9693);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (22, 5503);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (23, 359.99);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (24, 5391);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (25, 798);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (26, 2594);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (27, 109);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (28, 4505);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (29, 5103);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (30, 2586);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (31, 215);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (32, 325);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (33, 1916);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (34, 94);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (35, 1079);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (36, 187);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (37, 3608);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (38, 1608);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (39, 7103);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (40, 530);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (41, 7252);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (42, 335);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (43, 2229);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (44, 6766);
-INSERT INTO CashPayment (sale_id, initialTender) VALUES (45, 211);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (46, 1020);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (47, 10927);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (48, 10012);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (49, 6985);
-INSERT INTO CardPayment (sale_id, last4Digits) VALUES (50, 4765);
+INSERT INTO Sale (sale_id, store_id, totalCost, staff_id, review_code, date) VALUES
+(1, 1, 47.98, 1, "15b61ee", "2022/11/01 10:50:01"),
+(2, 1, 23.99, 2, "1974318", "2022/11/01 11:00:21"),
+(3, 1, 288.98, 3, "11e64d1", "2022/11/08 14:00:15"),
+(4, 1, 1000.00, 4, "3641128", "2022/11/17 09:12:28"),
+(5, 1, 125.98, 2, "32ea2df", "2022/11/03 11:45:29"),
+(6, 1, 299.99, 1, "46a137", "2022/11/22 15:13:40"),
+(7, 1, 177.98, 3, "18532c0", "2022/11/09 18:27:34"),
+(8, 1, 210.99, 2, "516fe0", "2022/11/17 20:37:56"),
+(9, 1, 984.88, 2, "3981d09", "2022/11/07 10:34:15"),
+(10, 1, 112.45, 1, "e41a1c", "2022/11/01 15:38:11"),
+(11, 1, 546.93, 1, "829ee0", "2022/11/01 11:11:18"),
+(12, 1, 121.95, 4, "e68c8f", "2022/11/06 16:05:34"),
+(13, 1, 87.99, 5, "2e4dfd3", "2022/11/23 11:18:59"),
+(14, 1, 172.98, 5, "15119ba", "2022/11/01 13:19:27"),
+(15, 1, 199.94, 3, "14af0da", "2022/11/12 17:36:51"),
+(16, 1, 87.99, 2, "272580c", "2022/11/07 10:20:30"),
+(17, 1, 79.95, 1, "fc2419", "2022/11/21 21:43:01"),
+(18, 1, 121.95, 1, "18ab9bb", "2022/11/15 18:43:16"),
+(19, 1, 323.98, 2, "1917b2e", "2022/11/16 08:11:24"),
+(20, 1, 547.92, 2, "3947659", "2022/11/19 16:41:55"),
+(21, 1, 395.90, 3, "2e3c24d", "2022/11/17 09:15:32"),
+(22, 1, 25.99, 3, "4bb2e5", "2022/11/16 22:11:19"),
+(23, 1, 359.99, 4, "3544239", "2022/11/08 16:43:22"),
+(24, 1, 132.44, 4, "27bb4ba", "2022/11/06 17:00:49"),
+(25, 1, 778.94, 5, "3c33a6e", "2022/11/11 11:11:22"),
+(26, 1, 1000.00, 1, "53a056", "2022/11/01 15:34:21"),
+(27, 1, 99.99, 2, "30792dc", "2022/11/01 14:56:41"),
+(28, 1, 146.99, 1, "3246e97", "2022/11/07 07:11:44"),
+(29, 1, 19.99, 1, "767885", "2022/11/17 18:05:55"),
+(30, 1, 79.95, 4, "37d520c", "2022/11/01 16:37:58"),
+(31, 1, 210.99, 5, "2cbb54a", "2022/11/09 12:47:21"),
+(32, 1, 315.95, 2, "27f65f9", "2022/11/21 13:42:31"),
+(33, 1, 886.93, 1, "159bc1c", "2022/11/01 09:11:06"),
+(34, 1, 89.95, 2, "a14095", "2022/11/05 11:44:22"),
+(35, 1, 109.94, 2, "3860ec1", "2022/11/22 20:17:50"),
+(36, 1, 185.94, 4, "17ceae8", "2022/11/29 11:48:19"),
+(37, 1, 296.99, 5, "2f6be72", "2022/11/29 11:12:30"),
+(38, 1, 121.95, 4, "968c19", "2022/11/01 13:56:43"),
+(39, 1, 120.98, 4, "2a9221a", "2022/11/11 18:51:30"),
+(40, 1, 510.98, 4, "64889d", "2022/11/16 10:14:27"),
+(41, 1, 112.00, 3, "3f475af", "2022/11/13 19:27:21"),
+(42, 1, 315.95, 2, "23808da", "2022/11/29 14:48:12"),
+(43, 1, 609.75, 2, "2111ce2", "2022/11/11 11:20:14"),
+(44, 1, 25.99, 2, "b10f14", "2022/11/15 18:00:00"),
+(45, 1, 210.99, 1, "1df1124", "2022/11/27 12:00:05"),
+(46, 1, 719.55, 1, "3e938ea", "2022/11/05 04:41:23"),
+(47, 1, 25.99, 3, "1f711b4", "2022/11/20 15:04:33"),
+(48, 1, 89.95, 3, "20e018", "2022/11/15 16:20:21"),
+(49, 1, 296.99, 2, "1d00d19", "2022/11/28 09:18:27"),
+(50, 1, 89.99, 1, "37c89f2", "2022/11/17 20:11:10");
+INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES 
+(1, 110001, 1),
+(1, 110001, 1),
+(2, 110001, 1),
+(3, 330001, 1),
+(3, 210002, 1),
+(4, 310004, 1),
+(5, 220003, 1),
+(5, 110002, 1),
+(6, 320001, 1),
+(7, 120001, 1),
+(7, 220001, 1),
+(8, 330001, 1),
+(9, 110001, 1),
+(9, 120002, 1),
+(9, 310002, 1),
+(9, 330002, 1),
+(10, 220004, 1),
+(11, 110004, 1),
+(11, 320002, 1),
+(11, 330001, 1),
+(12, 210003, 1),
+(13, 220001, 1),
+(14, 110002, 1),
+(14, 210004, 1),
+(15, 110001, 1),
+(15, 330002, 1),
+(16, 220001, 1),
+(17, 220002, 1),
+(18, 210003, 1),
+(19, 110001, 1),
+(19, 320001, 1),
+(20, 110002, 1),
+(20, 210003, 1),
+(20, 220003, 1),
+(20, 320001, 1),
+(21, 220002, 1),
+(21, 320002, 1),
+(22, 110002, 1),
+(23, 310001, 1),
+(24, 110004, 1),
+(24, 220004, 1),
+(25, 210001, 1),
+(25, 310002, 1),
+(26, 310004, 1),
+(27, 220003, 1),
+(28, 210004, 1),
+(29, 110004, 1),
+(30, 220002, 1),
+(31, 330001, 1),
+(32, 320002, 1),
+(33, 310001, 1),
+(33, 320002, 1),
+(33, 330001, 1),
+(34, 210001, 1),
+(35, 110004, 1),
+(35, 210001, 1),
+(36, 120001, 1),
+(36, 120002, 1),
+(37, 310003, 1),
+(38, 210003, 1),
+(39, 110003, 1),
+(39, 120001, 1),
+(40, 320001, 1),
+(40, 330001, 1),
+(41, 120004, 1),
+(42, 320002, 1),
+(43, 210003, 1),
+(43, 210003, 1),
+(43, 210003, 1),
+(43, 210003, 1),
+(43, 210003, 1),
+(44, 110002, 1),
+(45, 330001, 1),
+(46, 220002, 1),
+(46, 220002, 1),
+(46, 220002, 1),
+(46, 220002, 1),
+(46, 220002, 1),
+(46, 220002, 1),
+(46, 220002, 1),
+(46, 220002, 1),
+(46, 220002, 1),
+(47, 110002, 1),
+(48, 210001, 1),
+(49, 310003, 1),
+(50, 120001, 1);
+INSERT INTO CashPayment (sale_id, initialTender) VALUES 
+(2, 23.99),
+(6, 301),
+(10, 112.45),
+(12, 141),
+(16, 92),
+(17, 79.95),
+(23, 359.99),
+(25, 778.94),
+(27, 119),
+(31, 210.99),
+(32, 315.95),
+(34, 109),
+(36, 195),
+(40, 510.98),
+(42, 317),
+(45, 220);
+INSERT INTO CardPayment (sale_id, last4Digits) VALUES 
+(1, 3463),
+(3, 6822),
+(4, 10792),
+(5, 3014),
+(7, 5682),
+(8, 8614),
+(9, 4545),
+(11, 10531),
+(13, 8178),
+(14, 4332),
+(15, 3988),
+(18, 9209),
+(19, 7801),
+(20, 10226),
+(21, 1839),
+(22, 10828),
+(24, 8418),
+(26, 3588),
+(28, 5529),
+(29, 4059),
+(30, 2753),
+(33, 8974),
+(35, 7987),
+(37, 7569),
+(38, 8568),
+(39, 1582),
+(41, 2643),
+(43, 3370),
+(44, 9438),
+(46, 1173),
+(47, 5369),
+(48, 3573),
+(49, 10745),
+(50, 2150);
