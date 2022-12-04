@@ -25,7 +25,9 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
   } else {
     $query_where = substr($query_where, 0, -4); // remove trailing AND
   }
-  $stmt = $conn->prepare("SELECT sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost FROM vSaleHistory $query_where");
+  $stmt = $conn->prepare("SELECT sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost
+                          FROM vSaleHistory $query_where
+                          ORDER BY date ASC");
   if (isset($_GET['date']))  $stmt->bindParam("date", $_GET['date']);
   if (isset($_GET['store'])) $stmt->bindParam("store", $_GET['store']);
 
@@ -58,7 +60,6 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px">
     <h1 class="w3-jumbo"><b>Sale History</b></h1> <!--Page Title-->
-    <h1 class="w3-xxxlarge text-primary"><b>Details.</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
     <div class="container border border-dark bg-primary dropshadow p-2">
       <form action="" method="GET">
@@ -120,7 +121,7 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
             echo "<td>".$sale[3]." ".$sale[4]."</td>";
             echo "<td>".$sale[5]."</td>";
             echo "<td>".$sale[6]."</td>";
-            echo '<td><a href="./receipt.php?sale='.$sale[0].'">View Receipt</a></td>';
+            echo '<td><a href="./receipt.php?sale='.$sale[0].'">View Details</a></td>';
             echo "</tr>";
           }
         ?>
