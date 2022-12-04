@@ -27,8 +27,6 @@ if (isset($_GET['sku']) && !empty($_GET['sku'])) {
     $productName = $row['name'];
   }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +51,6 @@ if (isset($_GET['sku']) && !empty($_GET['sku'])) {
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px">
     <h1 class="w3-jumbo"><b>Product History</b></h1> <!--Page Title-->
-    <h1 class="w3-xxxlarge text-primary"><b>SKU Code.</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
     <div class="container bg-primary border border-dark p-2 dropshadow">
       <form action="?" method="get">
@@ -67,29 +64,22 @@ if (isset($_GET['sku']) && !empty($_GET['sku'])) {
   <?php
     if ($results == null) {
       if ($notFoundError) {
-        echo "not found";
+        echo "<div class='w3-round container mt-4 p-2 bg-warning'>Product not found on system</div>";
       }
       die("</div></body></html>");
     }
   ?>
 
   <!--History-->
-  <div class='w3-container' style='margin-top:80px'>
-    <hr style='width:50px;border:5px solid blue' class='w3-round'>
+  <div class='w3-container mt-4'>
     <?php
-      echo "<h2>$productName</h2>";
-      echo "<h3>Current Stock: $stockLevel</h3>";
+      echo "<h3>Product: $productName</h3>";
+      echo "<h3>stock level: $stockLevel</h3>";
+      echo "<h3>History:</h3>";
     ?>
     <div class='container bg-primary border border-dark p-2 dropshadow'>
       <table class='table table-bordered border-dark bg-light'>
         <tr>
-          <!-- <th>Date</th>
-          <th>Time</th>
-          <th>Start Price</th>
-          <th>End Price</th>
-          <th>Start Stock</th>
-          <th>End Stock</th> -->
-
           <th>Date</th>
           <th>Time</th>
           <th>Description</th>
@@ -112,10 +102,6 @@ if (isset($_GET['sku']) && !empty($_GET['sku'])) {
                 echo "<td>N/A</td>";
                 echo "<td>".$result['quantitySold']."</td>";
               }
-              
-              // echo "<td>".$result[]."</td>";
-              // echo "<td>".$result[]."</td>";
-              // echo "<td>".$result[]."</td>";
             }
           }
         ?>
@@ -125,9 +111,6 @@ if (isset($_GET['sku']) && !empty($_GET['sku'])) {
 
 <!-- End page content -->
 </div>
-
-<!-- W3.CSS Container -->
-<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p></div>
 
 </body>
 </html>
