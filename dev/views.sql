@@ -129,7 +129,7 @@ SELECT NULL AS Store_id,
 FROM PriceAdjustment
 ORDER BY date DESC;
 -- Product view
-CREATE VIEW AS vProduct
+CREATE VIEW vProduct AS
 SELECT sku_code,
   name,
   price
