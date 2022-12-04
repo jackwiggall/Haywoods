@@ -128,3 +128,9 @@ SELECT NULL AS Store_id,
   PriceAdjustment.newPrice AS priceChange
 FROM PriceAdjustment
 ORDER BY date DESC;
+-- Product view
+CREATE VIEW AS vProduct
+SELECT sku_code,
+  name,
+  price
+FROM Product;
