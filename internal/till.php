@@ -87,6 +87,7 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
         $stmt->bindParam("sale_id", $sale_id);
         $stmt->execute();
       }
+      $conn->commit();
     } catch (Exception $e) {
       $stmt->rollback();
       die("database error");
