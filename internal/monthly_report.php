@@ -13,29 +13,36 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
   $year = $_GET["year"];
 
   // query CashCardSales View to get Cash and Card sales for specific month
-  $cashCardSalesQuery = "SELECT (
-                          SELECT SUM(totalCost) FROM vCashCardSales
+  $cashCardSalesQuery = "SELECT ROUND(coalesce(SUM(totalCost), 0), 2) AS total, COUNT(totalCost) AS count
+                          FROM vCashCardSales
                           WHERE cardPayment_id IS NOT NULL
                           AND store_id = :store_id
                           AND MONTH(date) = :month AND YEAR(date) = :year
-                        ) AS cardSales,
-                        (
-                          SELECT SUM(totalCost) FROM vCashCardSales
+                         UNION ALL
+                         SELECT ROUND(coalesce(SUM(totalCost), 0), 2) AS total, COUNT(totalCost) AS count
+                          FROM vCashCardSales
                           WHERE cashPayment_id IS NOT NULL
                           AND store_id = :store_id
-                          AND MONTH(date) = :month AND YEAR(date) = :year
-                        ) AS cashSales";
+                          AND MONTH(date) = :month AND YEAR(date) = :year;";
+
 
   $stmt = $conn->prepare($cashCardSalesQuery);
   $stmt->bindParam("month", $month);
   $stmt->bindParam("year", $year);
   $stmt->bindParam("store_id", $_SESSION['store_id']);
   $stmt->execute();
-  $row = $stmt->fetch();
-  // set to nulls to 0
-  $cardSales = ($row['cardSales'] == null) ? 0 : $row['cardSales'];
-  $cashSales = ($row['cashSales'] == null) ? 0 : $row['cashSales'];
+  $cardPaymentsRow = $stmt->fetch();
+  $cashPaymentsRow = $stmt->fetch();
+
+  // card sales
+  $cardSales = $cardPaymentsRow['total'];
+  $cardCount = $cardPaymentsRow['count'];
+  // cash sales
+  $cashSales = $cashPaymentsRow['total'];
+  $cashCount = $cashPaymentsRow['count'];
+  // total sales
   $totalSales = $cardSales + $cashSales;
+  $totalCount = $cardCount + $cashCount;
 
   // query TopSellers View to get the top 5 selling items
   $topSellersQuery = "SELECT sku_code, name, quantity
@@ -85,7 +92,6 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px">
     <h1 class="w3-jumbo"><b>Monthly Report</b></h1> <!--Page Title-->
-    <h1 class="w3-xxxlarge text-primary"><b>Select Month.</b></h1> <!--Sub title-->
     <hr style="width:50px;border:5px solid blue" class="w3-round">
     <div class="container border border-dark bg-primary text-white dropshadow p-2 mb-2">
       <form action="" method="get">
@@ -133,9 +139,9 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
         </tr>
         <tr>
           <?php
-            echo "<td>£$cashSales</td>";
-            echo "<td>£$cardSales</td>";
-            echo "<th>£$totalSales</th>";
+            echo "<td>£$cashSales (x$cashCount)</td>";
+            echo "<td>£$cardSales (x$cardCount)</td>";
+            echo "<th>£$totalSales (x$totalCount)</th>";
           ?>
         </tr>
       </table>
@@ -178,9 +184,6 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
 
 <!-- End page content -->
 </div>
-
-<!-- W3.CSS Container -->
-<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p></div>
 
 <script>
 // Script to open and close sidebar
