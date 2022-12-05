@@ -12,6 +12,9 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
   $month = $_GET["month"];
   $year = $_GET["year"];
 
+  // default store_id to store that the user belongs to
+  $store_id = $_SESSION['store_id'];
+
   // query CashCardSales View to get Cash and Card sales for specific month
   $cashCardSalesQuery = "SELECT ROUND(coalesce(SUM(totalCost), 0), 2) AS total, COUNT(totalCost) AS count
                           FROM vCashCardSales
@@ -29,7 +32,7 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
   $stmt = $conn->prepare($cashCardSalesQuery);
   $stmt->bindParam("month", $month);
   $stmt->bindParam("year", $year);
-  $stmt->bindParam("store_id", $_SESSION['store_id']);
+  $stmt->bindParam("store_id", $store_id);
   $stmt->execute();
   $cardPaymentsRow = $stmt->fetch();
   $cashPaymentsRow = $stmt->fetch();
@@ -53,19 +56,27 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
   $stmt = $conn->prepare($topSellersQuery);
   $stmt->bindParam("month", $month);
   $stmt->bindParam("year", $year);
-  $stmt->bindParam("store_id", $_SESSION['store_id']);
+  $stmt->bindParam("store_id", $store_id);
   $stmt->execute();
   $topSellers = $stmt->fetchAll();
 
+  $stmt = $conn->prepare("SELECT ROUND(SUM(shiftPay), 2) AS totalPay,
+                            ROUND(SUM(shiftHours), 1) AS totalHours
+                          FROM vStaffShifts
+                          WHERE store_id = :store_id AND
+                          MONTH(shiftDate) = :month AND YEAR(shiftDate) = :year");
+  $stmt->bindParam("month", $month);
+  $stmt->bindParam("year", $year);
+  $stmt->bindParam("store_id", $store_id);
+  $stmt->execute();
+  $row = $stmt->fetch();
+  $totalHours = $row['totalHours'];
+  $totalPay = $row['totalPay'];
 
+  // set nulls to 0
+  if ($totalHours == null) $totalHours = '0.0';
+  if ($totalPay == null) $totalPay = '0.00';
 }
-// $stmt = $conn->prepare("SELECT sale_id,date,staff_id,totalCost FROM Sale "+$query_where);
-//   if (isset($_POST['date']))  $stmt->bindParam("date", $_POST['date']);
-//   if (isset($_POST['store'])) $stmt->bindParam("store", $_POST['store']);
-
-//   $stmt->execute();
-
-//   while (($store = $stmt->fetch()) != null) {
 
 ?>
 
@@ -175,8 +186,10 @@ if (isset($_GET["year"]) && isset($_GET["month"])) {
           <th>Pay</th>
         </tr>
         <tr>
-          <td>520</td>
-          <td>£4732.00</td>
+          <?php
+            echo "<td>$totalHours</td>";
+            echo "<td>£$totalPay</td>";
+          ?>
         </tr>
       </table>
     </div>

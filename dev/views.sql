@@ -156,3 +156,14 @@ SELECT sale_id,
   sku_code,
   quantity
 FROM Sale_Product;
+-- StaffShifts
+CREATE VIEW vStaffShifts AS
+SELECT 
+  Staff.store_id,
+  Staff.staff_id,
+  Staff.pay as staffPay,
+  CAST(Shift.start as date) AS shiftDate,
+  ROUND(TIMESTAMPDIFF(MINUTE, Shift.start, Shift.end) / 60, 2) AS shiftHours,
+  ROUND(TIMESTAMPDIFF(MINUTE, Shift.start, Shift.end) / 60 * Staff.pay, 2) AS shiftPay
+FROM Shift
+  LEFT JOIN Staff ON (Shift.staff_id = Staff.staff_id);
