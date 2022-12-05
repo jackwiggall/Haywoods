@@ -28,7 +28,7 @@ if (isset($_GET['search'])) {
   }
 
   // sql query
-  $stmt = $conn->prepare("SELECT sku_code, name, price
+  $stmt = $conn->prepare("SELECT sku_code, name, price, rating
                           FROM vProductDetails
                           WHERE name LIKE :search
                           OR sku_code = :sku_code
@@ -124,15 +124,18 @@ if (isset($_GET['search'])) {
   <!-- Output, if empty hide -->
   <div class="w3-container" style="margin-top:80px">
     <hr style="width:50px;border:5px solid blue" class="w3-round">
-      <div class="card-deck">
+      <div class="row">
         <?php
           foreach ($results as $result) {
             // sku_code, name, price
-            echo '<div class="card bg-primary dropshadow border border-dark p-2 mb-2 m-r d-inline-block c-width">';
-            echo '<a href="./product_details.php?sku='.$result['sku_code'].'"><img src="images/'.$result['sku_code'].'.jpg" class="card-img-top border border-dark" alt="...">';
+            echo '<div class="card bg-primary m-2 d-inline-block" style="height: 450px; width: 250px;">';
+            echo '<a href="./product_details.php?sku='.$result['sku_code'].'">';
+            echo '<img src="images/'.$result['sku_code'].'.jpg" class="card-img-top mt-2 border border-dark">';
             echo '<div class="card-body">';
-            echo '<p class="card-text text-light pl-1">£'.$result['price'].'</p>';
-            echo '<p class="card-text text-light pl-1 d-block">'.$result['name'].'</p>';
+            echo '<p class="card-title text-light pl-1">£'.$result['price'].'</p>';
+            echo '<p class="card-text text-light pl-1" style="height: 80px;">'.$result['name'].'</p>';
+            $ratingText = $result['rating'] == '?' ? 'No rating' : $result['rating'].'/10 stars';
+            echo '<p class="card-footer mb-auto text-light pl-1">'.$ratingText.'</p>';
             echo '</div>';
             echo '</a>';
             echo '</div>';

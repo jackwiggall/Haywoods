@@ -82,8 +82,12 @@ $reviews = $stmt->fetchAll(); // get all reviews
           <h4 class="pt-3 mb-3 text-white">Description</h4>
             <div class="d-inline-block p-2 mt-2 border border-dark bg-light"><?php echo $product_description; ?></div>
           </div>
-          <h3 class="p-3 m-2 mb-0 pb-0 text-white">Product Reviews</h3>
           <?php
+            if (empty($reviews)) {
+              echo '<h3 class="p-3 m-2 mb-0 pb-0 text-white">No Product Reviews yet...</h3>';
+            } else {
+              echo '<h3 class="p-3 m-2 mb-0 pb-0 text-white">Product Reviews</h3>';
+            }
             foreach ($reviews as $review) {
               $review_rating = $review['rating'];
               $review_title = $review['title'];
