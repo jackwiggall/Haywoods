@@ -71,10 +71,17 @@ $reviews = $stmt->fetchAll(); // get all reviews
           
           <select class="d-inline-block p-2 mt-2">
           <?php
+            $displayedOption = false;
             foreach ($productDetails as $productDetail) {
               $stockLevel = $productDetail['stockLevel'];
               $storeLocation = $productDetail['storeLocation'];
-              echo "<option>Store: $storeLocation, In stock: $stockLevel</option>";
+              if ($storeLocation != null) {
+                $displayedOption = true;
+                echo "<option>Store: $storeLocation, In stock: $stockLevel</option>";
+              }
+            }
+            if (!$displayedOption) {
+              echo "<option>Out Of Stock in All Stores</option>";
             }
           ?>
           </select>

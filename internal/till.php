@@ -65,23 +65,29 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
     try {
       // begin transaction
       $conn->beginTransaction();
-      // insert into Sale_Product
+      // insert into Sale_Product and update stock level
       foreach ($sku_codes as $sku_code) {
-        $stmt = $conn->prepare("INSERT INTO Sale_Product (sale_id, sku_code, quantity) VALUES (:sale_id, :sku_code, 1)");
+        // insert into joining table
+        $stmt = $conn->prepare("INSERT INTO vSale_Product (sale_id, sku_code, quantity) VALUES (:sale_id, :sku_code, 1)");
         $stmt->bindParam("sale_id", $sale_id);
         $stmt->bindParam("sku_code", $sku_code);
+        $stmt->execute();
+        // reduce stock level
+        $stmt = $conn->prepare("UPDATE vStockLevel SET count = count - 1 WHERE sku_code = :sku_code AND store_id = :store_id");
+        $stmt->bindParam("sku_code", $sku_code);
+        $stmt->bindParam("store_id", $store_id);
         $stmt->execute();
       }
   
       // insert into CardPayment & CashPayment
       if (isset($_POST["pay-card"])) {
-        $stmt = $conn->prepare("INSERT INTO CardPayment (sale_id, last4Digits) VALUES (:sale_id, :last4Digits)");
+        $stmt = $conn->prepare("INSERT INTO vCardPayment (sale_id, last4Digits) VALUES (:sale_id, :last4Digits)");
         $cardNumber = $_POST['last4Digits'];
         $stmt->bindParam("last4Digits", $cardNumber);
         $stmt->bindParam("sale_id", $sale_id);
         $stmt->execute();
       } else {
-        $stmt = $conn->prepare("INSERT INTO CashPayment (sale_id, initialTender) VALUES (:sale_id, :initialTender)");
+        $stmt = $conn->prepare("INSERT INTO vCashPayment (sale_id, initialTender) VALUES (:sale_id, :initialTender)");
         $initialTender = (int)$_POST['initial-tender'];
         $stmt->bindParam("initialTender", $initialTender);
         $stmt->bindParam("sale_id", $sale_id);
@@ -89,8 +95,8 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
       }
       $conn->commit();
     } catch (Exception $e) {
-      $stmt->rollback();
-      die("database error");
+      $conn->rollback();
+      die("database error $e");
     }
 
     // reset scanned items

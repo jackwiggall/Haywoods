@@ -76,8 +76,8 @@ SELECT Product.sku_code,
   Store.location AS storeLocation
 FROM Product
   LEFT JOIN Review ON (Product.sku_code = Review.sku_code)
-  JOIN StockLevel ON (Product.sku_code = StockLevel.sku_code)
-  JOIN Store ON (StockLevel.store_id = Store.store_id)
+  LEFT JOIN StockLevel ON (Product.sku_code = StockLevel.sku_code)
+  LEFT JOIN Store ON (StockLevel.store_id = Store.store_id)
 GROUP BY Product.sku_code,
   StockLevel.store_id;
 -- SaleHistory
@@ -134,3 +134,25 @@ SELECT sku_code,
   name,
   price
 FROM Product;
+-- StockLevel
+CREATE VIEW vStockLevel AS
+SELECT sku_code,
+  store_id,
+  count
+FROM StockLevel;
+-- CashPayment
+CREATE VIEW vCashPayment AS
+SELECT sale_id,
+  initialTender
+FROM CashPayment;
+-- CardPayment
+CREATE VIEW vCardPayment AS
+SELECT sale_id,
+  last4Digits
+FROM CardPayment;
+-- Sale_Product
+CREATE VIEW vSale_Product AS
+SELECT sale_id,
+  sku_code,
+  quantity
+FROM Sale_Product;
