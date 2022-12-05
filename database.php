@@ -12,7 +12,7 @@ try {
   $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
 } catch (PDOException $e) {
   // error connecting to database, return null object
-  die("database error");
+  die("database error $e");
 }
 
 ?>
