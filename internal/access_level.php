@@ -1,13 +1,15 @@
 <?php
 // ensure session is started
-if (session_status() == PHP_SESSION_NONE) session_start();
+if (session_status() == PHP_SESSION_NONE)
+  session_start();
 
 
-function requireAccessLevel($minLevel) {
+function requireAccessLevel($minLevel)
+{
   if (!$_SESSION['loggedIn']) {
     // user not logged in, redirect to login page which will redirect them back
     // to the original page after authenticated
-    header('location: ./login.php?redirect='.$_SERVER['REQUEST_URI']);
+    header('location: ./login.php?redirect=' . $_SERVER['REQUEST_URI']);
     die();
   }
 

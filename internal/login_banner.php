@@ -5,11 +5,11 @@
     </div>
     <div class="col text-center">
       <?php
-        $fullname = $_SESSION['fullname'];
-        $username = $_SESSION['username'];
-        $accessLevelName = $_SESSION['accessLevelName'];
-        $store_location = $_SESSION['location'];
-        echo "$fullname ($username), $accessLevelName, <strong>$store_location</strong>";
+      $fullname = $_SESSION['fullname'];
+      $username = $_SESSION['username'];
+      $accessLevelName = $_SESSION['accessLevelName'];
+      $store_location = $_SESSION['location'];
+      echo "$fullname ($username), $accessLevelName, <strong>$store_location</strong>";
       ?>
     </div>
     <div class="col-2 text-end me-2">

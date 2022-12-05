@@ -31,86 +31,92 @@ if (isset($_GET['sku']) && !empty($_GET['sku'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>Haywoods</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="../styles.css">
-</head>
-<body>
 
-<!-- Sidebar/menu -->
-<?php require './internal_sidebar.php'; ?>
+  <head>
+    <title>Haywoods</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../styles.css">
+  </head>
 
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:340px;margin-right:40px">
+  <body>
 
-  <!-- Header -->
-  <div class="w3-container" style="margin-top:80px">
-    <h1 class="w3-jumbo"><b>Product History</b></h1> <!--Page Title-->
-    <hr style="width:50px;border:5px solid blue" class="w3-round">
-    <div class="container bg-primary border border-dark p-2 dropshadow">
-      <form action="?" method="get">
-        <p class="d-inline-block border border-dark bg-light p-2">Product SKU:</p> <input type="text"
-          class="bg-light p-2" name="sku" placeholder="000000" value=<?php if (isset($_GET['sku'])) { echo $_GET['sku']; }?>><br>
-        <input type="submit" value="Search" class="btn btn-dark mt-1 border border-dark w300">
-      </form>
-    </div>
-  </div>
+    <!-- Sidebar/menu -->
+    <?php require './internal_sidebar.php'; ?>
 
-  <?php
-    if ($results == null) {
-      if ($notFoundError) {
-        echo "<div class='w3-round container mt-4 p-2 bg-warning'>Product not found on system</div>";
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+      <!-- Header -->
+      <div class="w3-container" style="margin-top:80px">
+        <h1 class="w3-jumbo"><b>Product History</b></h1>
+        <!--Page Title-->
+        <hr style="width:50px;border:5px solid blue" class="w3-round">
+        <div class="container bg-primary border border-dark p-2 dropshadow">
+          <form action="?" method="get">
+            <p class="d-inline-block border border-dark bg-light p-2">Product SKU:</p> <input type="text"
+              class="bg-light p-2" name="sku" placeholder="000000" value=<?php if (isset($_GET['sku'])) {
+                echo $_GET['sku'];
+              } ?>><br>
+            <input type="submit" value="Search" class="btn btn-dark mt-1 border border-dark w300">
+          </form>
+        </div>
+      </div>
+
+      <?php
+      if ($results == null) {
+        if ($notFoundError) {
+          echo "<div class='w3-round container mt-4 p-2 bg-warning'>Product not found on system</div>";
+        }
+        die("</div></body></html>");
       }
-      die("</div></body></html>");
-    }
-  ?>
+      ?>
 
-  <!--History-->
-  <div class='w3-container mt-4'>
-    <?php
-      echo "<h3>Product: $productName</h3>";
-      echo "<h3>stock level: $stockLevel</h3>";
-      echo "<h3>History:</h3>";
-    ?>
-    <div class='container bg-primary border border-dark p-2 dropshadow'>
-      <table class='table table-bordered border-dark bg-light'>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Description</th>
-          <th>Price</th>
-          <th>Sold</th>
-        </tr>
+      <!--History-->
+      <div class='w3-container mt-4'>
         <?php
-          if ($results != null) {
-            foreach ($results as $result) {
-              $timeDate = explode(" ", $result['date']);
-              echo "<tr>";
-              echo "<td>".$timeDate[0]."</td>";
-              echo "<td>".$timeDate[1]."</td>";
-              if ($result['priceChange']) {
-                echo "<td>Price Change</td>";
-                echo "<td>£".$result['priceChange']."</td>";
-                echo "<td>N/A</td>";
-              } else {
-                echo "<td>Sale</td>";
-                echo "<td>N/A</td>";
-                echo "<td>".$result['quantitySold']."</td>";
+        echo "<h3>Product: $productName</h3>";
+        echo "<h3>stock level: $stockLevel</h3>";
+        echo "<h3>History:</h3>";
+        ?>
+        <div class='container bg-primary border border-dark p-2 dropshadow'>
+          <table class='table table-bordered border-dark bg-light'>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Sold</th>
+            </tr>
+            <?php
+            if ($results != null) {
+              foreach ($results as $result) {
+                $timeDate = explode(" ", $result['date']);
+                echo "<tr>";
+                echo "<td>" . $timeDate[0] . "</td>";
+                echo "<td>" . $timeDate[1] . "</td>";
+                if ($result['priceChange']) {
+                  echo "<td>Price Change</td>";
+                  echo "<td>£" . $result['priceChange'] . "</td>";
+                  echo "<td>N/A</td>";
+                } else {
+                  echo "<td>Sale</td>";
+                  echo "<td>N/A</td>";
+                  echo "<td>" . $result['quantitySold'] . "</td>";
+                }
               }
             }
-          }
-        ?>
-      </table>
+            ?>
+          </table>
+        </div>
+      </div>
+
+      <!-- End page content -->
     </div>
-  </div>
 
-<!-- End page content -->
-</div>
+  </body>
 
-</body>
 </html>

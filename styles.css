@@ -1,71 +1,76 @@
 .w100 {
-  width: 100px;
-  display: inline-block;
-  margin: 0;
-  padding-bottom: 4px;
+    width: 100px;
+    display: inline-block;
+    margin: 0;
+    padding-bottom: 4px;
 }
 
 .w300 {
-  width: 300px;
-  display: inline-block;
-  margin: 0;
-  padding: 10px;
+    width: 300px;
+    display: inline-block;
+    margin: 0;
+    padding: 10px;
 }
 
 .w110 {
-  width: 110px;
-  display: inline-block;
-  margin: 0;
-  padding: 10px;
+    width: 110px;
+    display: inline-block;
+    margin: 0;
+    padding: 10px;
 }
 
 .h100 {
-  height: 100px;
+    height: 100px;
 }
 
 .it-pr td {
-  height: 50px;
+    height: 50px;
 }
 
 .f-r {
-  float: right;
+    float: right;
 }
 
 .m-r {
-  margin-right: 2%;
+    margin-right: 2%;
 }
 
 .c-width {
-  width: 16rem;
+    width: 16rem;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
-body,h1,h2,h3,h4,h5 {
-  font-family: "Poppins", sans-serif;
+body,
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Poppins", sans-serif;
 }
 
 body {
-  font-size:16px;
+    font-size: 16px;
 }
 
-.w3-half img{
-  margin-bottom:-6px;
-  margin-top:16px;
-  opacity:0.8;
-  cursor:pointer
+.w3-half img {
+    margin-bottom: -6px;
+    margin-top: 16px;
+    opacity: 0.8;
+    cursor: pointer
 }
 
-.w3-half img:hover{
-  opacity:1
+.w3-half img:hover {
+    opacity: 1
 }
 
 .hide {
-  display:none;
+    display: none;
 }
 
 .dropshadow {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

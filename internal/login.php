@@ -1,12 +1,14 @@
 <?php
 // ensure session is started
-if (session_status() == PHP_SESSION_NONE) session_start();
+if (session_status() == PHP_SESSION_NONE)
+  session_start();
 
 require '../database.php';
 
 
 // function to redirect to page after authentication
-function performRedirection() {
+function performRedirection()
+{
   $redirection = $_GET["redirect"];
   if (isset($redirection)) {
     header("location: $redirection");
@@ -66,41 +68,48 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>Haywoods</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="../styles.css">
-</head>
-<body>
 
-<!-- Sidebar/menu -->
-<?php require './internal_sidebar.php' ?>
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:340px;margin-right:40px">
+  <head>
+    <title>Haywoods</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../styles.css">
+  </head>
 
-  <!-- Header -->
-  <div class="w3-container" style="margin-top:80px">
-    <h1 class="w3-jumbo"><b>Login to Internal Site</b></h1> <!--Page Title-->
-    <h1 class="w3-xxxlarge text-primary"><b>Enter Details.</b></h1> <!--Sub title-->
-    <hr style="width:50px;border:5px solid blue" class="w3-round">
-    <form action="" method="POST">
-      <p class="d-inline-block border border-dark bg-light p-2">Username:</p> <input type="text" class="bg-light p-2" required name="username"><br>
-      <p class="d-inline-block border border-dark bg-light p-2">Password:</p> <input type="text" class="bg-light p-2" required name="password"><br>
-      <input type="submit" value="Login" class="btn btn-primary mt-1 border border-dark w300">
-    </form>
-    <?php
-    if (!empty($errorMessage)) {
+  <body>
+
+    <!-- Sidebar/menu -->
+    <?php require './internal_sidebar.php' ?>
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+      <!-- Header -->
+      <div class="w3-container" style="margin-top:80px">
+        <h1 class="w3-jumbo"><b>Login to Internal Site</b></h1>
+        <!--Page Title-->
+        <h1 class="w3-xxxlarge text-primary"><b>Enter Details.</b></h1>
+        <!--Sub title-->
+        <hr style="width:50px;border:5px solid blue" class="w3-round">
+        <form action="" method="POST">
+          <p class="d-inline-block border border-dark bg-light p-2">Username:</p> <input type="text"
+            class="bg-light p-2" required name="username"><br>
+          <p class="d-inline-block border border-dark bg-light p-2">Password:</p> <input type="text"
+            class="bg-light p-2" required name="password"><br>
+          <input type="submit" value="Login" class="btn btn-primary mt-1 border border-dark w300">
+        </form>
+        <?php
+        if (!empty($errorMessage)) {
           echo "<h1>$errorMessage</h1>";
         }
-    ?>
-  </div>
+        ?>
+      </div>
 
-<!-- End page content -->
-</div>
+      <!-- End page content -->
+    </div>
 
-</body>
+  </body>
+
 </html>

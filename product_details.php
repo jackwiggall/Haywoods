@@ -35,88 +35,97 @@ $reviews = $stmt->fetchAll(); // get all reviews
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title><?php echo $product_name; ?> | Haywoods</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="./styles.css">
-</head>
-<body>
 
-<!-- Sidebar/menu -->
-<?php require './sidebar.php'; ?>
+  <head>
+    <title><?php echo $product_name; ?> | Haywoods</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
 
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:340px;margin-right:40px">
+  <body>
 
-  <!-- Header -->
-  <div class="w3-container" style="margin-top:80px">
-    <a href="./product_search.php">Return to product search</a>
-    <h1 class="w3-jumbo"><b><?php echo $product_name; ?></b></h1> <!--Page Title-->
-    <hr style="width:50px;border:5px solid blue" class="w3-round">
-    <div class="container border border-dark bg-primary p-2 mt-2 dropshadow">
-      <div class="row p-2">
-        <div class="col"> <!--Image-->
-          <img src="<?php echo "./images/${product_sku}.jpg"; ?>" class="card-img-top border border-dark" alt="...">
-        </div>
-        <div class="col"> <!--Information-->
-          <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Product Code: <?php echo $product_sku; ?></div>
-          <br>
-          <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Price: £<?php echo $product_price; ?></div>
-          <br>
-          <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Rating: <?php echo $average_rating; ?>/10 Stars</div><br>
-          
-          <select class="d-inline-block p-2 mt-2">
-          <?php
-            $displayedOption = false;
-            foreach ($productDetails as $productDetail) {
-              $stockLevel = $productDetail['stockLevel'];
-              $storeLocation = $productDetail['storeLocation'];
-              if ($storeLocation != null) {
-                $displayedOption = true;
-                echo "<option>Store: $storeLocation, In stock: $stockLevel</option>";
-              }
+    <!-- Sidebar/menu -->
+    <?php require './sidebar.php'; ?>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+      <!-- Header -->
+      <div class="w3-container" style="margin-top:80px">
+        <a href="./product_search.php">Return to product search</a>
+        <h1 class="w3-jumbo"><b><?php echo $product_name; ?></b></h1>
+        <!--Page Title-->
+        <hr style="width:50px;border:5px solid blue" class="w3-round">
+        <div class="container border border-dark bg-primary p-2 mt-2 dropshadow">
+          <div class="row p-2">
+            <div class="col">
+              <!--Image-->
+              <img src="<?php echo "./images/${product_sku}.jpg"; ?>" class="card-img-top border border-dark" alt="...">
+            </div>
+            <div class="col">
+              <!--Information-->
+              <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Product Code: <?php echo $product_sku; ?>
+              </div>
+              <br>
+              <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Price: £<?php echo $product_price; ?>
+              </div>
+              <br>
+              <div class="d-inline-block p-2 mt-2 border border-dark bg-light">Rating: <?php echo $average_rating; ?>/10
+                Stars</div><br>
+
+              <select class="d-inline-block p-2 mt-2">
+                <?php
+          $displayedOption = false;
+          foreach ($productDetails as $productDetail) {
+            $stockLevel = $productDetail['stockLevel'];
+            $storeLocation = $productDetail['storeLocation'];
+            if ($storeLocation != null) {
+              $displayedOption = true;
+              echo "<option>Store: $storeLocation, In stock: $stockLevel</option>";
             }
-            if (!$displayedOption) {
-              echo "<option>Out Of Stock in All Stores</option>";
-            }
+          }
+          if (!$displayedOption) {
+            echo "<option>Out Of Stock in All Stores</option>";
+          }
           ?>
-          </select>
+              </select>
 
-          <h4 class="pt-3 mb-3 text-white">Description</h4>
-            <div class="d-inline-block p-2 mt-2 border border-dark bg-light"><?php echo $product_description; ?></div>
+              <h4 class="pt-3 mb-3 text-white">Description</h4>
+              <div class="d-inline-block p-2 mt-2 border border-dark bg-light"><?php echo $product_description; ?></div>
+            </div>
+            <?php
+          if (empty($reviews)) {
+            echo '<h3 class="p-3 m-2 mb-0 pb-0 text-white">No Product Reviews yet...</h3>';
+          } else {
+            echo '<h3 class="p-3 m-2 mb-0 pb-0 text-white">Product Reviews</h3>';
+          }
+          foreach ($reviews as $review) {
+            $review_rating = $review['rating'];
+            $review_title = $review['title'];
+            $review_content = $review['content'];
+            $review_date = $review['review_date'];
+            if ($review_title != '') { // only show reviews which have a title
+              echo '<div class="d-inline-block p-3 mt-3 border border-dark bg-light">';
+              echo '<b>' . $review_title . '</b>';
+              echo '<b class="f-r"> ' . $review_rating . '/10 Stars</b>';
+              echo '<p>' . $review_content . '</p>';
+              echo '</div>';
+            }
+          }
+          ?>
+
           </div>
-          <?php
-            if (empty($reviews)) {
-              echo '<h3 class="p-3 m-2 mb-0 pb-0 text-white">No Product Reviews yet...</h3>';
-            } else {
-              echo '<h3 class="p-3 m-2 mb-0 pb-0 text-white">Product Reviews</h3>';
-            }
-            foreach ($reviews as $review) {
-              $review_rating = $review['rating'];
-              $review_title = $review['title'];
-              $review_content = $review['content'];
-              $review_date = $review['review_date'];
-              if ($review_title != '') { // only show reviews which have a title
-                echo '<div class="d-inline-block p-3 mt-3 border border-dark bg-light">';
-                echo '<b>'.$review_title.'</b>';
-                echo '<b class="f-r"> '.$review_rating.'/10 Stars</b>';
-                echo '<p>'.$review_content.'</p>';
-                echo '</div>';
-              }
-            }
-          ?>
-
+        </div>
       </div>
+
+      <!-- End page content -->
     </div>
-  </div>
-
-<!-- End page content -->
-</div>
 
 
-</body>
+  </body>
+
 </html>

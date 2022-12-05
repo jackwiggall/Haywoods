@@ -28,8 +28,10 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
   $stmt = $conn->prepare("SELECT sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost
                           FROM vSaleHistory $query_where
                           ORDER BY date ASC");
-  if (isset($_GET['date']))  $stmt->bindParam("date", $_GET['date']);
-  if (isset($_GET['store'])) $stmt->bindParam("store", $_GET['store']);
+  if (isset($_GET['date']))
+    $stmt->bindParam("date", $_GET['date']);
+  if (isset($_GET['store']))
+    $stmt->bindParam("store", $_GET['store']);
 
   $stmt->execute();
 
@@ -40,100 +42,102 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>Haywoods</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="../styles.css">
-</head>
-<body>
 
-<!-- Sidebar/menu -->
-<?php require './internal_sidebar.php'; ?>
+  <head>
+    <title>Haywoods</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../styles.css">
+  </head>
 
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:340px;margin-right:40px">
+  <body>
 
-  <!-- Header -->
-  <div class="w3-container" style="margin-top:80px">
-    <h1 class="w3-jumbo"><b>Sale History</b></h1> <!--Page Title-->
-    <hr style="width:50px;border:5px solid blue" class="w3-round">
-    <div class="container border border-dark bg-primary dropshadow p-2">
-      <form action="" method="GET">
-        <!-- store location-->
-        <p class="d-inline-block border border-dark bg-light p-2">Store Location: </p>
-        <select name="store">
-          <?php
-            $stmt = $conn->prepare("SELECT store_id, location FROM Store");
-            $stmt->execute();
-            while (($store = $stmt->fetch()) != null) {
-              echo '<option value="'.$store[0].'">'.$store[1].'</option>';
-            }
+    <!-- Sidebar/menu -->
+    <?php require './internal_sidebar.php'; ?>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+      <!-- Header -->
+      <div class="w3-container" style="margin-top:80px">
+        <h1 class="w3-jumbo"><b>Sale History</b></h1>
+        <!--Page Title-->
+        <hr style="width:50px;border:5px solid blue" class="w3-round">
+        <div class="container border border-dark bg-primary dropshadow p-2">
+          <form action="" method="GET">
+            <!-- store location-->
+            <p class="d-inline-block border border-dark bg-light p-2">Store Location: </p>
+            <select name="store">
+              <?php
+          $stmt = $conn->prepare("SELECT store_id, location FROM Store");
+          $stmt->execute();
+          while (($store = $stmt->fetch()) != null) {
+            echo '<option value="' . $store[0] . '">' . $store[1] . '</option>';
+          }
           ?>
-        </select>
-        <br>
+            </select>
+            <br>
 
-        <p class="d-inline-block border border-dark bg-light p-2">Sale Date: </p>
-        <input type="date" class="bg-light p-2" name="date"
+            <p class="d-inline-block border border-dark bg-light p-2">Sale Date: </p>
+            <input type="date" class="bg-light p-2" name="date" <?php
+        if (isset($_GET["date"])) {
+          echo "value=" . $_GET["date"];
+        } else {
+          $currentDate = date("Y-m-d");
+          echo "value=" . $currentDate;
+        }
+        ?>><br>
+
+            <input type="submit" value="Search" class="btn btn-dark mt-1 border border-primary w300">
+          </form>
+        </div>
+
         <?php
-          if (isset($_GET["date"])) {
-            echo "value=".$_GET["date"];
-          } else {
-            $currentDate = date("Y-m-d");
-            echo "value=".$currentDate;
-          }
-        ?>
-        ><br>
+    // dont show empty table if page just loaded
+    if (!$queryExecuted) {
+      die("</div></body></html>");
+    }
 
-        <input type="submit" value="Search" class="btn btn-dark mt-1 border border-primary w300">
-      </form>
-    </div>
-
-    <?php
-      // dont show empty table if page just loaded
-      if (!$queryExecuted) {
-        die("</div></body></html>");
-      }
-
-      // no sales on this date
-      if (empty($sales)) {
-        echo '<p class="mt-2">no sales for found for specified date</p>';
-        die("</div></body></html>");
-      }
+    // no sales on this date
+    if (empty($sales)) {
+      echo '<p class="mt-2">no sales for found for specified date</p>';
+      die("</div></body></html>");
+    }
     ?>
-    <!--hide below until search-->
-    <div class="container border border-dark bg-primary dropshadow p-2 mt-4">
-      <table class="table table-bordered border-dark bg-light">
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Cashier</th>
-          <th>Item Quantity</th>
-          <th>Value</th>
-          <th>More Details</th>
-        </tr>
-        <?php
-          foreach ($sales as $sale) {
-            // sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost
-            echo "<tr>";
-            echo "<td>".$sale[1]."</td>";
-            echo "<td>".$sale[2]."</td>";
-            echo "<td>".$sale[3]." ".$sale[4]."</td>";
-            echo "<td>".$sale[5]."</td>";
-            echo "<td>".$sale[6]."</td>";
-            echo '<td><a href="./receipt.php?sale='.$sale[0].'">View Details</a></td>';
-            echo "</tr>";
-          }
+        <!--hide below until search-->
+        <div class="container border border-dark bg-primary dropshadow p-2 mt-4">
+          <table class="table table-bordered border-dark bg-light">
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Cashier</th>
+              <th>Item Quantity</th>
+              <th>Value</th>
+              <th>More Details</th>
+            </tr>
+            <?php
+        foreach ($sales as $sale) {
+          // sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost
+          echo "<tr>";
+          echo "<td>" . $sale[1] . "</td>";
+          echo "<td>" . $sale[2] . "</td>";
+          echo "<td>" . $sale[3] . " " . $sale[4] . "</td>";
+          echo "<td>" . $sale[5] . "</td>";
+          echo "<td>" . $sale[6] . "</td>";
+          echo '<td><a href="./receipt.php?sale=' . $sale[0] . '">View Details</a></td>';
+          echo "</tr>";
+        }
         ?>
-      </table>
+          </table>
+        </div>
+      </div>
+
+      <!-- End page content -->
     </div>
-  </div>
 
-<!-- End page content -->
-</div>
+  </body>
 
-</body>
 </html>
