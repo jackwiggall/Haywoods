@@ -114,7 +114,7 @@ if (isset($_GET['search'])) {
             <!--Order-->
             <div class="input-group m-r mt-2 pr-5">
               <div class="input-group-prepend">
-                <div class="input-group-text bg-dark text-white" id="btnGroupAddon">Order By</div>
+                <div class="input-group-text bg-dark text-white" id="btnGroupAddon">Sort By</div>
               </div>
               <select name="order">
                 <?php
