@@ -9,37 +9,37 @@
   <div class="w3-bar-block">
     <!--Check access level? Add login/logout on bar? may need to change addresses-->
     <?php
-  if (isset($_SESSION['loggedIn'])) {
-    echo "<p class='w3-bar-item w3-text-blue mt-0 pt-0 mb-5'>";
-    echo "<b class='text-white'>Logged in as</b>";
-    echo "<br><b class='text-white'>Name:</b> ";
-    echo $_SESSION['fullname'];
-    echo "<br><b class='text-white'>Role:</b> ";
-    echo $_SESSION['accessLevelName'];
-    echo "<br><b class='text-white'>Store:</b> ";
-    echo $_SESSION['location'];
-    echo "</p>";
-    echo '<a href="./index.php" onclick="w3_open()" class="w3-bar-item w3-button w3-hover-white">Home</a>';
+    if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == 'true') {
+      echo "<p class='w3-bar-item w3-text-blue mt-0 pt-0 mb-5'>";
+      echo "<b class='text-white'>Logged in as</b>";
+      echo "<br><b class='text-white'>Name:</b> ";
+      echo $_SESSION['fullname'];
+      echo "<br><b class='text-white'>Role:</b> ";
+      echo $_SESSION['accessLevelName'];
+      echo "<br><b class='text-white'>Store:</b> ";
+      echo $_SESSION['location'];
+      echo "</p>";
+      echo '<a href="./index.php" onclick="w3_open()" class="w3-bar-item w3-button w3-hover-white">Home</a>';
 
-    if ($_SESSION['accessLevel'] <= 4) { // trainee
-      echo "<a href='./till.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Till</a>";
+      if ($_SESSION['accessLevel'] <= 4) { // trainee
+        echo "<a href='./till.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Till</a>";
+      }
+      if ($_SESSION['accessLevel'] <= 3) { // employee
+        echo "<a href='./product_history.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Product History</a>";
+      }
+      if ($_SESSION['accessLevel'] <= 2) { // supervisor
+        echo "<a href='./sale_history.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Sale History</a>";
+      }
+      if ($_SESSION['accessLevel'] == 1) { // management
+        echo "<a href='./monthly_report.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Monthly Report</a>";
+      }
+      // logout
+      echo '<a href="./login.php?logout=true" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Logout</a>';
+    } else {
+      // return to public site
+      echo '<a href="../index.php?logout=true" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Return to Public Website</a>';
     }
-    if ($_SESSION['accessLevel'] <= 3) { // employee
-      echo "<a href='./product_history.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Product History</a>";
-    }
-    if ($_SESSION['accessLevel'] <= 2) { // supervisor
-      echo "<a href='./sale_history.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Sale History</a>";
-    }
-    if ($_SESSION['accessLevel'] == 1) { // management
-      echo "<a href='./monthly_report.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Monthly Report</a>";
-    }
-    // logout
-    echo '<a href="./login.php?logout=true" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Logout</a>';
-  } else {
-    // return to public site
-    echo '<a href="../index.php?logout=true" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Return to Public Website</a>';
-  }
-  ?>
+    ?>
   </div>
 </nav>
 
