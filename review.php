@@ -32,7 +32,7 @@ if (isset($_GET['review_code'])) {
       }
     }
     if ($skuInRecept) {
-      $stmt = $conn->prepare("INSERT INTO Review (sku_code, rating, title, content)
+      $stmt = $conn->prepare("INSERT INTO vReview (sku_code, rating, title, content)
                               VALUES (:sku_code, :rating, :title, :content)");
       $stmt->bindParam("sku_code", $sku_code);
       $stmt->bindParam("rating", $rating);
