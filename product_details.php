@@ -56,7 +56,7 @@ $reviews = $stmt->fetchAll(); // get all reviews
 
       <!-- Header -->
       <div class="w3-container" style="margin-top:80px">
-        <a href="./product_search.php">Return to product search</a>
+        <a href="./index.php">Return to product search</a>
         <h1 class="w3-jumbo"><b><?php echo $product_name; ?></b></h1>
         <!--Page Title-->
         <hr style="width:50px;border:5px solid blue" class="w3-round">
@@ -79,44 +79,44 @@ $reviews = $stmt->fetchAll(); // get all reviews
 
               <select class="d-inline-block p-2 mt-2">
                 <?php
-          $displayedOption = false;
-          foreach ($productDetails as $productDetail) {
-            $stockLevel = $productDetail['stockLevel'];
-            $storeLocation = $productDetail['storeLocation'];
-            if ($storeLocation != null) {
-              $displayedOption = true;
-              echo "<option>Store: $storeLocation, In stock: $stockLevel</option>";
-            }
-          }
-          if (!$displayedOption) {
-            echo "<option>Out Of Stock in All Stores</option>";
-          }
-          ?>
+                $displayedOption = false;
+                foreach ($productDetails as $productDetail) {
+                  $stockLevel = $productDetail['stockLevel'];
+                  $storeLocation = $productDetail['storeLocation'];
+                  if ($storeLocation != null) {
+                    $displayedOption = true;
+                    echo "<option>Store: $storeLocation, In stock: $stockLevel</option>";
+                  }
+                }
+                if (!$displayedOption) {
+                  echo "<option>Out Of Stock in All Stores</option>";
+                }
+                ?>
               </select>
 
               <h4 class="pt-3 mb-3 text-white">Description</h4>
               <div class="d-inline-block p-2 mt-2 border border-dark bg-light"><?php echo $product_description; ?></div>
             </div>
             <?php
-          if (empty($reviews)) {
-            echo '<h3 class="p-3 m-2 mb-0 pb-0 text-white">No Product Reviews yet...</h3>';
-          } else {
-            echo '<h3 class="p-3 m-2 mb-0 pb-0 text-white">Product Reviews</h3>';
-          }
-          foreach ($reviews as $review) {
-            $review_rating = $review['rating'];
-            $review_title = $review['title'];
-            $review_content = $review['content'];
-            $review_date = $review['review_date'];
-            if ($review_title != '') { // only show reviews which have a title
-              echo '<div class="d-inline-block p-3 mt-3 border border-dark bg-light">';
-              echo '<b>' . $review_title . '</b>';
-              echo '<b class="f-r"> ' . $review_rating . '/10 Stars</b>';
-              echo '<p>' . $review_content . '</p>';
-              echo '</div>';
+            if (empty($reviews)) {
+              echo '<h3 class="p-3 m-2 mb-0 pb-0 text-white">No Product Reviews yet...</h3>';
+            } else {
+              echo '<h3 class="p-3 m-2 mb-0 pb-0 text-white">Product Reviews</h3>';
             }
-          }
-          ?>
+            foreach ($reviews as $review) {
+              $review_rating = $review['rating'];
+              $review_title = $review['title'];
+              $review_content = $review['content'];
+              $review_date = $review['review_date'];
+              if ($review_title != '') { // only show reviews which have a title
+                echo '<div class="d-inline-block p-3 mt-3 border border-dark bg-light">';
+                echo '<b>' . $review_title . '</b>';
+                echo '<b class="f-r"> ' . $review_rating . '/10 Stars</b>';
+                echo '<p>' . $review_content . '</p>';
+                echo '</div>';
+              }
+            }
+            ?>
 
           </div>
         </div>
