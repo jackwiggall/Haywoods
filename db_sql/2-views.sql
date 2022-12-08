@@ -162,8 +162,12 @@ SELECT Staff.store_id,
   Staff.staff_id,
   Staff.pay as staffPay,
   CAST(Shift.start as date) AS shiftDate,
-  ROUND(TIMESTAMPDIFF(MINUTE, Shift.start, Shift.end) / 60, 2) AS shiftHours,
-  ROUND(TIMESTAMPDIFF(MINUTE, Shift.start, Shift.end) / 60 * Staff.pay, 2) AS shiftPay
+  ROUND(TIMESTAMPDIFF(MINUTE, Shift.start, Shift.end) / 60,
+  2
+) AS shiftHours,
+ROUND(TIMESTAMPDIFF(MINUTE, Shift.start, Shift.end) / 60 * Staff.pay,
+2
+) AS shiftPay
 FROM Shift
   LEFT JOIN Staff ON (Shift.staff_id = Staff.staff_id);
 -- Review
@@ -173,3 +177,9 @@ SELECT sku_code,
   title,
   content
 FROM Review;
+-- Commission from Sale table
+CREATE VIEW vCommission AS
+SELECT staff_id,
+  date,
+  totalCost
+FROM Sale;
