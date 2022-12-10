@@ -5,8 +5,28 @@ requireAccessLevel(1);
 
 require '../database.php';
 
-$valuesSet = false;
+if (isset($_POST['username'])) {
+  $username = $_POST['username'];
+  $newFirstname = $_POST['firstname'];
+  $newLastname = $_POST['lastname'];
+  $stmt = $conn->prepare("UPDATE vStaffDetails
+                          SET firstname = :firstname, lastname = :lastname
+                          WHERE store_id = :store_id
+                          AND login_username = :username");
+  $stmt->bindParam("store_id", $_SESSION['store_id']);
+  $stmt->bindParam("username", $username);
+  $stmt->bindParam("firstname", $newFirstname);
+  $stmt->bindParam("lastname", $newLastname);
+  $stmt->execute();
+}
 
+$stmt = $conn->prepare("SELECT firstname,lastname, login_username, accessLevelName
+                        FROM vStaffDetails
+                        WHERE store_id = :store_id
+                        ORDER BY firstname, lastname");
+$stmt->bindParam("store_id", $_SESSION['store_id']);
+$stmt->execute();
+$staffMembers = $stmt->fetchAll();
 
 ?>
 
@@ -34,98 +54,35 @@ $valuesSet = false;
 
       <!-- Header -->
       <div class="w3-container" style="margin-top:80px">
-        <h1 class="w3-jumbo"><b>Monthly Report</b></h1>
+        <h1 class="w3-jumbo"><b>Staff Details</b></h1>
         <!--Page Title-->
-        <hr style="width:50px;border:5px solid blue" class="w3-round">
-        <div class="container border border-dark bg-primary text-white dropshadow p-2 mb-2">
-          <form action="" method="get">
-            Monthly Report for
-            <select name="year">
-              <?php
-              $year = date("Y");
-              $currentYear = (isset($_GET['year'])) ? $_GET['year'] : $year;
-              for ($i = $year - 5; $i <= $year; $i++) {
-                $selected = "";
-                if ($i == $currentYear)
-                  $selected = "selected";
-                echo "<option value='$i' $selected>$i</option>";
-              }
-              ?>
-            </select>
-            <select name="month">
-              <?php
-              $months = array("January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-              $currentMonth = (isset($_GET['month'])) ? $_GET['month'] : date("m");
-              for ($i = 1; $i < 13; $i++) {
-                $selected = "";
-                if ($i == $currentMonth)
-                  $selected = "selected";
-                echo "<option value='$i' $selected>" . $months[$i - 1] . "</option>";
-              }
-              ?>
-            </select>
-            <input type="submit" value="Search">
-          </form>
-        </div>
 
-        <?php
-        // dont show anything if submit button not pressed
-        if (!$valuesSet) {
-          die("</div></body></html>");
-        }
-        ?>
 
         <div class="container border border-dark bg-primary dropshadow p-2 mb-2">
           <h3 class="p-3 border border-dark bg-light">Sale Details</h3>
           <table class="table table-bordered border-dark bg-light">
             <tr>
-              <th>Cash Sales</th>
-              <th>Card Sales</th>
-              <th>Total</th>
-            </tr>
-            <tr>
-              <?php
-              echo "<td>£$cashSales (x$cashCount)</td>";
-              echo "<td>£$cardSales (x$cardCount)</td>";
-              echo "<th>£$totalSales (x$totalCount)</th>";
-              ?>
-            </tr>
-          </table>
-        </div>
-
-        <div class="container border border-dark bg-primary dropshadow p-2 mb-2">
-          <h3 class="p-3 border border-dark bg-light">Top Sellers</h3>
-          <table class="table table-bordered border-dark bg-light">
-            <tr>
-              <th>SKU Code</th>
-              <th>Name</th>
-              <th>Sold</th>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Login Username</th>
+              <th>Role</th>
+              <th>Apply Changes</th>
             </tr>
             <?php
-            foreach ($topSellers as $topSeller) {
+            foreach ($staffMembers as $staffMember) {
               echo "<tr>";
-              echo "<td>" . $topSeller['sku_code'] . "</td>";
-              echo "<td>" . $topSeller['name'] . "</td>";
-              echo "<td>" . $topSeller['quantity'] . "</td>";
+              echo '<form method="POST">';
+              echo '<td><input name="firstname" type="text" style="width: 120px;" value="' . $staffMember['firstname'] . '"></td>';
+              echo '<td><input name="lastname" type="text" style="width: 120px;" value="' . $staffMember['lastname'] . '"></td>';
+              echo '<input name="username" type="text" value="' . $staffMember['login_username'] . '" hidden>';
+              echo '<td>' . $staffMember['login_username'] . '</td>';
+              echo '<td>' . $staffMember['accessLevelName'] . '</td>';
+              echo '<td class="text-center"><input name="edit" type="submit" class="btn bg-warning" value="Apply Changes"></td>';
+              echo '</form>';
               echo "</tr>";
             }
             ?>
-          </table>
-        </div>
 
-        <div class="container border border-dark bg-primary dropshadow p-2 mb-2">
-          <h3 class="p-3 border border-dark bg-light">Employee Pay</h3>
-          <table class="table table-bordered border-dark bg-light">
-            <tr>
-              <th>Hours</th>
-              <th>Pay</th>
-            </tr>
-            <tr>
-              <?php
-              echo "<td>$totalHours</td>";
-              echo "<td>£$totalPay</td>";
-              ?>
-            </tr>
           </table>
         </div>
       </div>

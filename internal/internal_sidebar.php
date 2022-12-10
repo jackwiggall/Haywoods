@@ -32,6 +32,7 @@
       }
       if ($_SESSION['accessLevel'] == 1) { // management
         echo "<a href='./monthly_report.php' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Monthly Report</a>";
+        echo "<a href='./manage_staff.php' onlock='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Manage Staff</a>";
       }
       // pay details
       echo '<a href="./staff_pay.php" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Monthly Pay Details</a>';
