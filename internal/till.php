@@ -145,18 +145,18 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
                 <th>Price</th>
               </tr>
               <?php
-          $totalPrice = 0;
-          if (isset($scannedItems)) {
-            foreach ($scannedItems as $scannedItem) {
-              echo "<tr>";
-              echo "<th>" . $scannedItem["sku_code"] . "</th>";
-              echo "<th>" . $scannedItem["name"] . "</th>";
-              echo "<th>£" . $scannedItem["price"] . "</th>";
-              echo "</tr>";
-              $totalPrice += $scannedItem["price"];
-            }
-          }
-          ?>
+              $totalPrice = 0;
+              if (isset($scannedItems)) {
+                foreach ($scannedItems as $scannedItem) {
+                  echo "<tr>";
+                  echo "<th>" . $scannedItem["sku_code"] . "</th>";
+                  echo "<th>" . $scannedItem["name"] . "</th>";
+                  echo "<th>£" . $scannedItem["price"] . "</th>";
+                  echo "</tr>";
+                  $totalPrice += $scannedItem["price"];
+                }
+              }
+              ?>
             </table>
             <form action="" method="POST">
               <input type="number" class="bg-light p-2" name="scanned" placeholder="SKU Code" id="skuCodeInput">
@@ -171,16 +171,16 @@ if (isset($_POST["pay-cash"]) || isset($_POST["pay-card"])) {
 
               <form action="" method="POST">
                 <?php
-        if (!empty($_SESSION['scanned_items'])) {
-          echo '<input type="submit" value="Reset transaction" name="reset" class="btn btn-dark mt-1 border border-light w300 center" action=""><br>';
-        }
-        ?>
+                if (!empty($_SESSION['scanned_items'])) {
+                  echo '<input type="submit" value="Reset transaction" name="reset" class="btn btn-dark mt-1 border border-light w300 center" action=""><br>';
+                }
+                ?>
               </form>
               <?php
-      if (isset($sale_id)) {
-        echo "<a href='./receipt.php?sale=$sale_id' target='_blank'><button class='btn btn-dark mt-1 border border-light w300 h100 center'>Print Prior Sale Receipt</button></a>";
-      }
-      ?>
+              if (isset($sale_id)) {
+                echo "<a href='./receipt.php?sale=$sale_id' target='_blank'><button class='btn btn-dark mt-1 border border-light w300 h100 center'>Print Prior Sale Receipt</button></a>";
+              }
+              ?>
               <form action="" method="POST" id="payConfirmForm">
               </form>
               <button type="submit" class="btn btn-light mt-1 border border-dark w300 center" id="payCardBtn">Pay

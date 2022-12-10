@@ -80,20 +80,20 @@ $reviewUrl = $protocol . $_SERVER['HTTP_HOST'] . dirname(dirname($_SERVER['PHP_S
 
         <div class="border-2 border-top border-bottom border-dark mt-1">
           <?php
-        foreach ($sale_items as $sale_item) {
-          echo "<div>";
-          echo "<div>" . $sale_item['name'] . "</div>";
-          echo '<div class="row">';
-          echo '<div class="col">';
-          echo '<span>' . $sale_item['sku_code'] . "</span><span> x 1</span>";
-          echo "</div>";
-          echo '<div class="col text-end">';
-          echo '<span>@ £</span><span>' . $sale_item['price'] . "</span>";
-          echo "</div>";
-          echo "</div>";
-          echo "</div>";
-        }
-        ?>
+          foreach ($sale_items as $sale_item) {
+            echo "<div>";
+            echo "<div>" . $sale_item['name'] . "</div>";
+            echo '<div class="row">';
+            echo '<div class="col">';
+            echo '<span>' . $sale_item['sku_code'] . "</span><span> x 1</span>";
+            echo "</div>";
+            echo '<div class="col text-end">';
+            echo '<span>@ £</span><span>' . $sale_item['price'] . "</span>";
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
+          }
+          ?>
         </div>
 
         <div class="border-2 border-top border-bottom border-dark mt-1">
@@ -109,14 +109,14 @@ $reviewUrl = $protocol . $_SERVER['HTTP_HOST'] . dirname(dirname($_SERVER['PHP_S
 
         <div class="border-2 border-top border-bottom border-dark mt-1">
           <?php
-        if (isset($sale_card_last4Digits)) {
-          echo "<span>Card Number: **** **** **** $sale_card_last4Digits</span>";
-        } else {
-          echo "<div><span>Initial Tender: £" . $sale_initialTender . "</span></div>";
-          $change = $sale_initialTender - $sale_totalCost;
-          echo "<div><span>Change: £$change</span></div>";
-        }
-        ?>
+          if (isset($sale_card_last4Digits)) {
+            echo "<span>Card Number: **** **** **** $sale_card_last4Digits</span>";
+          } else {
+            echo "<div><span>Initial Tender: £" . $sale_initialTender . "</span></div>";
+            $change = $sale_initialTender - $sale_totalCost;
+            echo "<div><span>Change: £$change</span></div>";
+          }
+          ?>
         </div>
 
         <div class="border-2 border-top border-bottom border-dark mt-1">

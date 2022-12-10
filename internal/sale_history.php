@@ -72,41 +72,41 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
             <p class="d-inline-block border border-dark bg-light p-2">Store Location: </p>
             <select name="store">
               <?php
-          $stmt = $conn->prepare("SELECT store_id, location FROM Store");
-          $stmt->execute();
-          while (($store = $stmt->fetch()) != null) {
-            echo '<option value="' . $store[0] . '">' . $store[1] . '</option>';
-          }
-          ?>
+              $stmt = $conn->prepare("SELECT store_id, location FROM Store");
+              $stmt->execute();
+              while (($store = $stmt->fetch()) != null) {
+                echo '<option value="' . $store[0] . '">' . $store[1] . '</option>';
+              }
+              ?>
             </select>
             <br>
 
             <p class="d-inline-block border border-dark bg-light p-2">Sale Date: </p>
             <input type="date" class="bg-light p-2" name="date" <?php
-        if (isset($_GET["date"])) {
-          echo "value=" . $_GET["date"];
-        } else {
-          $currentDate = date("Y-m-d");
-          echo "value=" . $currentDate;
-        }
-        ?>><br>
+            if (isset($_GET["date"])) {
+              echo "value=" . $_GET["date"];
+            } else {
+              $currentDate = date("Y-m-d");
+              echo "value=" . $currentDate;
+            }
+            ?>><br>
 
             <input type="submit" value="Search" class="btn btn-dark mt-1 border border-primary w300">
           </form>
         </div>
 
         <?php
-    // dont show empty table if page just loaded
-    if (!$queryExecuted) {
-      die("</div></body></html>");
-    }
+        // dont show empty table if page just loaded
+        if (!$queryExecuted) {
+          die("</div></body></html>");
+        }
 
-    // no sales on this date
-    if (empty($sales)) {
-      echo '<p class="mt-2">no sales for found for specified date</p>';
-      die("</div></body></html>");
-    }
-    ?>
+        // no sales on this date
+        if (empty($sales)) {
+          echo '<p class="mt-2">no sales for found for specified date</p>';
+          die("</div></body></html>");
+        }
+        ?>
         <!--hide below until search-->
         <div class="container border border-dark bg-primary dropshadow p-2 mt-4">
           <table class="table table-bordered border-dark bg-light">
@@ -119,18 +119,18 @@ if (isset($_GET['date']) || isset($_GET['store'])) {
               <th>More Details</th>
             </tr>
             <?php
-        foreach ($sales as $sale) {
-          // sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost
-          echo "<tr>";
-          echo "<td>" . $sale[1] . "</td>";
-          echo "<td>" . $sale[2] . "</td>";
-          echo "<td>" . $sale[3] . " " . $sale[4] . "</td>";
-          echo "<td>" . $sale[5] . "</td>";
-          echo "<td>" . $sale[6] . "</td>";
-          echo '<td><a href="./receipt.php?sale=' . $sale[0] . '">View Details</a></td>';
-          echo "</tr>";
-        }
-        ?>
+            foreach ($sales as $sale) {
+              // sale_id,CAST(date as date),CAST(date as time),firstname,lastname,quantity,totalCost
+              echo "<tr>";
+              echo "<td>" . $sale[1] . "</td>";
+              echo "<td>" . $sale[2] . "</td>";
+              echo "<td>" . $sale[3] . " " . $sale[4] . "</td>";
+              echo "<td>" . $sale[5] . "</td>";
+              echo "<td>" . $sale[6] . "</td>";
+              echo '<td><a href="./receipt.php?sale=' . $sale[0] . '">View Details</a></td>';
+              echo "</tr>";
+            }
+            ?>
           </table>
         </div>
       </div>
